@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  ::selection {
+    background: #4f5af0;
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  .label-caps {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em];
+  }
+}
+
+@keyframes textFlowLeftToRight {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.animate-slogan-flow {
+  animation: textFlowLeftToRight 4s linear infinite;
+  background-size: 200% auto;
+}
+
+
+@keyframes swap-i {
+  0%, 30% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+  45%, 85% { transform: translateX(0.65em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); z-index: 10; }
+  100% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+}
+@keyframes swap-a {
+  0%, 30% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+  45%, 85% { transform: translateX(-0.3em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); }
+  100% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+}
+
+@keyframes chat-loop-1 {
+  0%, 5% { opacity: 0; transform: translateY(15px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  95%, 100% { opacity: 0; transform: translateY(-15px); }
+}
+@keyframes chat-loop-typing {
+  0%, 15% { opacity: 0; transform: translateY(15px); }
+  20%, 35% { opacity: 1; transform: translateY(0); }
+  36%, 100% { opacity: 0; transform: translateY(0); }
+}
+@keyframes chat-loop-2 {
+  0%, 35% { opacity: 0; transform: translateY(15px); }
+  40%, 90% { opacity: 1; transform: translateY(0); }
+  95%, 100% { opacity: 0; transform: translateY(-15px); }
+}
+@keyframes typing-dot {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes dart1 {
+  0% { opacity: 0; transform: translate(100px, -100px) rotate(-25deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(-25deg); }
+}
+@keyframes dart2 {
+  0% { opacity: 0; transform: translate(120px, 40px) rotate(20deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(20deg); }
+}
+@keyframes dart3 {
+  0% { opacity: 0; transform: translate(150px, 100px) scale(1.5) rotate(35deg); }
+  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(35deg); }
+}
+@keyframes shatter {
+  0% { transform: scale(1); opacity: 1; filter: brightness(1) blur(0); }
+  10% { transform: scale(1.1); filter: brightness(2) blur(0); opacity: 1; }
+  100% { transform: scale(2) translateY(50px) rotate(15deg); opacity: 0; filter: brightness(0.5) blur(20px); visibility: hidden; }
+}
+@keyframes explosion-flash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes logo-reveal {
+  0% { opacity: 0; transform: scale(0.5) translateY(20px); filter: blur(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+.group:hover .animate-dart1 { animation: dart1 0.4s ease-out 0.2s forwards; }
+.group:hover .animate-dart2 { animation: dart2 0.4s ease-out 0.5s forwards; }
+.group:hover .animate-dart3 { animation: dart3 0.3s ease-in 0.9s forwards; }
+.group:hover .animate-shatter { animation: shatter 0.5s ease-out 1.2s forwards; }
+.group:hover .animate-flash { animation: explosion-flash 0.5s ease-out 1.2s forwards; }
+.group:hover .animate-reveal { animation: logo-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards; }
+
+@keyframes earthquake-shake {
+  0% { transform: scale(1.1) translate(-10px, 10px) rotate(-3deg); filter: brightness(2); }
+  20% { transform: scale(1.1) translate(10px, -10px) rotate(3deg); }
+  40% { transform: scale(1.1) translate(-10px, -10px) rotate(-2deg); }
+  60% { transform: scale(1.1) translate(10px, 10px) rotate(2deg); }
+  80% { transform: scale(1.05) translate(-5px, 0) rotate(-1deg); }
+  100% { transform: scale(1.05) translate(0,0); filter: brightness(0.4); }
+}
+@keyframes crack-reveal {
+  0% { opacity: 0; transform: scale(0.5); }
+  10% { opacity: 1; transform: scale(1.05); filter: brightness(2); }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+.group:hover .animate-earthquake { animation: earthquake-shake 0.5s ease-out 1.2s forwards; }
+.group:hover .animate-cracks { animation: crack-reveal 0.5s ease-out 1.2s forwards; }
