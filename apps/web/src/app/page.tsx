@@ -1,8 +1,17 @@
 "use client";
-import React, { useEffect } from 'react';
-import { Rocket, Network, Shield, Building2, Sparkles, Brain, Cpu, ChevronRight, Target , Flame, Trophy, Gamepad2} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Rocket, Network, Shield, Building2, Sparkles, Brain, Cpu, 
+  ChevronRight, Target, Flame, Trophy, Gamepad2,
+  Mail, Phone, MapPin, Send, HelpCircle, ChevronDown, 
+  FileText, Lock, X, Check, ArrowRight
+} from 'lucide-react';
 
 export default function OltivaLandingPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', role: 'Öğrenci', message: '' });
+  const [legalModalTab, setLegalModalTab] = useState<'terms' | 'conditions' | 'privacy' | null>(null);
   
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -46,10 +55,12 @@ export default function OltivaLandingPage() {
             <span className="text-2xl font-black tracking-widest text-[#F2F1ED] font-sans">OLTVIA</span>
           </div>
           
-          <div className="hidden md:flex items-center gap-10 text-sm font-bold text-[#9CA3AF] tracking-wide">
+          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#9CA3AF] tracking-wide">
             <a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Özellikler</a>
             <a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Girişler</a>
-            <a href="#iletisim" className="hover:text-[#F2F1ED] transition-colors">İletişim</a>
+            <a href="#misyonumuz" className="hover:text-[#FF5A4D] transition-colors">Misyonumuz</a>
+            <a href="#sss" className="hover:text-[#FF5A4D] transition-colors">S.S.S</a>
+            <a href="#iletisim" className="hover:text-[#F2F1ED] transition-colors">Bize Ulaşın</a>
           </div>
           
           <div className="hidden sm:block border-l border-white/[0.05] pl-6">
