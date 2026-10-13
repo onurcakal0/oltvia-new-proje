@@ -65,11 +65,15 @@ export default function OltivaLandingPage() {
         {/* HERO SECTION */}
         <section className="max-w-7xl mx-auto px-6 pt-32 pb-48 text-center flex flex-col items-center relative min-h-[50vh] justify-center reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="grid w-full max-w-5xl place-items-center group cursor-default">
-            <h1 className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:blur-[24px] group-hover:opacity-0 group-hover:scale-90 text-center z-10 select-none">
-              <span className="font-script text-6xl sm:text-7xl md:text-8xl lg:text-[9.5rem] font-normal leading-[1.1] bg-gradient-to-r from-[#FF5A4D] via-[#FF8A7A] to-[#8B6CFF] bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(255,90,95,0.35)] block py-4">
-                Beyond Learning
-              </span>
-              <span className="block font-serif text-xs md:text-sm font-medium uppercase tracking-[0.35em] text-[#9CA3AF] mt-2 opacity-80">
+            <h1 className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:blur-[24px] group-hover:opacity-0 group-hover:scale-90 text-center z-10 select-none flex flex-col items-center justify-center w-full">
+              <div className="w-full max-w-4xl px-2 py-4 flex items-center justify-center drop-shadow-[0_0_50px_rgba(255,90,95,0.35)]">
+                <img 
+                  src="/beyond-learning.svg" 
+                  alt="Beyond Learning" 
+                  className="w-full h-auto max-h-[160px] object-contain select-none pointer-events-none drop-shadow-[0_0_35px_rgba(139,108,255,0.3)]" 
+                />
+              </div>
+              <span className="block font-serif text-xs md:text-sm font-medium uppercase tracking-[0.35em] text-[#9CA3AF] mt-3 opacity-80">
                 BEYOND WHAT YOU KNOW
               </span>
             </h1>
