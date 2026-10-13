@@ -11,7 +11,7 @@ export default function OltivaLandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [contactForm, setContactForm] = useState({ name: '', email: '', role: 'Öğrenci', message: '' });
-  const [legalModalTab, setLegalModalTab] = useState<'terms' | 'conditions' | 'privacy' | null>(null);
+  const [legalTab, setLegalTab] = useState<'terms' | 'conditions' | 'privacy'>('terms');
   
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -55,11 +55,12 @@ export default function OltivaLandingPage() {
             <span className="text-2xl font-black tracking-widest text-[#F2F1ED] font-sans">OLTVIA</span>
           </div>
           
-          <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#9CA3AF] tracking-wide">
+          <div className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#9CA3AF] tracking-wide">
             <a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Özellikler</a>
             <a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Girişler</a>
             <a href="#misyonumuz" className="hover:text-[#FF5A4D] transition-colors">Misyonumuz</a>
             <a href="#sss" className="hover:text-[#FF5A4D] transition-colors">S.S.S</a>
+            <a href="#yasal" className="hover:text-[#FF5A4D] transition-colors">Şartlar & Gizlilik</a>
             <a href="#iletisim" className="hover:text-[#F2F1ED] transition-colors">Bize Ulaşın</a>
           </div>
           
@@ -528,29 +529,587 @@ export default function OltivaLandingPage() {
           </div>
 
         </section>
+              {/* 1. MISYONUMUZ SECTION */}
+        <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="relative rounded-3xl bg-gradient-to-b from-[#14161A] via-white/[0.02] to-[#14161A] border border-white/[0.08] p-8 md:p-16 overflow-hidden shadow-2xl">
+            <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF5A4D]/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/10 rounded-full blur-[120px] pointer-events-none" />
+
+            <div className="text-center max-w-3xl mx-auto mb-16 relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-6">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5A4D]" />
+                Misyonumuz & Vizyonumuz
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] leading-tight mb-6">
+                Sınırların Ötesinde Bir <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent">Eğitim Devrimi</span>
+              </h2>
+              <p className="text-[#9CA3AF] text-lg md:text-xl leading-relaxed font-normal">
+                Ezbere dayalı, tek tip ve pasif eğitim modellerini tarihe gömüyoruz. OLTVIA; yapay zekanın hesaplama gücünü insan odaklı pedagoji ve Sokratik sorgulama ile harmanlayarak her öğrencinin benzersiz zihinsel potansiyelini gerçeğe dönüştürür.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 mb-12">
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-[#FF5A4D]/40 transition-all duration-500 hover:-translate-y-2 group">
+                <div className="w-14 h-14 rounded-xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Brain className="w-7 h-7 text-[#FF5A4D]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#F2F1ED] mb-3">Sokratik Bilişsel Mentörlük</h3>
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
+                  Cevapları hazır sunmak yerine, zihni açan doğru sorular ve analojilerle öğrencinin mantık yürütmesini sağlarız. Ezber değil, kalıcı ve derin kavrayış inşa ederiz.
+                </p>
+              </div>
+
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-[#8B6CFF]/40 transition-all duration-500 hover:-translate-y-2 group">
+                <div className="w-14 h-14 rounded-xl bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Target className="w-7 h-7 text-[#8B6CFF]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#F2F1ED] mb-3">Sıfır Sapma ile Hedef Rotası</h3>
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
+                  Her deneme ve soruyu analiz eden algoritmamız, öğrencinin bilişsel zayıf noktalarını milimetrik hassasiyetle tespit ederek hedefe giden en optimize rotayı çizer.
+                </p>
+              </div>
+
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/30 transition-all duration-500 hover:-translate-y-2 group">
+                <div className="w-14 h-14 rounded-xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Flame className="w-7 h-7 text-[#F59E0B]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#F2F1ED] mb-3">Bütünleşik & Canlı Ekosistem</h3>
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
+                  Öğrenci, öğretmen, veli ve okulu tek bir şeffaf veri ağında birleştirir; streak ve seviye sistemleriyle çalışma disiplinini bağımlılık yaratan bir tutkuya dönüştürürüz.
+                </p>
+              </div>
+            </div>
+
+            {/* Manifesto Callout Box */}
+            <div className="p-8 rounded-2xl bg-gradient-to-r from-[#FF5A4D]/10 via-[#8B6CFF]/10 to-transparent border border-white/[0.1] text-center max-w-4xl mx-auto">
+              <h4 className="text-lg font-bold text-white mb-2">Eğitim Manifestomuz</h4>
+              <p className="text-sm text-[#9CA3AF] leading-relaxed">
+                "Hiçbir öğrenci yeteneksiz değildir; yalnızca kendi hızına ve zihinsel ritmine uygun bir yol göstericiye ihtiyaç duyar. OLTVIA, öğrencinin hızına adapte olarak imkansız sanılan hedefleri tam 12'den vurması için tasarlandı."
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. S.S.S (FAQ) SECTION */}
+        <section id="sss" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+              <HelpCircle className="w-3.5 h-3.5 text-[#8B6CFF]" />
+              Sıkça Sorulan Sorular
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-4">
+              Aklınıza Takılan Her Şey
+            </h2>
+            <p className="text-[#9CA3AF] text-base md:text-lg">
+              OLTVIA'nın yapay zeka dinamikleri, çalışma yöntemleri ve güvenliği hakkında merak edilenler.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "OLTVIA'nın klasik soru çözüm uygulamalarından farkı nedir?",
+                a: "Geleneksel uygulamalar genellikle sorunun hazır çözüm videosunu veya doğrudan cevabını gösterir; bu da ezbere ve pasif öğrenmeye yol açar. OLTVIA ise Sokratik yöntem uygular: Sorunun cevabını doğrudan vermez, öğrencinin takıldığı adımı tespit ederek yönlendirici sorular, ipuçları ve görsel analojilerle doğru cevaba kendisinin ulaşmasını sağlar."
+              },
+              {
+                q: "Sokratik Yapay Zeka mentörü hangi dersleri ve sınavları kapsar?",
+                a: "Sokratik Mentör; YKS (TYT & AYT), LGS ve lise ara sınıflarının tüm Matematik, Geometri, Fizik, Kimya, Biyoloji, Türkçe/Edebiyat ve Sosyal Bilimler müfredatlarını kapsar. MEB ve ÖSYM kazanımlarına tam uyumlu olarak sürekli güncellenir."
+              },
+              {
+                q: "Hedef rotası ve 'Sıfır Sapma' analizi nasıl hesaplanır?",
+                a: "Platform, çözdüğünüz her sorunun harcadığı süreyi, yanlış yapılan konulardaki bilişsel haritayı ve hedeflediğiniz üniversite/bölümün taban net verilerini işler. 'Sıfır Sapma' motoru, sizi hedefinize ulaştıracak haftalık net gelişim eğrisini hesaplar ve saptığınız anda rotanızı yeniden optimize eder."
+              },
+              {
+                q: "Öğretmenler ve Kurumlar OLTVIA'yı nasıl entegre edebilir?",
+                a: "Kurumsal panel sayesinde okullar ve kurs merkezleri tüm sınıfların konu bazlı başarı oranlarını, bilişsel zayıf noktalarını ve çalışma disiplinini tek ekrandan izler. Öğretmenler saniyeler içinde yapay zeka destekli kişiselleştirilmiş ödev setleri oluşturabilir ve velilere otomatik rapor iletebilir."
+              },
+              {
+                q: "Günlük Seri (Streak) ve Liderlik Tablosu motivasyonu nasıl artırır?",
+                a: "Eğitimi oyunlaştırma ilkeleriyle harmanladık. Her gün en az bir çalışma oturumu tamamlamak serinizi (Streak) korur. Çözülen zor sorular ve kazanılan kavramlar size XP kazandırır ve sınıfınızın liderlik tablosunda adınızı yukarılara taşır. Bu mekanizma düzenli çalışma disiplinini kalıcı alışkanlığa dönüştürür."
+              },
+              {
+                q: "Öğrenci verileri nasıl korunur ve gizlilik standartları nelerdir?",
+                a: "OLTVIA, 6698 sayılı KVKK ve Avrupa Birliği GDPR yönergeleriyle tam uyumlu çalışır. Öğrenci verileri, deneme netleri ve yapay zeka yazışmaları uçtan uca askeri düzeyde (AES-256) şifrelenir. Verileriniz asla üçüncü taraflara satılmaz veya ticari reklam hedeflemesinde kullanılmaz."
+              }
+            ].map((faq, idx) => (
+              <div 
+                key={idx}
+                className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden transition-all duration-300 hover:border-white/20"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left gap-4"
+                >
+                  <span className="text-base md:text-lg font-bold text-[#F2F1ED] flex items-center gap-3">
+                    <span className="text-xs font-mono text-[#8B6CFF] px-2 py-1 rounded bg-[#8B6CFF]/10">0{idx + 1}</span>
+                    {faq.q}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-[#9CA3AF] transition-transform duration-300 flex-shrink-0 ${openFaq === idx ? 'rotate-180 text-[#FF5A4D]' : ''}`} />
+                </button>
+                {openFaq === idx && (
+                  <div className="px-6 pb-6 pt-2 text-[#9CA3AF] text-sm md:text-base leading-relaxed border-t border-white/[0.04]">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 3. YASAL VE GUVENLIK ILKELERI (SARTLAR, KOSULLAR, GIZLILIK) */}
+        <section id="yasal" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#10B981] text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+              <Shield className="w-3.5 h-3.5 text-[#10B981]" />
+              Yasal & Güvenlik Esasları
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-4">
+              Şartlar, Koşullar ve Gizlilik
+            </h2>
+            <p className="text-[#9CA3AF] text-base md:text-lg max-w-2xl mx-auto">
+              Şeffaflık, güvenilirlik ve veri koruma standartlarımız; tüm platform kullanımınızı yasal güvence altına alır.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] overflow-hidden shadow-2xl backdrop-blur-xl">
+            {/* Interactive Tab Switcher */}
+            <div className="flex border-b border-white/[0.08] bg-black/30 overflow-x-auto">
+              <button
+                onClick={() => setLegalTab('terms')}
+                className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
+                  legalTab === 'terms' 
+                    ? 'border-[#FF5A4D] text-[#FF5A4D] bg-white/[0.03]' 
+                    : 'border-transparent text-[#9CA3AF] hover:text-white'
+                }`}
+              >
+                <FileText className="w-4 h-4" /> Kullanım Şartları
+              </button>
+              <button
+                onClick={() => setLegalTab('conditions')}
+                className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
+                  legalTab === 'conditions' 
+                    ? 'border-[#8B6CFF] text-[#8B6CFF] bg-white/[0.03]' 
+                    : 'border-transparent text-[#9CA3AF] hover:text-white'
+                }`}
+              >
+                <Check className="w-4 h-4" /> Şartlar ve Koşullar
+              </button>
+              <button
+                onClick={() => setLegalTab('privacy')}
+                className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
+                  legalTab === 'privacy' 
+                    ? 'border-[#0EA5E9] text-[#0EA5E9] bg-white/[0.03]' 
+                    : 'border-transparent text-[#9CA3AF] hover:text-white'
+                }`}
+              >
+                <Lock className="w-4 h-4" /> Gizlilik & KVKK
+              </button>
+            </div>
+
+            {/* Active Tab Content Area */}
+            <div className="p-8 md:p-12 text-[#9CA3AF] text-sm md:text-base leading-relaxed space-y-6">
+              
+              {legalTab === 'terms' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white">Kullanım Şartları Sözleşmesi</h3>
+                      <p className="text-xs text-[#9CA3AF] mt-1">Son Güncelleme: 13 Ekim 2026 • Versiyon 2.4</p>
+                    </div>
+                    <span className="text-xs font-mono text-[#FF5A4D] px-3 py-1 rounded bg-[#FF5A4D]/10">RESMİ SÖZLEŞME</span>
+                  </div>
+
+                  <div className="space-y-5">
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">1. Taraflar ve Hizmetin Tanımı</h4>
+                      <p>
+                        İşbu Kullanım Şartları, OLTVIA Eğitim Teknolojileri A.Ş. ("OLTVIA") tarafından sunulan internet sitesi, mobil uygulamalar, Sokratik yapay zeka ders asistanı ve kurumsal yönetim panellerini kapsar. Platforma kaydolan veya içeriklerden faydalanan her gerçek ve tüzel kişi ("Kullanıcı"), işbu şartları peşinen kabul etmiş sayılır.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">2. Hesap Güvenliği ve Tekil Kullanım İlkesi</h4>
+                      <p>
+                        Kullanıcı, oluşturduğu hesabın kullanıcı adı ve şifre güvenliğinden bizzat sorumludur. Hesabın üçüncü kişilere devredilmesi, satılması veya eşzamanlı olarak yetkisiz kişilerce paylaşılması yasaktır. OLTVIA, tek hesap üzerinden olağandışı çoklu IP erişimi veya şüpheli aktivite tespit etmesi halinde hesabı geçici veya kalıcı olarak askıya alma hakkını saklı tutar.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">3. Kabul Edilebilir Kullanım ve Yasak Faaliyetler</h4>
+                      <p>
+                        Kullanıcılar; platform üzerindeki soru havuzlarını, yapay zeka yanıt modellerini, algoritmik gelişim eğrilerini veya arayüz tasarımlarını kazıma (scraping), tersine mühendislik (reverse engineering) veya bot yazılımlar vasıtasıyla kopyalayamaz. Ayrıca hileli yöntemlerle XP, puan veya seri (Streak) artışı üretmek kesinlikle yasaktır.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">4. Fikri Mülkiyet Hakları</h4>
+                      <p>
+                        Platformda yer alan tüm yazılımlar, Sokratik AI istem mühendisliği (prompt engineering) modelleri, logolar, grafikler ve özgün eğitim içerikleri OLTVIA'nın münhasır mülkiyetindedir ve 5846 sayılı Fikir ve Sanat Eserleri Kanunu ile korunmaktadır.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {legalTab === 'conditions' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white">Şartlar ve Koşullar (Abonelik Esasları)</h3>
+                      <p className="text-xs text-[#9CA3AF] mt-1">Yürürlük Tarihi: 13 Ekim 2026</p>
+                    </div>
+                    <span className="text-xs font-mono text-[#8B6CFF] px-3 py-1 rounded bg-[#8B6CFF]/10">HİZMET POLİTİKASI</span>
+                  </div>
+
+                  <div className="space-y-5">
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">1. Abonelik Paketleri ve Ödeme Koşulları</h4>
+                      <p>
+                        OLTVIA, bireysel öğrencilere yönelik aylık/yıllık B2C abonelikler ile okullara ve kurs merkezlerine yönelik çoklu lisanslı B2B kurumsal paketler sunar. Abonelik bedelleri, kayıt esnasında belirtilen periyotlarla kredi kartı veya kurumsal faturalandırma kanalıyla peşin tahsil edilir. Fiyat değişiklikleri en az 30 gün önceden kullanıcılara bildirilir.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">2. Cayma Hakkı ve İade Politikası</h4>
+                      <p>
+                        Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği uyarınca; anında ifa edilen dijital hizmetler ve elektronik ortamda teslim edilen yapay zeka eğitim yazılımlarında, kullanıcı hizmeti aktif olarak kullanmaya başladıktan sonra cayma hakkı istisna kapsamındadır. Bununla birlikte, teknik arızalardan kaynaklanan ve 72 saat içinde giderilemeyen aksaklıklarda orantılı iade süreci işletilir.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">3. Yapay Zeka Çıktıları ve Pedagojik Sorumluluk Sınırı</h4>
+                      <p>
+                        OLTVIA'nın sunduğu Sokratik Yapay Zeka asistanı, öğrencinin zihinsel gelişimine rehberlik etmek üzere tasarlanmış ileri düzey bir pedagojik araçtır. Yapay zekanın sağladığı ipuçları ve yönlendirmeler resmi sınav başarısını doğrudan garanti eden bir taahhüt niteliğinde olmayıp, öğrencinin bireysel çalışma disiplinini destekleme amacı taşır.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">4. Uyuşmazlıkların Çözümü ve Yetkili Mahkeme</h4>
+                      <p>
+                        İşbu sözleşmeden doğabilecek her türlü ihtilafın çözümünde Türk Hukuku uygulanacak olup, İstanbul (Çağlayan) Mahkemeleri ve İcra Daireleri münhasıran yetkilidir.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {legalTab === 'privacy' && (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white">Gizlilik Politikası ve KVKK Aydınlatma Metni</h3>
+                      <p className="text-xs text-[#9CA3AF] mt-1">6698 sayılı KVKK ve Uluslararası GDPR Uyumlu</p>
+                    </div>
+                    <span className="text-xs font-mono text-[#10B981] px-3 py-1 rounded bg-[#10B981]/10">VERİ GÜVENCESİ</span>
+                  </div>
+
+                  <div className="space-y-5">
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">1. Veri Sorumlusu ve Kapsam</h4>
+                      <p>
+                        6698 sayılı KVKK uyarınca, OLTVIA Eğitim Teknolojileri A.Ş. veri sorumlusu sıfatıyla hareket etmektedir. Kişisel verileriniz; hukuka ve dürüstlük kurallarına uygun, doğru ve güncel olarak, pedagojik analiz ve kişiselleştirilmiş öğrenme amacıyla sınırlı şekilde işlenmektedir.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">2. İşlenen Kişisel Veri Kategorileri</h4>
+                      <ul className="list-disc pl-5 space-y-1.5 text-sm">
+                        <li><strong>Kimlik ve İletişim Bilgileri:</strong> Ad, soyad, e-posta adresi, telefon numarası, sınıf düzeyi.</li>
+                        <li><strong>Akademik ve Bilişsel Veriler:</strong> Çözülen deneme netleri, soru çözüm süreleri, yanlış yapılan konu haritaları, yapay zeka mentörlük diyalogları.</li>
+                        <li><strong>İşlem ve Güvenlik Logları:</strong> IP adresi, cihaz bilgisi, oturum açma süreleri ve Streak serisi kayıtları.</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">3. Veri Güvenliği ve Şifreleme İlkeleri</h4>
+                      <p>
+                        Platformumuzda saklanan tüm hassas öğrenci verileri AES-256 standardıyla şifrelenir. Ağ üzerindeki tüm iletişim TLS 1.3 güvenlik protokolü ile korunur. OLTVIA, öğrenci verilerini reklam ağlarıyla asla paylaşmaz ve hiçbir ticari kuruluşa satmaz.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-white text-base mb-1">4. KVKK Madde 11 Kapsamındaki Haklarınız</h4>
+                      <p>
+                        Veri sahibi olarak; verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, eksik veya yanlış işlenmişse düzeltilmesini isteme ve silinmesini talep etme hakkına sahipsiniz. Başvurularınızı <span className="text-white font-mono">kvkk@oltvia.com</span> adresine iletebilirsiniz.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </section>
+
+        {/* 4. BIZE ULASIN (CONTACT) SECTION */}
+        <section id="iletisim" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-32 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            {/* Left Info Column */}
+            <div className="lg:col-span-5 space-y-8">
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#FF5A4D] text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+                  <Send className="w-3.5 h-3.5 text-[#FF5A4D]" />
+                  Bize Ulaşın
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-4">
+                  Yeni Nesil Eğitim Serüvenine <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent">Birlikte Başlayalım</span>
+                </h2>
+                <p className="text-[#9CA3AF] text-base leading-relaxed">
+                  İster bireysel öğrenci üyeliği, ister okulunuz veya kurs merkeziniz için kurumsal entegrasyon; uzman ekibimiz tüm sorularınızı yanıtlamaya hazır.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="p-3 rounded-xl bg-[#8B6CFF]/10 text-[#8B6CFF]">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#F2F1ED] mb-1">Genel Merkez</h4>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">Büyükdere Caddesi No: 195, Kanyon Ofis Kuleleri, Levent / İstanbul</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="p-3 rounded-xl bg-[#FF5A4D]/10 text-[#FF5A4D]">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#F2F1ED] mb-1">E-Posta İletişim</h4>
+                    <p className="text-xs text-[#9CA3AF]">Destek: <span className="text-white">destek@oltvia.com</span></p>
+                    <p className="text-xs text-[#9CA3AF]">Kurumsal Demo: <span className="text-white">kurumsal@oltvia.com</span></p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="p-3 rounded-xl bg-[#0EA5E9]/10 text-[#0EA5E9]">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#F2F1ED] mb-1">Danışma & Destek Hattı</h4>
+                    <p className="text-xs text-[#9CA3AF]">+90 (212) 800 12 12 • Hafta içi 09:00 - 18:30</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Contact Form Column */}
+            <div className="lg:col-span-7">
+              <div className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl relative shadow-2xl">
+                {contactSubmitted ? (
+                  <div className="text-center py-12 space-y-4">
+                    <div className="w-16 h-16 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 text-[#10B981] flex items-center justify-center mx-auto">
+                      <Check className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#F2F1ED]">Mesajınız Başarıyla İletildi!</h3>
+                    <p className="text-sm text-[#9CA3AF] max-w-md mx-auto">
+                      Talebiniz eğitim ve teknik danışmanlarımıza ulaştı. En geç 2 iş saati içinde e-posta adresiniz üzerinden geri dönüş yapacağız.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setContactSubmitted(false);
+                        setContactForm({ name: '', email: '', role: 'Öğrenci', message: '' });
+                      }}
+                      className="mt-6 px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold uppercase tracking-widest text-white transition-colors"
+                    >
+                      Yeni Mesaj Gönder
+                    </button>
+                  </div>
+                ) : (
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setContactSubmitted(true);
+                    }}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">Ad Soyad</label>
+                        <input
+                          type="text"
+                          required
+                          value={contactForm.name}
+                          onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                          placeholder="Örn: Deniz Kaya"
+                          className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.1] text-white placeholder-white/20 focus:outline-none focus:border-[#FF5A4D] transition-colors text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">E-Posta Adresi</label>
+                        <input
+                          type="email"
+                          required
+                          value={contactForm.email}
+                          onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                          placeholder="deniz@example.com"
+                          className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.1] text-white placeholder-white/20 focus:outline-none focus:border-[#FF5A4D] transition-colors text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">Rolünüz / Profiliniz</label>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {['Öğrenci', 'Öğretmen', 'Veli', 'Kurumsal'].map((r) => (
+                          <button
+                            type="button"
+                            key={r}
+                            onClick={() => setContactForm({ ...contactForm, role: r })}
+                            className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border ${
+                              contactForm.role === r 
+                                ? 'bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] text-white border-transparent shadow-lg' 
+                                : 'bg-white/[0.02] text-[#9CA3AF] border-white/[0.08] hover:border-white/20'
+                            }`}
+                          >
+                            {r}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">Mesajınız / Talep Detayı</label>
+                      <textarea
+                        required
+                        rows={4}
+                        value={contactForm.message}
+                        onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                        placeholder="Kurumunuz için demo talebi, soru havuzu entegrasyonu veya genel danışma talebinizi belirtin..."
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.1] text-white placeholder-white/20 focus:outline-none focus:border-[#8B6CFF] transition-colors text-sm"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF5A4D] via-[#FF8A7A] to-[#8B6CFF] text-white font-bold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,90,77,0.4)] hover:shadow-[0_0_40px_rgba(139,108,255,0.6)] transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    >
+                      Mesajı Gönder
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </section>
+
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/[0.05] bg-[#14161A] py-16 text-center relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-8">
-          <div className="flex items-center gap-2 mb-2">
-            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform hover:scale-105 transition-transform cursor-pointer">
-              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#F2F1ED" strokeWidth="16" />
-              <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
-              <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-              <circle cx="45" cy="40" r="10" fill="#F2F1ED" />
-              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#F2F1ED" />
-            </svg>
-            <span className="text-2xl font-black tracking-widest text-[#F2F1ED] font-sans">OLTVIA</span>
+      <footer className="border-t border-white/[0.08] bg-[#0E1013] pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/[0.06]">
+            
+            {/* Col 1: Brand & Bio */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="flex items-center gap-3">
+                <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#F2F1ED" strokeWidth="16" />
+                  <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+                  <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
+                  <circle cx="45" cy="40" r="10" fill="#F2F1ED" />
+                  <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#F2F1ED" />
+                </svg>
+                <span className="text-2xl font-black tracking-widest text-[#F2F1ED] font-sans">OLTVIA</span>
+              </div>
+              <p className="text-sm text-[#9CA3AF] max-w-sm leading-relaxed">
+                Yapay zekanın bilişsel gücüyle her öğrenciye özel Sokratik eğitim ekosistemi. Sıfır sapma, yüksek motivasyon ve hedefe tam odaklanma.
+              </p>
+              <div className="pt-2 text-xs font-mono text-[#8B6CFF] tracking-widest uppercase">
+                BEYOND WHAT YOU KNOW
+              </div>
+            </div>
+
+            {/* Col 2: Platform Links */}
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.25em] mb-4">Platform</h4>
+              <ul className="space-y-3 text-sm text-[#9CA3AF]">
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Sokratik Mentör</a></li>
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Hedef Rotası Analizi</a></li>
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Başarı Oku (Dartboard)</a></li>
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Streak & Liderlik Tablosu</a></li>
+                <li><a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Giriş Portalları</a></li>
+              </ul>
+            </div>
+
+            {/* Col 3: Kurumsal Links */}
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.25em] mb-4">Kurumsal</h4>
+              <ul className="space-y-3 text-sm text-[#9CA3AF]">
+                <li><a href="#misyonumuz" className="hover:text-[#8B6CFF] transition-colors">Misyonumuz</a></li>
+                <li><a href="#sss" className="hover:text-[#8B6CFF] transition-colors">Sıkça Sorulan Sorular</a></li>
+                <li><a href="#yasal" className="hover:text-[#8B6CFF] transition-colors">Yasal İlkeler</a></li>
+                <li><a href="#iletisim" className="hover:text-[#8B6CFF] transition-colors">Bize Ulaşın</a></li>
+                <li><a href="#girisler" className="hover:text-[#8B6CFF] transition-colors">Kurumsal Yönetici Paneli</a></li>
+              </ul>
+            </div>
+
+            {/* Col 4: Yasal & Güvenlik Links */}
+            <div>
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.25em] mb-4">Yasal & Güvenlik</h4>
+              <ul className="space-y-3 text-sm text-[#9CA3AF]">
+                <li>
+                  <button 
+                    onClick={() => {
+                      setLegalTab('terms');
+                      document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
+                    }} 
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
+                  >
+                    Kullanım Şartları
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      setLegalTab('conditions');
+                      document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
+                    }} 
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
+                  >
+                    Şartlar ve Koşullar
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      setLegalTab('privacy');
+                      document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
+                    }} 
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
+                  >
+                    Gizlilik Politikası
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => {
+                      setLegalTab('privacy');
+                      document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
+                    }} 
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
+                  >
+                    KVKK Aydınlatma Metni
+                  </button>
+                </li>
+              </ul>
+            </div>
+
           </div>
-          <div className="flex gap-10 text-sm text-[#9CA3AF] font-bold tracking-wide">
-            <a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Özellikler</a>
-            <a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Girişler</a>
-            <a href="#iletisim" className="hover:text-[#8B6CFF] transition-colors">Kullanım Şartları</a>
+
+          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#9CA3AF]/60">
+            <div>
+              © {new Date().getFullYear()} OLTVIA INC. TÜM HAKLARI SAKLIDIR.
+            </div>
+            <div className="flex items-center gap-6">
+              <span className="flex items-center gap-1.5 text-[#10B981]">
+                <Shield className="w-3.5 h-3.5" /> KVKK & GDPR Uyumlu
+              </span>
+              <span>256-Bit Uçtan Uca Şifreleme</span>
+            </div>
           </div>
-          <p className="text-[#9CA3AF]/40 text-xs mt-6 font-semibold tracking-widest">
-            © {new Date().getFullYear()} OLTVIA INC. ALL RIGHTS RESERVED. POWERED BY NEXT-GEN AI.
-          </p>
         </div>
       </footer>
     </div>
