@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        script: ['Allison', '"Birthstone Bounce"', 'WindSong', '"Alex Brush"', 'cursive'],
+        serif: ['"Cormorant Garamond"', 'Cinzel', '"Playfair Display"', 'serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

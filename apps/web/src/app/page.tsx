@@ -65,14 +65,17 @@ export default function OltivaLandingPage() {
         {/* HERO SECTION */}
         <section className="max-w-7xl mx-auto px-6 pt-32 pb-48 text-center flex flex-col items-center relative min-h-[50vh] justify-center reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="grid w-full max-w-5xl place-items-center group cursor-default">
-            <h1 className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:blur-[24px] group-hover:opacity-0 group-hover:scale-90 text-6xl md:text-7xl lg:text-[7rem] font-black tracking-tight leading-tight z-10 text-center">
-              <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(255,90,95,0.4)]">
+            <h1 className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:blur-[24px] group-hover:opacity-0 group-hover:scale-90 text-center z-10 select-none">
+              <span className="font-script text-7xl md:text-8xl lg:text-[9.5rem] font-normal leading-[1.1] bg-gradient-to-r from-[#FF5A4D] via-[#FF8A7A] to-[#8B6CFF] bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(255,90,95,0.35)] block py-4">
                 Öğrenmenin<br/>Ötesinde
+              </span>
+              <span className="block font-serif text-xs md:text-sm font-medium uppercase tracking-[0.35em] text-[#9CA3AF] mt-2 opacity-80">
+                BEYOND WHAT YOU KNOW
               </span>
             </h1>
             
-            <p className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-3xl md:text-4xl text-[#F2F1ED] leading-relaxed font-semibold z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-              OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında <span className="text-[#FF5A4D]">adapte olan</span> yenilikçi bir ekosistemdir.
+            <p className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-2xl md:text-3xl text-[#F2F1ED] leading-relaxed font-normal z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] font-serif tracking-[0.03em]">
+              OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında <span className="text-[#FF5A4D] italic font-semibold">adapte olan</span> yenilikçi bir ekosistemdir.
             </p>
           </div>
         </section>
