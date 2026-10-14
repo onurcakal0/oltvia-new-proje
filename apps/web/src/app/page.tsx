@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { 
   Rocket, Network, Shield, Building2, Sparkles, Brain, Cpu, 
   ChevronRight, Target, Flame, Trophy, Gamepad2,
@@ -64,10 +65,20 @@ export default function OltivaLandingPage() {
             <a href="#iletisim" className="hover:text-[#F2F1ED] transition-colors">Bize Ulaşın</a>
           </div>
           
-          <div className="hidden sm:block border-l border-white/[0.05] pl-6">
-            <span className="text-xs font-bold tracking-[0.3em] uppercase bg-gradient-to-r from-[#9CA3AF] via-[#F2F1ED] to-[#9CA3AF] text-transparent bg-clip-text animate-slogan-flow">
-              Beyond What You Know
-            </span>
+          <div className="flex items-center gap-5">
+            <div className="hidden lg:block border-l border-white/[0.05] pl-6">
+              <span className="text-xs font-bold tracking-[0.3em] uppercase bg-gradient-to-r from-[#9CA3AF] via-[#F2F1ED] to-[#9CA3AF] text-transparent bg-clip-text animate-slogan-flow">
+                Beyond What You Know
+              </span>
+            </div>
+            
+            <Link 
+              href="/giris?rol=ogrenci"
+              className="px-5 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.1] text-xs font-bold uppercase tracking-wider text-white hover:border-[#FF5A4D]/50 transition-all hover:scale-105 shadow-md flex items-center gap-1.5"
+            >
+              <span>Giriş Yap</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#FF5A4D]" />
+            </Link>
           </div>
         </div>
       </nav>
@@ -100,21 +111,28 @@ export default function OltivaLandingPage() {
         <section id="girisler" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-40 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: "Öğrenci", icon: Rocket },
-              { title: "Öğretmen", icon: Network },
-              { title: "Veli", icon: Shield },
-              { title: "Kurumsal Yönetici", icon: Building2 }
+              { title: "Öğrenci", role: "ogrenci", icon: Rocket, desc: "Sokratik Mentör & Hedef Rotası" },
+              { title: "Öğretmen", role: "ogretmen", icon: Network, desc: "Sınıf Analitiği & Ödev Yönetimi" },
+              { title: "Veli", role: "veli", icon: Shield, desc: "Gelişim Raporları & Odaklanma" },
+              { title: "Kurumsal Yönetici", role: "kurumsal", icon: Building2, desc: "Okul Lisansları & Kota Takibi" }
             ].map((portal, idx) => (
               <div key={idx} className="group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" style={{ transitionDelay: (idx * 100) + 'ms' }}>
-                <button className="relative w-full h-full flex flex-col items-center justify-center p-12 bg-[#14161A]/90 backdrop-blur-[16px] rounded-[31px]">
-                  <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 shadow-inner">
+                <Link 
+                  href={'/giris?rol=' + portal.role} 
+                  className="relative w-full h-full flex flex-col items-center justify-center p-10 bg-[#14161A]/90 backdrop-blur-[16px] rounded-[31px] text-center"
+                >
+                  <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner">
                     <portal.icon size={36} className="text-[#F2F1ED] group-hover:text-[#FF5A4D] transition-colors duration-300" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-xl font-bold text-[#F2F1ED]">{portal.title}</h3>
-                  <div className="absolute bottom-8 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                    <ChevronRight size={24} className="text-[#8B6CFF]" />
+                  <h3 className="text-xl font-bold text-[#F2F1ED] mb-2">{portal.title}</h3>
+                  <p className="text-xs text-[#9CA3AF] max-w-[200px] leading-relaxed mb-6 opacity-75 group-hover:opacity-100 transition-opacity">
+                    {portal.desc}
+                  </p>
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#8B6CFF] group-hover:text-[#FF5A4D] transition-colors">
+                    <span>Portala Gir</span>
+                    <ChevronRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
                   </div>
-                </button>
+                </Link>
               </div>
             ))}
           </div>
