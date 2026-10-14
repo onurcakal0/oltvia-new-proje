@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { 
   ArrowRight, ArrowLeft, Eye, EyeOff, 
-  Sparkles, Loader2, CheckCircle2, AlertCircle
+  Sparkles, Loader2, CheckCircle2, AlertCircle, X
 } from 'lucide-react';
+import OltviaLandingPage from '../page';
 
 type RoleType = 'ogrenci' | 'ogretmen' | 'veli' | 'idare';
 
@@ -417,16 +418,43 @@ function GirisContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E1015] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans selection:bg-[#FF5A4D]/30">
+    <div className="relative min-h-screen w-full flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans selection:bg-[#FF5A4D]/30 overflow-x-hidden">
       
-      {/* Main Unified Payoneer-Style Card Container */}
-      <div className="w-full max-w-5xl rounded-[2.5rem] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.85)] border border-white/10 flex flex-col lg:flex-row min-h-[640px] bg-[#12141A]">
+      {/* 1. ACTUAL SITE IN THE BACKGROUND (BLURRED & OPACITY FILTERED) */}
+      <div 
+        className="fixed inset-0 pointer-events-none select-none overflow-hidden -z-20 filter blur-xl sm:blur-2xl scale-[1.02] opacity-45 brightness-90"
+        aria-hidden="true"
+      >
+        <OltviaLandingPage />
+      </div>
+
+      {/* 2. FROSTED GLASS MODAL BACKDROP (Clicking outside returns to home) */}
+      <Link 
+        href="/"
+        className="fixed inset-0 bg-[#0B0C10]/70 backdrop-blur-md -z-10 cursor-default"
+        title="Kapatmak için dışarı tıklayın"
+      />
+
+      {/* 3. MODAL CONTAINER WITH CLOSE BUTTON */}
+      <div className="relative w-full max-w-5xl z-10 my-auto animate-in fade-in zoom-in-95 duration-300">
         
-        {/* ================= LEFT SIDE: SPACE NEBULA + SHOOTING STARS + 3D LIQUID GLASS LOGO ================= */}
-        <div 
-          onMouseMove={handleMouseMove}
-          className="w-full lg:w-1/2 relative min-h-[440px] lg:min-h-full flex flex-col justify-between p-8 sm:p-12 overflow-hidden select-none"
+        {/* Floating Close (X) Button */}
+        <Link 
+          href="/"
+          className="absolute -top-3.5 -right-3.5 sm:-top-5 sm:-right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/25 border border-white/25 text-white flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl hover:scale-110 z-50 group"
+          title="Ana Sayfaya Dön"
         >
+          <X size={18} className="transition-transform group-hover:rotate-90 text-white/80 group-hover:text-white" />
+        </Link>
+
+        {/* Main Unified Payoneer-Style Card Container */}
+        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.95)] border border-white/15 flex flex-col lg:flex-row min-h-[640px] bg-[#12141A]">
+          
+          {/* ================= LEFT SIDE: SPACE NEBULA + SHOOTING STARS + 3D LIQUID GLASS LOGO ================= */}
+          <div 
+            onMouseMove={handleMouseMove}
+            className="w-full lg:w-1/2 relative min-h-[440px] lg:min-h-full flex flex-col justify-between p-8 sm:p-12 overflow-hidden select-none"
+          >
           {/* Background Nebula Image (highlighting bright purple/red nebula clouds) */}
           <div 
             className="absolute inset-0 bg-cover bg-no-repeat bg-[center_right] pointer-events-none scale-105"
@@ -683,6 +711,7 @@ function GirisContent() {
 
         </div>
 
+        </div>
       </div>
     </div>
   );
