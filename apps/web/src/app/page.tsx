@@ -114,7 +114,7 @@ export default function OltivaLandingPage() {
               { title: "Öğrenci", role: "ogrenci", icon: Rocket, desc: "Sokratik Mentör & Hedef Rotası" },
               { title: "Öğretmen", role: "ogretmen", icon: Network, desc: "Sınıf Analitiği & Ödev Yönetimi" },
               { title: "Veli", role: "veli", icon: Shield, desc: "Gelişim Raporları & Odaklanma" },
-              { title: "Kurumsal Yönetici", role: "kurumsal", icon: Building2, desc: "Okul Lisansları & Kota Takibi" }
+              { title: "Okul İdaresi", role: "kurumsal", icon: Building2, desc: "Okul Lisansları & Kota Takibi" }
             ].map((portal, idx) => (
               <div key={idx} className="group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" style={{ transitionDelay: (idx * 100) + 'ms' }}>
                 <Link 
