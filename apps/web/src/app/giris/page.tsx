@@ -88,7 +88,7 @@ const ROLES: Record<RoleType, RoleConfig> = {
   },
 };
 
-// Canvas Shooting Stars Animation Overlay
+// Canvas Shooting Stars Animation Overlay (Slow, occasional, elegant)
 function ShootingStarsCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -109,7 +109,6 @@ function ShootingStarsCanvas() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Shooting stars state
     interface Star {
       x: number;
       y: number;
@@ -123,13 +122,14 @@ function ShootingStarsCanvas() {
     }
 
     const shootingStars: Star[] = [];
+    let nextSpawnDelay = 180 + Math.floor(Math.random() * 120); // ~4-5 seconds between spawns
+    let frameCount = 0;
 
     const createShootingStar = () => {
-      // Spawn mainly from the top right / mid upper areas
-      const startX = Math.random() * width * 0.9 + width * 0.1;
-      const startY = Math.random() * height * 0.45;
-      const angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2; // roughly 45 degrees
-      const speed = Math.random() * 8 + 6;
+      const startX = Math.random() * width * 0.75 + width * 0.2;
+      const startY = Math.random() * height * 0.35;
+      const angle = Math.PI / 4 + (Math.random() - 0.5) * 0.15;
+      const speed = Math.random() * 3.5 + 4; // Smooth, gentle gliding speed
 
       const colors = ['#FFFFFF', '#E9D5FF', '#FECDD3', '#BAE6FD'];
       const color = colors[Math.floor(Math.random() * colors.length)];
@@ -137,28 +137,28 @@ function ShootingStarsCanvas() {
       shootingStars.push({
         x: startX,
         y: startY,
-        length: Math.random() * 90 + 50,
+        length: Math.random() * 75 + 45,
         speed: speed,
-        size: Math.random() * 1.6 + 0.8,
-        opacity: 1,
+        size: Math.random() * 1.5 + 0.8,
+        opacity: 0.95,
         dx: -Math.cos(angle) * speed,
         dy: Math.sin(angle) * speed,
         color: color,
       });
-    };
 
-    let frameCount = 0;
+      // Reset next spawn time to 220-360 frames (arada bir kaysın)
+      nextSpawnDelay = 220 + Math.floor(Math.random() * 140);
+    };
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Periodically spawn shooting stars
       frameCount++;
-      if (frameCount % 45 === 0 && shootingStars.length < 5) {
+      if (frameCount >= nextSpawnDelay && shootingStars.length < 2) {
         createShootingStar();
+        frameCount = 0;
       }
 
-      // Update and draw shooting stars
       for (let i = shootingStars.length - 1; i >= 0; i--) {
         const star = shootingStars[i];
 
@@ -167,7 +167,7 @@ function ShootingStarsCanvas() {
 
         const grad = ctx.createLinearGradient(star.x, star.y, tailX, tailY);
         grad.addColorStop(0, star.color);
-        grad.addColorStop(0.3, 'rgba(255, 255, 255, ' + (star.opacity * 0.7) + ')');
+        grad.addColorStop(0.25, 'rgba(255, 255, 255, ' + (star.opacity * 0.6) + ')');
         grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
         ctx.beginPath();
@@ -178,21 +178,20 @@ function ShootingStarsCanvas() {
         ctx.lineCap = 'round';
         ctx.stroke();
 
-        // Glowing star head
+        // Glowing star tip
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size * 1.5, 0, Math.PI * 2);
+        ctx.arc(star.x, star.y, star.size * 1.4, 0, Math.PI * 2);
         ctx.fillStyle = '#FFFFFF';
         ctx.shadowColor = '#FFFFFF';
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 8;
         ctx.fill();
         ctx.shadowBlur = 0;
 
-        // Move star
         star.x += star.dx;
         star.y += star.dy;
-        star.opacity -= 0.012;
+        star.opacity -= 0.009; // Longer, softer fade
 
-        if (star.opacity <= 0 || star.x < -100 || star.y > height + 100) {
+        if (star.opacity <= 0 || star.x < -80 || star.y > height + 80) {
           shootingStars.splice(i, 1);
         }
       }
@@ -211,71 +210,127 @@ function ShootingStarsCanvas() {
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-10" />;
 }
 
-// 3D Liquid Glass Logo Component
+// 3D Isometric Glass Block Logo (Exact match to user's sketch)
 function LiquidGlassLogo({ mousePos }: { mousePos: { x: number; y: number } }) {
   return (
     <div 
-      className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center transition-transform duration-200 ease-out"
-      style={{
-        perspective: '1200px',
-      }}
+      className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center select-none"
+      style={{ perspective: '1200px' }}
     >
-      {/* 3D Diagonal Floating Glass Slab */}
+      {/* Cosmic Caustic Glow & Ambient Space Shadow under the Block */}
       <div 
-        className="relative w-52 h-52 sm:w-60 sm:h-60 rounded-[2.8rem] flex items-center justify-center transition-transform duration-300 ease-out"
+        className="absolute w-60 h-60 rounded-full blur-3xl opacity-70 pointer-events-none transition-transform duration-300"
         style={{
-          transform: `rotateX(${16 + mousePos.y * 18}deg) rotateY(${-22 + mousePos.x * 18}deg) rotateZ(8deg)`,
+          transform: `translateY(45px) scaleY(0.48) translate(${mousePos.x * 20}px, ${mousePos.y * 15}px)`,
+          background: 'radial-gradient(circle, rgba(139, 108, 255, 0.45) 0%, rgba(255, 90, 77, 0.25) 45%, transparent 75%)',
+        }}
+      />
+
+      {/* 3D Isometric Glass Block Assembly */}
+      <div 
+        className="relative w-52 h-52 sm:w-56 sm:h-56 rounded-[2.5rem] transition-transform duration-200 ease-out"
+        style={{
+          // Isometric tilt matching the sketch: elevated top face, visible bottom/side thickness
+          transform: `rotateX(${55 + mousePos.y * 10}deg) rotateZ(${-28 + mousePos.x * 10}deg) rotateY(${3 + mousePos.x * 5}deg)`,
           transformStyle: 'preserve-3d',
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 100%)',
-          backdropFilter: 'blur(30px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(30px) saturate(180%)',
-          border: '1px solid rgba(255, 255, 255, 0.35)',
-          boxShadow: `
-            0 35px 70px -15px rgba(0, 0, 0, 0.75),
-            0 0 50px rgba(139, 108, 255, 0.25),
-            inset 0 1px 2px rgba(255, 255, 255, 0.7),
-            inset 0 -1px 2px rgba(0, 0, 0, 0.4)
-          `,
         }}
       >
-        {/* Prismatic Fluid Color Glows inside the Glass */}
-        <div className="absolute inset-0 rounded-[2.8rem] bg-gradient-to-tr from-[#FF5A4D]/25 via-transparent to-[#8B6CFF]/30 pointer-events-none" />
-        
-        {/* Specular Diagonal Light Streak */}
+        {/* Base Layer: Translucent glass bottom sitting directly in the nebula */}
         <div 
-          className="absolute inset-0 rounded-[2.8rem] pointer-events-none opacity-60"
+          className="absolute inset-0 rounded-[2.5rem] pointer-events-none"
           style={{
-            background: 'linear-gradient(115deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.05) 45%, transparent 60%)',
+            transform: 'translateZ(0px)',
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1.5px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: `
+              0 30px 60px -10px rgba(0, 0, 0, 0.85),
+              0 0 45px rgba(139, 108, 255, 0.3)
+            `,
           }}
         />
 
-        {/* 3D Elevated OLTVIA Logo inside the Glass Prism */}
+        {/* Transparent Extrusion Slices (Creates physical crystal block thickness) */}
+        {[5, 10, 15, 20, 25].map((z) => (
+          <div
+            key={z}
+            className="absolute inset-0 rounded-[2.5rem] pointer-events-none"
+            style={{
+              transform: `translateZ(${z}px)`,
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              background: 'rgba(255, 255, 255, 0.015)',
+              backdropFilter: 'blur(8px)',
+            }}
+          />
+        ))}
+
+        {/* Top Face: Solid Glass Block Surface where the OLTVIA Logo sits */}
         <div 
-          className="relative transition-transform duration-300"
+          className="absolute inset-0 rounded-[2.5rem] flex items-center justify-center p-6 backdrop-blur-2xl"
           style={{
-            transform: 'translateZ(50px)',
+            transform: 'translateZ(30px)',
+            transformStyle: 'preserve-3d',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 100%)',
+            border: '1.5px solid rgba(255, 255, 255, 0.45)',
+            boxShadow: `
+              inset 0 2px 4px rgba(255, 255, 255, 0.75),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+              0 10px 25px -5px rgba(0, 0, 0, 0.5)
+            `,
           }}
         >
-          <svg 
-            width="105" 
-            height="105" 
-            viewBox="0 0 100 100" 
-            fill="none" 
-            className="filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.65)]"
+          {/* Prismatic Specular Light Sheen across top glass face */}
+          <div 
+            className="absolute inset-0 rounded-[2.5rem] pointer-events-none opacity-60"
+            style={{
+              background: 'linear-gradient(120deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.08) 35%, transparent 55%)',
+            }}
+          />
+
+          {/* Refractive Nebula Glow inside the top surface */}
+          <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-tr from-[#FF5A4D]/20 via-transparent to-[#8B6CFF]/25 pointer-events-none" />
+
+          {/* OLTVIA Logo sitting directly on top of the block (from the user's sketch) */}
+          <div 
+            className="relative flex items-center justify-center transition-transform duration-200"
+            style={{ 
+              transform: 'translateZ(18px)',
+            }}
           >
-            {/* Liquid Glass Main Ring Arc */}
-            <path 
-              d="M 78 28 A 36 36 0 1 0 78 72" 
-              stroke="rgba(255, 255, 255, 0.9)" 
-              strokeWidth="15" 
-              strokeLinecap="round"
-            />
-            {/* Fluid Orbit Spheres */}
-            <circle cx="78" cy="28" r="8" fill="#8B6CFF" className="filter drop-shadow-[0_0_12px_#8B6CFF]" />
-            <circle cx="78" cy="72" r="8" fill="#FF5A4D" className="filter drop-shadow-[0_0_12px_#FF5A4D]" />
-            <circle cx="45" cy="40" r="10" fill="rgba(255, 255, 255, 0.95)" />
-            <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="rgba(255, 255, 255, 0.95)" />
-          </svg>
+            <svg 
+              width="100" 
+              height="100" 
+              viewBox="0 0 100 100" 
+              fill="none" 
+              className="filter drop-shadow-[0_10px_18px_rgba(0,0,0,0.65)]"
+            >
+              {/* Main Arc */}
+              <path 
+                d="M 78 28 A 36 36 0 1 0 78 72" 
+                stroke="rgba(255, 255, 255, 0.95)" 
+                strokeWidth="15" 
+                strokeLinecap="round" 
+              />
+              {/* Glowing Purple Satellite Orb */}
+              <circle 
+                cx="78" 
+                cy="28" 
+                r="8.5" 
+                fill="#8B6CFF" 
+                className="filter drop-shadow-[0_0_14px_#8B6CFF]" 
+              />
+              {/* Glowing Coral Satellite Orb */}
+              <circle 
+                cx="78" 
+                cy="72" 
+                r="8.5" 
+                fill="#FF5A4D" 
+                className="filter drop-shadow-[0_0_14px_#FF5A4D]" 
+              />
+              {/* Center Core Dot and Triangle */}
+              <circle cx="45" cy="40" r="10" fill="#FFFFFF" />
+              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#FFFFFF" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
