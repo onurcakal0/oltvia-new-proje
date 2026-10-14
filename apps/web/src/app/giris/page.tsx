@@ -420,35 +420,39 @@ function GirisContent() {
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans selection:bg-[#FF5A4D]/30 overflow-x-hidden">
       
-      {/* 1. ACTUAL SITE IN THE BACKGROUND (BLURRED & OPACITY FILTERED) */}
+      {/* 1. ACTUAL SITE IN THE BACKGROUND (Vividly blurred & clearly visible on the sides) */}
       <div 
-        className="fixed inset-0 pointer-events-none select-none overflow-hidden -z-20 filter blur-xl sm:blur-2xl scale-[1.02] opacity-45 brightness-90"
+        className="fixed inset-0 pointer-events-none select-none overflow-hidden -z-20 filter blur-[8px] scale-[1.12] opacity-85 brightness-105"
         aria-hidden="true"
       >
         <OltviaLandingPage />
       </div>
 
-      {/* 2. FROSTED GLASS MODAL BACKDROP (Clicking outside returns to home) */}
+      {/* Vibrant Ambient Glows to enrich the side spaces */}
+      <div className="fixed top-1/3 -left-24 w-[28rem] h-[28rem] bg-[#FF5A4D]/25 rounded-full blur-[110px] pointer-events-none -z-15" />
+      <div className="fixed bottom-1/3 -right-24 w-[28rem] h-[28rem] bg-[#8B6CFF]/25 rounded-full blur-[110px] pointer-events-none -z-15" />
+
+      {/* 2. TRANSLUCENT FROSTED GLASS BACKDROP (Soft tint so site is fully visible) */}
       <Link 
         href="/"
-        className="fixed inset-0 bg-[#0B0C10]/70 backdrop-blur-md -z-10 cursor-default"
+        className="fixed inset-0 bg-[#07080B]/35 backdrop-blur-[3px] -z-10 cursor-default"
         title="Kapatmak için dışarı tıklayın"
       />
 
       {/* 3. MODAL CONTAINER WITH CLOSE BUTTON */}
-      <div className="relative w-full max-w-5xl z-10 my-auto animate-in fade-in zoom-in-95 duration-300">
+      <div className="relative w-full max-w-4xl lg:max-w-[55rem] z-10 my-auto animate-in fade-in zoom-in-95 duration-300">
         
         {/* Floating Close (X) Button */}
         <Link 
           href="/"
-          className="absolute -top-3.5 -right-3.5 sm:-top-5 sm:-right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 hover:bg-white/25 border border-white/25 text-white flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl hover:scale-110 z-50 group"
+          className="absolute -top-3.5 -right-3.5 sm:-top-5 sm:-right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/15 hover:bg-white/30 border border-white/30 text-white flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl hover:scale-110 z-50 group"
           title="Ana Sayfaya Dön"
         >
-          <X size={18} className="transition-transform group-hover:rotate-90 text-white/80 group-hover:text-white" />
+          <X size={18} className="transition-transform group-hover:rotate-90 text-white" />
         </Link>
 
         {/* Main Unified Payoneer-Style Card Container */}
-        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.95)] border border-white/15 flex flex-col lg:flex-row min-h-[640px] bg-[#12141A]">
+        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.85),_0_0_60px_rgba(139,108,255,0.18)] border border-white/20 flex flex-col lg:flex-row min-h-[620px] bg-[#12141A]">
           
           {/* ================= LEFT SIDE: SPACE NEBULA + SHOOTING STARS + 3D LIQUID GLASS LOGO ================= */}
           <div 
