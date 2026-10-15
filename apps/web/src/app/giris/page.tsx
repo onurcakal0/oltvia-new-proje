@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { 
   ArrowRight, ArrowLeft, Eye, EyeOff, 
-  Sparkles, Loader2, CheckCircle2, AlertCircle, X
+  Sparkles, Loader2, CheckCircle2, AlertCircle, X,
+  Mail, Smartphone, ShieldCheck, KeyRound, Lock, RefreshCw, Check
 } from 'lucide-react';
 import OltviaLandingPage from '../page';
 
@@ -357,11 +358,48 @@ function GirisContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
 
+  // View mode: 'login' | 'forgot'
+  const [viewMode, setViewMode] = useState<'login' | 'forgot'>('login');
+
+  // Forgot password flow states
+  const [forgotStep, setForgotStep] = useState<1 | 2 | 3 | 4>(1);
+  const [resetMethod, setResetMethod] = useState<'email' | 'phone'>('email');
+  const [resetContact, setResetContact] = useState('');
+  const [resetSchoolCode, setResetSchoolCode] = useState('');
+  const [otpDigits, setOtpDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [timer, setTimer] = useState(120);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // Countdown timer for OTP
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isTimerRunning && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setIsTimerRunning(false);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning, timer]);
+
+  const formatTimer = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   useEffect(() => {
     if (roleParam) {
@@ -386,6 +424,141 @@ function GirisContent() {
     setIdentity(config.defaultIdentity);
     setPassword('oltvia2026');
     setErrorMsg(null);
+  };
+
+  // OTP handlers
+  const handleOtpChange = (index: number, val: string) => {
+    if (!/^\d*$/.test(val)) return;
+    const nextDigits = [...otpDigits];
+    nextDigits[index] = val.slice(-1);
+    setOtpDigits(nextDigits);
+
+    if (val && index < 5) {
+      otpRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && !otpDigits[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleOtpPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (!pasted) return;
+    const nextDigits = [...otpDigits];
+    for (let i = 0; i < pasted.length; i++) {
+      nextDigits[i] = pasted[i];
+    }
+    setOtpDigits(nextDigits);
+    const nextIdx = Math.min(pasted.length, 5);
+    otpRefs.current[nextIdx]?.focus();
+  };
+
+  // Forgot password flow submit handlers
+  const handleSendOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    if (config.hasSchoolCode && !resetSchoolCode.trim()) {
+      setErrorMsg('Lütfen okul / kurum kodunuzu giriniz.');
+      return;
+    }
+    if (!resetContact.trim()) {
+      setErrorMsg(resetMethod === 'email' ? 'Lütfen kayıtlı e-posta adresinizi giriniz.' : 'Lütfen kayıtlı telefon numaranızı giriniz.');
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setForgotStep(2);
+      setTimer(120);
+      setIsTimerRunning(true);
+      setSuccessMsg(
+        resetMethod === 'email' 
+          ? `${resetContact} adresinize 6 haneli doğrulama kodu gönderildi.` 
+          : `${resetContact} numaralı telefonunuza SMS ile doğrulama kodu gönderildi.`
+      );
+    }, 900);
+  };
+
+  const handleVerifyOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    const fullCode = otpDigits.join('');
+    if (fullCode.length < 6) {
+      setErrorMsg('Lütfen 6 haneli doğrulama kodunu eksiksiz giriniz.');
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setForgotStep(3);
+      setSuccessMsg('Kimliğiniz başarıyla doğrulandı. Lütfen yeni şifrenizi belirleyin.');
+    }, 900);
+  };
+
+  const handleResendOtp = () => {
+    if (timer > 0) return;
+    setErrorMsg(null);
+    setSuccessMsg('Yeni doğrulama kodu tekrar gönderildi.');
+    setTimer(120);
+    setIsTimerRunning(true);
+    setOtpDigits(['', '', '', '', '', '']);
+    otpRefs.current[0]?.focus();
+  };
+
+  const handleResetPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    if (newPassword.length < 8) {
+      setErrorMsg('Şifreniz en az 8 karakter uzunluğunda olmalıdır.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setErrorMsg('Girdiğiniz şifreler birbiriyle eşleşmiyor.');
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setForgotStep(4);
+    }, 900);
+  };
+
+  const handleFinishReset = () => {
+    setViewMode('login');
+    setForgotStep(1);
+    setResetContact('');
+    setResetSchoolCode('');
+    setOtpDigits(['', '', '', '', '', '']);
+    setPassword(newPassword);
+    setSuccessMsg('Şifreniz başarıyla güncellendi! Yeni şifrenizle hemen giriş yapabilirsiniz.');
+  };
+
+  const handleFillDemoForgot = () => {
+    if (forgotStep === 1) {
+      setResetSchoolCode(config.defaultCode);
+      setResetContact(resetMethod === 'email' ? config.defaultIdentity : '05321234567');
+      setErrorMsg(null);
+    } else if (forgotStep === 2) {
+      setOtpDigits(['4', '8', '2', '9', '1', '6']);
+      setErrorMsg(null);
+    } else if (forgotStep === 3) {
+      setNewPassword('Oltvia2026!');
+      setConfirmPassword('Oltvia2026!');
+      setErrorMsg(null);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -539,45 +712,9 @@ function GirisContent() {
           {/* Central Form Container */}
           <div className="my-auto py-6 max-w-md w-full mx-auto">
             
-            {/* Clean Minimal Role Switcher (Pill tabs) */}
-            <div className="mb-7 p-1 bg-gray-100 rounded-full flex gap-1">
-              {(Object.keys(ROLES) as RoleType[]).map((rKey) => {
-                const r = ROLES[rKey];
-                const isSelected = activeRole === rKey;
-                return (
-                  <button
-                    key={rKey}
-                    type="button"
-                    onClick={() => {
-                      setActiveRole(rKey);
-                      setErrorMsg(null);
-                      setSuccessMsg(null);
-                    }}
-                    className={`flex-1 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-center truncate ${
-                      isSelected 
-                        ? 'bg-white text-gray-900 shadow-sm' 
-                        : 'text-gray-500 hover:text-gray-800'
-                    }`}
-                  >
-                    {r.tabLabel}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Title */}
-            <div className="mb-6">
-              <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 tracking-tight">
-                {config.heading}
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-500 mt-1.5 font-normal">
-                {config.subheading}
-              </p>
-            </div>
-
             {/* Alerts */}
             {errorMsg && (
-              <div className="mb-5 p-3.5 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-xs flex items-center gap-2">
+              <div className="mb-5 p-3.5 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-xs flex items-center gap-2 animate-shake">
                 <AlertCircle size={16} className="flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -590,109 +727,541 @@ function GirisContent() {
               </div>
             )}
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              
-              {/* Optional School Code */}
-              {config.hasSchoolCode && (
-                <div>
-                  <input
-                    type="text"
-                    required
-                    value={schoolCode}
-                    onChange={(e) => setSchoolCode(e.target.value.toUpperCase())}
-                    placeholder="Okul / Kurum Kodu (Örn: IST-1094)"
-                    className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
-                  />
+            {viewMode === 'login' ? (
+              <>
+                {/* Clean Minimal Role Switcher (Pill tabs) */}
+                <div className="mb-7 p-1 bg-gray-100 rounded-full flex gap-1">
+                  {(Object.keys(ROLES) as RoleType[]).map((rKey) => {
+                    const r = ROLES[rKey];
+                    const isSelected = activeRole === rKey;
+                    return (
+                      <button
+                        key={rKey}
+                        type="button"
+                        onClick={() => {
+                          setActiveRole(rKey);
+                          setErrorMsg(null);
+                          setSuccessMsg(null);
+                        }}
+                        className={`flex-1 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-center truncate ${
+                          isSelected 
+                            ? 'bg-white text-gray-900 shadow-sm' 
+                            : 'text-gray-500 hover:text-gray-800'
+                        }`}
+                      >
+                        {r.tabLabel}
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
 
-              {/* Identity Field */}
-              <div>
-                <input
-                  type={config.identityType}
-                  required
-                  value={identity}
-                  onChange={(e) => setIdentity(e.target.value)}
-                  placeholder={config.identityLabel}
-                  className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
-                />
-              </div>
+                {/* Title */}
+                <div className="mb-6">
+                  <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 tracking-tight">
+                    {config.heading}
+                  </h1>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1.5 font-normal">
+                    {config.subheading}
+                  </p>
+                </div>
 
-              {/* Password Field with Eye */}
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Şifre"
-                  className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
+                {/* Login Form */}
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  
+                  {/* Optional School Code */}
+                  {config.hasSchoolCode && (
+                    <div>
+                      <input
+                        type="text"
+                        required
+                        value={schoolCode}
+                        onChange={(e) => setSchoolCode(e.target.value.toUpperCase())}
+                        placeholder="Okul / Kurum Kodu (Örn: IST-1094)"
+                        className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
+                      />
+                    </div>
+                  )}
 
-              {/* Remember Me & Forgot Password Row */}
-              <div className="flex items-center justify-between text-xs px-2 pt-1">
-                <label className="flex items-center gap-2 cursor-pointer text-gray-500 hover:text-gray-700 select-none">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-0 cursor-pointer"
-                  />
-                  <span>Beni hatırla</span>
-                </label>
+                  {/* Identity Field */}
+                  <div>
+                    <input
+                      type={config.identityType}
+                      required
+                      value={identity}
+                      onChange={(e) => setIdentity(e.target.value)}
+                      placeholder={config.identityLabel}
+                      className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                    />
+                  </div>
 
-                <button
-                  type="button"
-                  onClick={() => alert('Şifrenizi unuttuysanız lütfen okulunuzun öğrenci işleri veya idaresiyle iletişime geçiniz.')}
-                  className="font-medium text-[#FF5A4D] hover:underline"
-                >
-                  Şifremi unuttum?
-                </button>
-              </div>
+                  {/* Password Field with Eye */}
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Şifre"
+                      className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
 
-              {/* Payoneer-Style Gradient Pill Sign-In Button */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2.5 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
-                style={{
-                  boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
-                }}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    <span>Giriş Yapılıyor...</span>
-                  </>
-                ) : (
-                  <>
-                    <ArrowRight size={18} />
-                    <span>{config.buttonText}</span>
-                  </>
+                  {/* Remember Me & Forgot Password Row */}
+                  <div className="flex items-center justify-between text-xs px-2 pt-1">
+                    <label className="flex items-center gap-2 cursor-pointer text-gray-500 hover:text-gray-700 select-none">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-0 cursor-pointer"
+                      />
+                      <span>Beni hatırla</span>
+                    </label>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setViewMode('forgot');
+                        setForgotStep(1);
+                        setErrorMsg(null);
+                        setSuccessMsg(null);
+                      }}
+                      className="font-medium text-[#FF5A4D] hover:underline"
+                    >
+                      Şifremi unuttum?
+                    </button>
+                  </div>
+
+                  {/* Payoneer-Style Gradient Pill Sign-In Button */}
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2.5 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                    style={{
+                      boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
+                    }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        <span>Giriş Yapılıyor...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ArrowRight size={18} />
+                        <span>{config.buttonText}</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Subtle Demo Quick Fill Link */}
+                  <div className="text-center pt-2">
+                    <button
+                      type="button"
+                      onClick={handleFillDemo}
+                      className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
+                    >
+                      <Sparkles size={13} style={{ color: config.accentColor }} />
+                      <span>{config.tabLabel} demo bilgileriyle otomatik doldur</span>
+                    </button>
+                  </div>
+                </form>
+              </>
+            ) : (
+              /* FORGOT PASSWORD MULTI-STEP VERIFICATION FLOW */
+              <div className="space-y-6 animate-in fade-in duration-300">
+                {/* Top Back to Login Link & Progress Indicator */}
+                <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setViewMode('login');
+                      setErrorMsg(null);
+                      setSuccessMsg(null);
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-gray-900 transition-colors group"
+                  >
+                    <ArrowLeft size={15} className="transition-transform group-hover:-translate-x-1" />
+                    <span>Giriş Yap'a Dön</span>
+                  </button>
+
+                  {/* Step indicators */}
+                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
+                    <span 
+                      className="px-2 py-0.5 rounded-full text-[11px] font-bold"
+                      style={{ 
+                        backgroundColor: forgotStep === 1 ? config.accentColor + '15' : 'transparent',
+                        color: forgotStep === 1 ? config.accentColor : undefined 
+                      }}
+                    >
+                      1. Doğrulama
+                    </span>
+                    <span>•</span>
+                    <span 
+                      className="px-2 py-0.5 rounded-full text-[11px] font-bold"
+                      style={{ 
+                        backgroundColor: forgotStep === 2 ? config.accentColor + '15' : 'transparent',
+                        color: forgotStep === 2 ? config.accentColor : undefined 
+                      }}
+                    >
+                      2. Kod
+                    </span>
+                    <span>•</span>
+                    <span 
+                      className="px-2 py-0.5 rounded-full text-[11px] font-bold"
+                      style={{ 
+                        backgroundColor: forgotStep >= 3 ? config.accentColor + '15' : 'transparent',
+                        color: forgotStep >= 3 ? config.accentColor : undefined 
+                      }}
+                    >
+                      3. Yeni Şifre
+                    </span>
+                  </div>
+                </div>
+
+                {/* STEP 1: METHOD SELECTION & CONTACT INPUT */}
+                {forgotStep === 1 && (
+                  <form onSubmit={handleSendOtp} className="space-y-5">
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+                        Şifrenizi mi Unuttunuz?
+                      </h2>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
+                        Hesabınızı doğrulamak ve şifrenizi sıfırlamak için tercih ettiğiniz yöntemi seçin.
+                      </p>
+                    </div>
+
+                    {/* Method Switcher: E-Posta vs Telefon */}
+                    <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 rounded-2xl">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setResetMethod('email');
+                          setResetContact('');
+                          setErrorMsg(null);
+                        }}
+                        className={`py-3 px-3 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold transition-all ${
+                          resetMethod === 'email'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-500 hover:text-gray-800'
+                        }`}
+                      >
+                        <Mail size={16} style={{ color: resetMethod === 'email' ? config.accentColor : undefined }} />
+                        <span>E-Posta ile</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setResetMethod('phone');
+                          setResetContact('');
+                          setErrorMsg(null);
+                        }}
+                        className={`py-3 px-3 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold transition-all ${
+                          resetMethod === 'phone'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-500 hover:text-gray-800'
+                        }`}
+                      >
+                        <Smartphone size={16} style={{ color: resetMethod === 'phone' ? config.accentColor : undefined }} />
+                        <span>Telefon ile</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-3.5">
+                      {/* School Code if applicable */}
+                      {config.hasSchoolCode && (
+                        <div>
+                          <input
+                            type="text"
+                            required
+                            value={resetSchoolCode}
+                            onChange={(e) => setResetSchoolCode(e.target.value.toUpperCase())}
+                            placeholder="Okul / Kurum Kodu (Örn: IST-1094)"
+                            className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
+                          />
+                        </div>
+                      )}
+
+                      {/* Contact Input (Email or Phone) */}
+                      <div>
+                        <input
+                          type={resetMethod === 'email' ? 'email' : 'tel'}
+                          required
+                          value={resetContact}
+                          onChange={(e) => setResetContact(e.target.value)}
+                          placeholder={
+                            resetMethod === 'email' 
+                              ? 'Kayıtlı Kurumsal / Şahsi E-Postanız' 
+                              : 'Kayıtlı Cep Telefonu (05XX XXX XX XX)'
+                          }
+                          className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                      style={{
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
+                      }}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          <span>Kod Gönderiliyor...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ArrowRight size={18} />
+                          <span>Doğrulama Kodu Gönder</span>
+                        </>
+                      )}
+                    </button>
+
+                    <div className="text-center pt-1">
+                      <button
+                        type="button"
+                        onClick={handleFillDemoForgot}
+                        className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
+                      >
+                        <Sparkles size={13} style={{ color: config.accentColor }} />
+                        <span>Örnek {resetMethod === 'email' ? 'e-posta' : 'telefon'} ile otomatik doldur</span>
+                      </button>
+                    </div>
+                  </form>
                 )}
-              </button>
 
-              {/* Subtle Demo Quick Fill Link */}
-              <div className="text-center pt-2">
-                <button
-                  type="button"
-                  onClick={handleFillDemo}
-                  className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
-                >
-                  <Sparkles size={13} style={{ color: config.accentColor }} />
-                  <span>{config.tabLabel} demo bilgileriyle otomatik doldur</span>
-                </button>
+                {/* STEP 2: 6-DIGIT OTP VERIFICATION */}
+                {forgotStep === 2 && (
+                  <form onSubmit={handleVerifyOtp} className="space-y-6">
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+                        Doğrulama Kodu
+                      </h2>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
+                        <span className="font-semibold text-gray-800">{resetContact}</span> {resetMethod === 'email' ? 'e-posta adresinize' : 'telefonunuza'} gönderilen 6 haneli güvenlik kodunu girin.
+                      </p>
+                    </div>
+
+                    {/* 6 OTP Boxes */}
+                    <div className="flex items-center justify-between gap-2 sm:gap-2.5">
+                      {otpDigits.map((digit, idx) => (
+                        <input
+                          key={idx}
+                          ref={(el) => { otpRefs.current[idx] = el; }}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={digit}
+                          onChange={(e) => handleOtpChange(idx, e.target.value)}
+                          onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                          onPaste={handleOtpPaste}
+                          className="w-12 h-14 sm:w-13 sm:h-16 text-center text-xl sm:text-2xl font-bold text-gray-900 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none transition-all duration-200"
+                          style={{
+                            borderColor: digit ? config.accentColor : undefined,
+                            boxShadow: digit ? `0 0 0 2px ${config.accentColor}25` : undefined,
+                          }}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Countdown and Resend */}
+                    <div className="flex items-center justify-between text-xs px-1 text-gray-500">
+                      <span>
+                        Kalan Süre:{' '}
+                        <span className="font-mono font-bold text-gray-800">
+                          {formatTimer(timer)}
+                        </span>
+                      </span>
+
+                      <button
+                        type="button"
+                        disabled={timer > 0}
+                        onClick={handleResendOtp}
+                        className="font-medium text-[#FF5A4D] hover:underline disabled:opacity-40 disabled:hover:no-underline"
+                      >
+                        Kodu Tekrar Gönder
+                      </button>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                      style={{
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
+                      }}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          <span>Doğrulanıyor...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ShieldCheck size={18} />
+                          <span>Kodu Doğrula ve Devam Et</span>
+                        </>
+                      )}
+                    </button>
+
+                    <div className="text-center pt-1">
+                      <button
+                        type="button"
+                        onClick={handleFillDemoForgot}
+                        className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
+                      >
+                        <Sparkles size={13} style={{ color: config.accentColor }} />
+                        <span>Test kodunu doldur (482916)</span>
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* STEP 3: NEW PASSWORD */}
+                {forgotStep === 3 && (
+                  <form onSubmit={handleResetPassword} className="space-y-4">
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+                        Yeni Şifre Belirleyin
+                      </h2>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
+                        Hesabınız için güçlü ve yeni bir şifre tanımlayın.
+                      </p>
+                    </div>
+
+                    {/* New Password Input */}
+                    <div className="relative">
+                      <input
+                        type={showNewPassword ? 'text' : 'password'}
+                        required
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Yeni Şifre (En az 8 karakter)"
+                        className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
+                      >
+                        {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+
+                    {/* Confirm Password Input */}
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        required
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Yeni Şifreyi Tekrar Girin"
+                        className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
+                      >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+
+                    {/* Password Strength Indicator */}
+                    <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100 space-y-2 text-xs">
+                      <div className="flex items-center justify-between text-gray-600 font-medium">
+                        <span>Şifre Güvenliği:</span>
+                        <span className={newPassword.length >= 8 ? 'text-emerald-600 font-bold' : 'text-amber-600 font-bold'}>
+                          {newPassword.length >= 8 ? 'Güçlü' : newPassword.length > 0 ? 'Orta' : 'Belirtilmedi'}
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full rounded-full transition-all duration-300"
+                          style={{
+                            width: newPassword.length >= 8 ? '100%' : newPassword.length > 3 ? '50%' : '0%',
+                            backgroundColor: newPassword.length >= 8 ? '#10B981' : '#F59E0B',
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                      style={{
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
+                      }}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          <span>Güncelleniyor...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check size={18} />
+                          <span>Şifreyi Güncelle</span>
+                        </>
+                      )}
+                    </button>
+
+                    <div className="text-center pt-1">
+                      <button
+                        type="button"
+                        onClick={handleFillDemoForgot}
+                        className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
+                      >
+                        <Sparkles size={13} style={{ color: config.accentColor }} />
+                        <span>Örnek güçlü şifre doldur (Oltvia2026!)</span>
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* STEP 4: SUCCESS CONFIRMATION */}
+                {forgotStep === 4 && (
+                  <div className="text-center py-6 space-y-6">
+                    <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center shadow-lg">
+                      <CheckCircle2 size={36} />
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+                        Şifreniz Değiştirildi!
+                      </h2>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-2 max-w-sm mx-auto leading-relaxed">
+                        Yeni şifreniz başarıyla kaydedildi. Artık güncel şifrenizle sisteminize giriş yapabilirsiniz.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleFinishReset}
+                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] bg-gradient-to-r ${config.gradient}`}
+                      style={{
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
+                      }}
+                    >
+                      <span>Giriş Ekranına Dön</span>
+                      <ArrowRight size={18} />
+                    </button>
+                  </div>
+                )}
               </div>
-            </form>
+            )}
           </div>
 
           {/* Clean Minimalist Bottom Footer */}
