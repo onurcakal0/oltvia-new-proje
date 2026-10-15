@@ -367,6 +367,8 @@ function GirisContent() {
   const [resetContact, setResetContact] = useState('');
   const [resetSchoolCode, setResetSchoolCode] = useState('');
   const [otpDigits, setOtpDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [resetToken, setResetToken] = useState<string>('');
+  const [demoOtpCode, setDemoOtpCode] = useState<string>('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -375,6 +377,7 @@ function GirisContent() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -457,8 +460,10 @@ function GirisContent() {
     otpRefs.current[nextIdx]?.focus();
   };
 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1/auth';
+
   // Forgot password flow submit handlers
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
@@ -473,20 +478,40 @@ function GirisContent() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/forgot-password/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          method: resetMethod,
+          contact: resetContact.trim(),
+          school_code: resetSchoolCode.trim() || undefined,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Doğrulama kodu gönderilemedi. Lütfen bilgilerinizi kontrol ediniz.');
+      }
+
+      if (data.demo_code) {
+        setDemoOtpCode(data.demo_code);
+      }
+
       setForgotStep(2);
-      setTimer(120);
+      setTimer(data.expires_in_seconds || 120);
       setIsTimerRunning(true);
-      setSuccessMsg(
-        resetMethod === 'email' 
-          ? `${resetContact} adresinize 6 haneli doğrulama kodu gönderildi.` 
-          : `${resetContact} numaralı telefonunuza SMS ile doğrulama kodu gönderildi.`
-      );
-    }, 900);
+      setSuccessMsg(data.message || `${resetContact} adresinize 6 haneli doğrulama kodu gönderildi.`);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Sunucuya bağlanırken bir sorun oluştu.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
@@ -498,42 +523,110 @@ function GirisContent() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/forgot-password/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contact: resetContact.trim(),
+          code: fullCode,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Doğrulama kodu geçersiz veya süresi dolmuş.');
+      }
+
+      setResetToken(data.reset_token);
       setForgotStep(3);
-      setSuccessMsg('Kimliğiniz başarıyla doğrulandı. Lütfen yeni şifrenizi belirleyin.');
-    }, 900);
+      setSuccessMsg(data.message || 'Kimliğiniz başarıyla doğrulandı. Lütfen yeni şifrenizi belirleyin.');
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Kod doğrulanamadı.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async () => {
     if (timer > 0) return;
     setErrorMsg(null);
-    setSuccessMsg('Yeni doğrulama kodu tekrar gönderildi.');
-    setTimer(120);
-    setIsTimerRunning(true);
-    setOtpDigits(['', '', '', '', '', '']);
-    otpRefs.current[0]?.focus();
+    try {
+      const res = await fetch(`${API_BASE_URL}/forgot-password/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          method: resetMethod,
+          contact: resetContact.trim(),
+          school_code: resetSchoolCode.trim() || undefined,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Yeni kod gönderilemedi.');
+      }
+
+      if (data.demo_code) {
+        setDemoOtpCode(data.demo_code);
+      }
+
+      setSuccessMsg(data.message || 'Yeni doğrulama kodu başarıyla iletildi.');
+      setTimer(data.expires_in_seconds || 120);
+      setIsTimerRunning(true);
+      setOtpDigits(['', '', '', '', '', '']);
+      otpRefs.current[0]?.focus();
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Yeni kod gönderilirken hata oluştu.');
+    }
   };
 
-  const handleResetPassword = (e: React.FormEvent) => {
+  const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    if (newPassword.length < 8) {
-      setErrorMsg('Şifreniz en az 8 karakter uzunluğunda olmalıdır.');
+    if (newPassword.length < 6) {
+      setErrorMsg('Şifreniz en az 6 karakter uzunluğunda olmalıdır.');
       return;
     }
     if (newPassword !== confirmPassword) {
       setErrorMsg('Girdiğiniz şifreler birbiriyle eşleşmiyor.');
       return;
     }
+    if (!resetToken) {
+      setErrorMsg('Doğrulama anahtarı bulunamadı. Lütfen işlemi baştan başlatın.');
+      return;
+    }
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/forgot-password/reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reset_token: resetToken,
+          new_password: newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Şifre güncellenemedi.');
+      }
+
       setForgotStep(4);
-    }, 900);
+      setSuccessMsg(data.message || 'Şifreniz başarıyla güncellendi!');
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Şifre sıfırlanırken hata oluştu.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleFinishReset = () => {
@@ -552,16 +645,17 @@ function GirisContent() {
       setResetContact(resetMethod === 'email' ? config.defaultIdentity : '05321234567');
       setErrorMsg(null);
     } else if (forgotStep === 2) {
-      setOtpDigits(['4', '8', '2', '9', '1', '6']);
+      const codeToFill = demoOtpCode || '482916';
+      setOtpDigits(codeToFill.split('').slice(0, 6));
       setErrorMsg(null);
     } else if (forgotStep === 3) {
-      setNewPassword('Oltvia2026!');
-      setConfirmPassword('Oltvia2026!');
+      setNewPassword('oltvia2026');
+      setConfirmPassword('oltvia2026');
       setErrorMsg(null);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
@@ -581,14 +675,53 @@ function GirisContent() {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      setSuccessMsg('Giriş başarılı. Yönlendiriliyorsunuz...');
+    try {
+      const payload: Record<string, any> = {
+        role: activeRole,
+        password: password.trim(),
+      };
+
+      if (config.hasSchoolCode) {
+        payload.school_code = schoolCode.trim().toUpperCase();
+      }
+
+      if (activeRole === 'ogrenci') {
+        payload.student_number = identity.trim();
+      } else if (activeRole === 'ogretmen' || activeRole === 'idare') {
+        payload.email = identity.trim();
+      } else if (activeRole === 'veli') {
+        payload.phone = identity.trim();
+      }
+
+      const res = await fetch(`${API_BASE_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || 'Giriş yapılamadı. Bilgilerinizi kontrol ediniz.');
+      }
+
+      // Token ve kullanıcı profilini localStorage'a yaz
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('oltvia_token', data.access_token);
+        localStorage.setItem('oltvia_user', JSON.stringify(data.user));
+      }
+
+      setSuccessMsg(`Hoş geldiniz, ${data.user?.full_name || 'Kullanıcı'}! Giriş başarılı. Yönlendiriliyorsunuz...`);
       setTimeout(() => {
         router.push('/');
       }, 1200);
-    }, 1000);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyiniz.');
+    } finally {
+      setIsLoading(false);
+    }
   };
+
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans selection:bg-[#FF5A4D]/30 overflow-x-hidden">
@@ -1122,7 +1255,7 @@ function GirisContent() {
                         className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
                       >
                         <Sparkles size={13} style={{ color: config.accentColor }} />
-                        <span>Test kodunu doldur (482916)</span>
+                        <span>Test kodunu doldur ({demoOtpCode || '482916'})</span>
                       </button>
                     </div>
                   </form>
