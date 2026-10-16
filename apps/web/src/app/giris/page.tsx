@@ -734,14 +734,14 @@ function GirisContent() {
         <OltviaLandingPage />
       </div>
 
-      {/* Vibrant Ambient Glows to enrich the side spaces */}
-      <div className="fixed top-1/3 -left-24 w-[28rem] h-[28rem] bg-[#FF5A4D]/25 rounded-full blur-[110px] pointer-events-none -z-15" />
+      {/* Vibrant Ambient Glows to enrich the side spaces (Clean Indigo & Purple, zero brownish haze) */}
+      <div className="fixed top-1/3 -left-24 w-[28rem] h-[28rem] bg-[#6366F1]/20 rounded-full blur-[110px] pointer-events-none -z-15" />
       <div className="fixed bottom-1/3 -right-24 w-[28rem] h-[28rem] bg-[#8B6CFF]/25 rounded-full blur-[110px] pointer-events-none -z-15" />
 
       {/* 2. TRANSLUCENT FROSTED GLASS BACKDROP (Soft tint so site is fully visible) */}
       <Link 
         href="/"
-        className="fixed inset-0 bg-[#07080B]/35 backdrop-blur-[3px] -z-10 cursor-default"
+        className="fixed inset-0 bg-black/45 backdrop-blur-[3px] -z-10 cursor-default"
         title="Kapatmak için dışarı tıklayın"
       />
 
@@ -758,7 +758,7 @@ function GirisContent() {
         </Link>
 
         {/* Main Unified Payoneer-Style Card Container */}
-        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.85),_0_0_60px_rgba(139,108,255,0.18)] border border-white/20 flex flex-col lg:flex-row min-h-[620px] bg-[#12141A]">
+        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.85),_0_0_60px_rgba(139,108,255,0.18)] border border-white/20 flex flex-col lg:flex-row min-h-[620px] bg-black">
           
           {/* ================= LEFT SIDE: SPACE NEBULA + SHOOTING STARS + 3D LIQUID GLASS LOGO ================= */}
           <div 
@@ -774,7 +774,7 @@ function GirisContent() {
           />
 
           {/* Deep Ambient Vignette */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F]/90 via-[#0A0B0F]/30 to-[#0A0B0F]/70 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/80 pointer-events-none" />
 
           {/* Shooting Stars Canvas Overlay */}
           <ShootingStarsCanvas />
@@ -1426,7 +1426,7 @@ function GirisContent() {
 export default function GirisPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#0E1015] flex items-center justify-center text-white font-sans">
+      <div className="min-h-screen bg-black flex items-center justify-center text-white font-sans">
         <div className="flex items-center gap-3">
           <Loader2 className="animate-spin text-[#FF5A4D]" size={24} />
           <span className="text-sm font-medium tracking-wide">Yükleniyor...</span>

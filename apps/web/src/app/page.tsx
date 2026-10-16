@@ -36,14 +36,14 @@ export default function OltivaLandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#14161A] text-[#F2F1ED] font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden">
+    <div className="min-h-screen bg-black text-[#F2F1ED] font-serif selection:bg-[#8B6CFF]/30 overflow-x-hidden">
 
-      {/* Animated Mesh / Glowing Orbs */}
-      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#FF5A4D]/15 rounded-full blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
-      <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#8B6CFF]/15 rounded-full blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '10s' }} />
+      {/* Animated Mesh / Glowing Orbs (Electric Indigo & Celestial Violet - Crisp, vivid & zero brownish haze) */}
+      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#6366F1]/18 rounded-full blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#8B6CFF]/18 rounded-full blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '10s' }} />
 
       {/* NAVBAR */}
-      <nav className="fixed top-0 w-full z-50 bg-[#14161A]/50 backdrop-blur-xl border-b border-white/[0.05]">
+      <nav className="fixed top-0 w-full z-50 bg-black/75 backdrop-blur-xl border-b border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform hover:scale-105 transition-transform cursor-pointer">
@@ -119,7 +119,7 @@ export default function OltivaLandingPage() {
               <div key={idx} className="group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" style={{ transitionDelay: (idx * 100) + 'ms' }}>
                 <Link 
                   href={'/giris?rol=' + portal.role} 
-                  className="relative w-full h-full flex flex-col items-center justify-center p-10 bg-[#14161A]/90 backdrop-blur-[16px] rounded-[31px] text-center"
+                  className="relative w-full h-full flex flex-col items-center justify-center p-10 bg-[#08080A]/95 backdrop-blur-[16px] rounded-[31px] text-center"
                 >
                   <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner">
                     <portal.icon size={36} className="text-[#F2F1ED] group-hover:text-[#FF5A4D] transition-colors duration-300" strokeWidth={1.5} />
@@ -165,10 +165,10 @@ export default function OltivaLandingPage() {
             <div className="flex-1 w-full">
               <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
                 <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
-                <div className="rounded-[23px] bg-[#14161A]/90 backdrop-blur-xl p-8 h-96 flex flex-col justify-end relative overflow-hidden border border-white/[0.05] shadow-2xl">
+                <div className="rounded-[23px] bg-[#08080A]/95 backdrop-blur-xl p-8 h-96 flex flex-col justify-end relative overflow-hidden border border-white/[0.08] shadow-2xl">
                   
-                  <div className="absolute top-4 left-4 right-4 flex items-center gap-4 border-b border-white/[0.05] pb-6 bg-[#14161A]/50 backdrop-blur-md z-20">
-                    <div className="w-10 h-10 rounded-full bg-[#14161A] flex items-center justify-center shadow-[0_0_15px_rgba(139,108,255,0.4)] border border-white/5">
+                  <div className="absolute top-4 left-4 right-4 flex items-center gap-4 border-b border-white/[0.06] pb-6 bg-black/60 backdrop-blur-md z-20">
+                    <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center shadow-[0_0_15px_rgba(139,108,255,0.4)] border border-white/10">
                       <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#F2F1ED" strokeWidth="16" />
                         <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
@@ -229,9 +229,9 @@ export default function OltivaLandingPage() {
             
             <div className="flex-1 w-full">
               <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
-                <div className="absolute inset-0 bg-[#FF5A4D]/20 blur-[80px] -z-10 rounded-full" />
+                <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
                 
-                <div className="rounded-[23px] bg-[#14161A]/90 backdrop-blur-xl h-[420px] flex flex-col relative overflow-hidden border border-white/[0.05] shadow-2xl group cursor-crosshair">
+                <div className="rounded-[23px] bg-[#08080A]/95 backdrop-blur-xl h-[420px] flex flex-col relative overflow-hidden border border-white/[0.08] shadow-2xl group cursor-crosshair">
                   
                   {/* Header */}
                   <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-20 transition-opacity duration-500 group-hover:opacity-0">
@@ -285,7 +285,7 @@ export default function OltivaLandingPage() {
                         <g className="transition-all duration-700 opacity-0 group-hover:opacity-100" style={{ transitionDelay: '300ms' }}>
                           <line x1="150" y1="100" x2="150" y2="145" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="3 3" />
                           {/* Target Node */}
-                          <circle cx="150" cy="100" r="5" fill="#14161A" stroke="#FF5A4D" strokeWidth="2" />
+                          <circle cx="150" cy="100" r="5" fill="#08080A" stroke="#FF5A4D" strokeWidth="2" />
                           <rect x="90" y="60" width="120" height="30" rx="4" fill="#FF5A4D" opacity="0.15" />
                           <text x="150" y="80" fill="#FF5A4D" fontSize="10" fontWeight="bold" textAnchor="middle">Hedef: 85 Net</text>
                           {/* Current Node */}
@@ -296,7 +296,7 @@ export default function OltivaLandingPage() {
 
                         {/* Data Point 2: The Future Convergence (May) */}
                         <g className="transition-all duration-700 opacity-0 group-hover:opacity-100" style={{ transitionDelay: '500ms' }}>
-                          <circle cx="350" cy="55" r="5" fill="#14161A" stroke="#FF5A4D" strokeWidth="2" />
+                          <circle cx="350" cy="55" r="5" fill="#08080A" stroke="#FF5A4D" strokeWidth="2" />
                           <rect x="290" y="15" width="120" height="30" rx="4" fill="#FF5A4D" opacity="0.15" />
                           <text x="350" y="35" fill="#FF5A4D" fontSize="10" fontWeight="bold" textAnchor="middle">YKS Hedefi: 110 Net</text>
                         </g>
@@ -339,9 +339,9 @@ export default function OltivaLandingPage() {
             
             <div className="flex-1 w-full">
               <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
-                <div className="absolute inset-0 bg-[#FF5A4D]/10 blur-[80px] -z-10 rounded-full" />
+                <div className="absolute inset-0 bg-[#8B6CFF]/15 blur-[80px] -z-10 rounded-full" />
                 
-                <div className="rounded-[23px] bg-[#14161A]/90 backdrop-blur-xl h-[420px] relative overflow-hidden border border-white/[0.05] shadow-2xl group cursor-crosshair">
+                <div className="rounded-[23px] bg-[#08080A]/95 backdrop-blur-xl h-[420px] relative overflow-hidden border border-white/[0.08] shadow-2xl group cursor-crosshair">
                   
                   {/* Background Grid Lines */}
                   <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center z-0">
@@ -442,8 +442,8 @@ export default function OltivaLandingPage() {
             
             {/* Left: Streak Animation */}
             <div className="col-span-1">
-              <div className="bg-[#14161A]/90 border border-white/[0.05] rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#FF5A4D]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+              <div className="bg-[#08080A]/95 border border-white/[0.08] rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#8B6CFF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                 
                 <div className="text-[#9CA3AF] text-xs font-bold uppercase tracking-[0.3em] mb-10 z-10">Günlük Seri</div>
                 
@@ -495,7 +495,7 @@ export default function OltivaLandingPage() {
 
             {/* Right: Leaderboard Animation */}
             <div className="col-span-1">
-              <div className="bg-[#14161A]/90 border border-white/[0.05] rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair">
+              <div className="bg-[#08080A]/95 border border-white/[0.08] rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F59E0B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
                 <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4 z-10">
@@ -549,9 +549,9 @@ export default function OltivaLandingPage() {
         </section>
               {/* 1. MISYONUMUZ SECTION */}
         <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-          <div className="relative rounded-3xl bg-gradient-to-b from-[#14161A] via-white/[0.02] to-[#14161A] border border-white/[0.08] p-8 md:p-16 overflow-hidden shadow-2xl">
-            <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF5A4D]/10 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/10 rounded-full blur-[120px] pointer-events-none" />
+          <div className="relative rounded-3xl bg-gradient-to-b from-[#08080A] via-white/[0.02] to-[#08080A] border border-white/[0.08] p-8 md:p-16 overflow-hidden shadow-2xl">
+            <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#6366F1]/15 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/15 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="text-center max-w-3xl mx-auto mb-16 relative z-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-6">
@@ -1016,7 +1016,7 @@ export default function OltivaLandingPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/[0.08] bg-[#0E1013] pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+      <footer className="border-t border-white/[0.08] bg-black pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/[0.06]">
             
