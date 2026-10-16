@@ -9,7 +9,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
         script: ['Allison', '"Birthstone Bounce"', 'WindSong', '"Alex Brush"', 'cursive'],
         serif: ['"Cormorant Garamond"', 'Cinzel', '"Playfair Display"', 'serif'],
       },

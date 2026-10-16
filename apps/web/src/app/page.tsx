@@ -36,48 +36,48 @@ export default function OltivaLandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#14161A] text-white selection:bg-[#FF5A4D]/30 overflow-x-hidden">
+    <div className="min-h-screen bg-[#14161A] text-[#F2F1ED] font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden">
 
       {/* Animated Mesh / Glowing Orbs */}
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#FF5A4D]/15 rounded-full blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#8B6CFF]/15 rounded-full blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '10s' }} />
 
       {/* NAVBAR */}
-      <nav className="fixed top-0 w-full z-50 bg-[#14161A]/80 backdrop-blur-xl border-b border-white/[0.08]">
+      <nav className="fixed top-0 w-full z-50 bg-[#14161A]/50 backdrop-blur-xl border-b border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform hover:scale-105 transition-transform cursor-pointer">
-              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#FFFFFF" strokeWidth="16" />
+            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform hover:scale-105 transition-transform cursor-pointer">
+              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#F2F1ED" strokeWidth="16" />
               <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
               <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-              <circle cx="45" cy="40" r="10" fill="#FFFFFF" />
-              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#FFFFFF" />
+              <circle cx="45" cy="40" r="10" fill="#F2F1ED" />
+              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#F2F1ED" />
             </svg>
-            <span className="text-2xl sm:text-3xl font-extrabold tracking-widest text-white font-sans">OLTVIA</span>
+            <span className="text-2xl font-black tracking-widest text-[#F2F1ED] font-sans">OLTVIA</span>
           </div>
           
-          <div className="hidden md:flex items-center gap-8 text-base font-semibold text-gray-200 tracking-wide">
-            <a href="#ozellikler" className="hover:text-white transition-colors">Özellikler</a>
-            <a href="#girisler" className="hover:text-white transition-colors">Girişler</a>
-            <a href="#misyonumuz" className="hover:text-white transition-colors">Misyonumuz</a>
-            <a href="#sss" className="hover:text-white transition-colors">S.S.S</a>
-            <a href="#yasal" className="hover:text-white transition-colors">Şartlar & Gizlilik</a>
-            <a href="#iletisim" className="hover:text-white transition-colors">Bize Ulaşın</a>
+          <div className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#9CA3AF] tracking-wide">
+            <a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Özellikler</a>
+            <a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Girişler</a>
+            <a href="#misyonumuz" className="hover:text-[#FF5A4D] transition-colors">Misyonumuz</a>
+            <a href="#sss" className="hover:text-[#FF5A4D] transition-colors">S.S.S</a>
+            <a href="#yasal" className="hover:text-[#FF5A4D] transition-colors">Şartlar & Gizlilik</a>
+            <a href="#iletisim" className="hover:text-[#F2F1ED] transition-colors">Bize Ulaşın</a>
           </div>
           
           <div className="flex items-center gap-5">
-            <div className="hidden lg:block border-l border-white/[0.1] pl-6">
-              <span className="text-sm font-bold tracking-[0.25em] uppercase text-white animate-slogan-flow">
+            <div className="hidden lg:block border-l border-white/[0.05] pl-6">
+              <span className="text-xs font-bold tracking-[0.3em] uppercase bg-gradient-to-r from-[#9CA3AF] via-[#F2F1ED] to-[#9CA3AF] text-transparent bg-clip-text animate-slogan-flow">
                 Beyond What You Know
               </span>
             </div>
             
             <Link 
               href="/giris?rol=ogrenci"
-              className="px-6 py-3 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] border border-white/20 text-sm font-bold uppercase tracking-wider text-white hover:border-[#FF5A4D]/60 transition-all hover:scale-105 shadow-md flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.1] text-xs font-bold uppercase tracking-wider text-white hover:border-[#FF5A4D]/50 transition-all hover:scale-105 shadow-md flex items-center gap-1.5"
             >
               <span>Giriş Yap</span>
-              <ChevronRight className="w-4 h-4 text-[#FF5A4D]" />
+              <ChevronRight className="w-3.5 h-3.5 text-[#FF5A4D]" />
             </Link>
           </div>
         </div>
@@ -86,23 +86,23 @@ export default function OltivaLandingPage() {
       <main className="relative z-10 pt-32 pb-20">
         
         {/* HERO SECTION */}
-        <section className="max-w-7xl mx-auto px-6 pt-32 pb-44 text-center flex flex-col items-center relative min-h-[50vh] justify-center reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section className="max-w-7xl mx-auto px-6 pt-32 pb-48 text-center flex flex-col items-center relative min-h-[50vh] justify-center reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="grid w-full max-w-5xl place-items-center group cursor-default">
             <h1 className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:blur-[24px] group-hover:opacity-0 group-hover:scale-90 text-center z-10 select-none flex flex-col items-center justify-center w-full">
-              <div className="w-full max-w-4xl px-2 py-4 flex items-center justify-center drop-shadow-[0_0_50px_rgba(255,90,95,0.4)]">
+              <div className="w-full max-w-4xl px-2 py-4 flex items-center justify-center drop-shadow-[0_0_50px_rgba(255,90,95,0.35)]">
                 <img 
                   src="/beyond-learning.svg" 
                   alt="Beyond Learning" 
-                  className="w-full h-auto max-h-[160px] object-contain select-none pointer-events-none drop-shadow-[0_0_35px_rgba(139,108,255,0.4)]" 
+                  className="w-full h-auto max-h-[160px] object-contain select-none pointer-events-none drop-shadow-[0_0_35px_rgba(139,108,255,0.3)]" 
                 />
               </div>
-              <span className="block text-sm md:text-base font-bold uppercase tracking-[0.35em] text-white mt-4 drop-shadow-sm">
+              <span className="block font-serif text-xs md:text-sm font-medium uppercase tracking-[0.35em] text-[#9CA3AF] mt-3 opacity-80">
                 BEYOND WHAT YOU KNOW
               </span>
             </h1>
             
-            <p className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-2xl md:text-3xl lg:text-4xl text-white leading-relaxed font-medium z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] tracking-wide">
-              OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında <span className="text-[#FF5A4D] font-bold">adapte olan</span> yenilikçi bir ekosistemdir.
+            <p className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-2xl md:text-3xl lg:text-4xl text-[#F2F1ED] leading-relaxed font-normal z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] font-serif tracking-wide">
+              OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında <span className="text-[#FF5A4D] italic font-semibold">adapte olan</span> yenilikçi bir ekosistemdir.
             </p>
           </div>
         </section>
@@ -116,21 +116,21 @@ export default function OltivaLandingPage() {
               { title: "Veli", role: "veli", icon: Shield, desc: "Gelişim Raporları & Odaklanma" },
               { title: "Okul İdaresi", role: "kurumsal", icon: Building2, desc: "Okul Lisansları & Kota Takibi" }
             ].map((portal, idx) => (
-              <div key={idx} className="group relative rounded-[2rem] p-[1.5px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_12px_35px_rgba(139,92,246,0.3)] bg-white/[0.08] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" style={{ transitionDelay: (idx * 100) + 'ms' }}>
+              <div key={idx} className="group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" style={{ transitionDelay: (idx * 100) + 'ms' }}>
                 <Link 
                   href={'/giris?rol=' + portal.role} 
-                  className="relative w-full h-full flex flex-col items-center justify-center p-10 bg-[#14161A]/95 backdrop-blur-[16px] rounded-[31px] text-center"
+                  className="relative w-full h-full flex flex-col items-center justify-center p-10 bg-[#14161A]/90 backdrop-blur-[16px] rounded-[31px] text-center"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner">
-                    <portal.icon size={38} className="text-white group-hover:text-[#FF5A4D] transition-colors duration-300" strokeWidth={1.75} />
+                  <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner">
+                    <portal.icon size={36} className="text-[#F2F1ED] group-hover:text-[#FF5A4D] transition-colors duration-300" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2.5">{portal.title}</h3>
-                  <p className="text-sm sm:text-base text-gray-200 max-w-[220px] leading-relaxed mb-6 font-medium">
+                  <h3 className="text-xl font-bold text-[#F2F1ED] mb-2">{portal.title}</h3>
+                  <p className="text-xs text-[#9CA3AF] max-w-[200px] leading-relaxed mb-6 opacity-75 group-hover:opacity-100 transition-opacity">
                     {portal.desc}
                   </p>
-                  <div className="flex items-center gap-2 text-sm font-bold text-[#A78BFA] group-hover:text-[#FF7A50] transition-colors">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#8B6CFF] group-hover:text-[#FF5A4D] transition-colors">
                     <span>Portala Gir</span>
-                    <ChevronRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Link>
               </div>
@@ -147,9 +147,9 @@ export default function OltivaLandingPage() {
               <div className="w-16 h-16 rounded-2xl bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 flex items-center justify-center text-[#8B6CFF] mb-6 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
                 <Brain size={32} />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight flex items-center flex-wrap gap-2 text-white">
-                <span className="text-white">Sokratik</span>
-                <span className="text-white flex items-center relative">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight flex items-center flex-wrap gap-2">
+                <span className="text-[#F2F1ED]">Sokratik</span>
+                <span className="text-[#F2F1ED] flex items-center relative">
                   OLTV
                   <span className="inline-flex items-center relative ml-[1px]">
                     <span className="animate-[swap-i_8s_infinite] inline-block relative z-10">İ</span>
@@ -157,7 +157,7 @@ export default function OltivaLandingPage() {
                   </span>
                 </span>
               </h2>
-              <p className="text-gray-100 text-lg md:text-xl leading-relaxed font-normal">
+              <p className="text-[#9CA3AF] text-lg leading-relaxed font-medium">
                 Öğrenciye doğrudan cevabı vermek yerine, onu düşünmeye iten sorular sorar. Yüksek yapay zeka zekasıyla anlama hızına göre benzersiz diyaloglar kurar.
               </p>
             </div>
@@ -178,15 +178,15 @@ export default function OltivaLandingPage() {
                       </svg>
                     </div>
                     <div>
-                      <span className="block text-lg font-bold text-white tracking-wide">Oltvia Zeka</span>
-                      <span className="block text-sm text-[#A78BFA] font-semibold mt-0.5">12. Sınıf İleri Matematik - Limit</span>
+                      <span className="block text-base font-bold text-[#F2F1ED] tracking-wide">Oltvia Zeka</span>
+                      <span className="block text-xs text-[#8B6CFF] font-medium mt-1">12. Sınıf İleri Matematik - Limit</span>
                     </div>
                   </div>
                   
                   <div className="space-y-4 z-10 pt-20">
                     {/* User Message */}
-                    <div className="opacity-0 animate-[chat-loop-1_12s_infinite] bg-white/[0.05] border border-white/[0.1] rounded-3xl rounded-tr-sm p-4 w-[90%] ml-auto backdrop-blur-sm">
-                      <p className="text-base text-white font-medium leading-relaxed">
+                    <div className="opacity-0 animate-[chat-loop-1_12s_infinite] bg-white/[0.03] border border-white/[0.05] rounded-3xl rounded-tr-sm p-4 w-[90%] ml-auto backdrop-blur-sm">
+                      <p className="text-sm text-[#F2F1ED] font-medium leading-relaxed">
                         Hocam, L'Hopital kuralını kullanmadan sin(x)/x'in 0'daki limitinin 1 olduğunu geometrik olarak nasıl ispatlarız?
                       </p>
                     </div>
@@ -200,8 +200,8 @@ export default function OltivaLandingPage() {
                       </div>
 
                       {/* AI Response */}
-                      <div className="opacity-0 animate-[chat-loop-2_12s_infinite] bg-[#8B6CFF]/15 border border-[#8B6CFF]/30 rounded-3xl rounded-tl-sm p-4 w-[95%] backdrop-blur-sm shadow-[0_0_20px_rgba(139,92,246,0.15)]">
-                        <p className="text-base text-purple-100 font-medium leading-relaxed">
+                      <div className="opacity-0 animate-[chat-loop-2_12s_infinite] bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 rounded-3xl rounded-tl-sm p-4 w-[95%] backdrop-blur-sm shadow-[0_0_15px_rgba(139,92,246,0.1)]">
+                        <p className="text-sm text-[#E9D5FF] font-medium leading-relaxed">
                           Harika bir soru! L'Hopital bazen ezbere kaçabilir. Birim çember üzerinde çok küçük bir <span className="font-bold text-white">x açısı</span> çizdiğini hayal et. Sence bu açının gördüğü <span className="italic text-white">yay uzunluğu (x)</span> ile üçgenin yüksekliği <span className="italic text-white">(sin x)</span> birbirine nasıl yaklaşır?
                         </p>
                       </div>
@@ -219,10 +219,10 @@ export default function OltivaLandingPage() {
               <div className="w-16 h-16 rounded-2xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center text-[#FF5A4D] mb-6 shadow-[0_0_20px_rgba(255,90,95,0.2)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED]">
                 Sıfır Sapma ile <span className="text-[#FF5A4D]">Hedef Rotası</span>
               </h2>
-              <p className="text-gray-100 text-lg md:text-xl leading-relaxed font-normal">
+              <p className="text-[#9CA3AF] text-lg leading-relaxed font-medium">
                 Öğrencinin mevcut TYT-AYT netleri ile hayalindeki üniversitenin gerektirdiği net eğrisi arasındaki farkı milimetrik olarak analiz eder. Sistemin tek bir amacı vardır: Eksikleri anında tespit ederek bu iki eğriyi kusursuzca birleştirmek.
               </p>
             </div>
@@ -326,22 +326,22 @@ export default function OltivaLandingPage() {
           {/* Feature 3: OLTVIA Nedir? */}
           <div className="flex flex-col lg:flex-row items-center gap-20 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
             <div className="flex-1 space-y-8">
-              <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white mb-6 shadow-[0_0_20px_rgba(255,255,255,0.15)]">
-                <Target size={34} />
+              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                <Target size={32} />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED]">
                 OLTVIA <span className="text-[#8B6CFF]">Nedir?</span>
               </h2>
-              <p className="text-gray-100 text-lg md:text-xl leading-relaxed font-normal">
+              <p className="text-[#9CA3AF] text-lg leading-relaxed font-medium">
                 OLTVIA, sınırları reddeden öğrencilerin yeni nesil eğitim ekosistemidir. Klasik ve sıkıcı müfredatların ötesine geçerek, başarıyı asla şansa bırakmaz. <span className="text-white font-bold">Disiplin, özveri ve yapay zeka</span> gücünü bir araya getirerek öğrenciyi tam 12'den vurması gereken hedeflere odaklar.
               </p>
             </div>
             
             <div className="flex-1 w-full">
-              <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.08] to-transparent p-[1.5px]">
-                <div className="absolute inset-0 bg-[#FF5A4D]/15 blur-[80px] -z-10 rounded-full" />
+              <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
+                <div className="absolute inset-0 bg-[#FF5A4D]/10 blur-[80px] -z-10 rounded-full" />
                 
-                <div className="rounded-[23px] bg-[#14161A]/95 backdrop-blur-xl h-[420px] relative overflow-hidden border border-white/[0.1] shadow-2xl group cursor-crosshair">
+                <div className="rounded-[23px] bg-[#14161A]/90 backdrop-blur-xl h-[420px] relative overflow-hidden border border-white/[0.05] shadow-2xl group cursor-crosshair">
                   
                   {/* Background Grid Lines */}
                   <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center z-0">
@@ -351,7 +351,7 @@ export default function OltivaLandingPage() {
 
                   {/* Overlay Text */}
                   <div className="absolute top-6 left-6 z-50 transition-opacity duration-500 group-hover:opacity-0">
-                     <span className="text-xs font-bold bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                     <span className="text-xs font-bold bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-[#9CA3AF]">
                        Hedefleri vurmak için üzerine gel
                      </span>
                   </div>
@@ -384,10 +384,10 @@ export default function OltivaLandingPage() {
 
                       {/* The Dartboard Rings */}
                       <div className="relative flex items-center justify-center scale-90 md:scale-100 z-10">
-                        <div className="w-80 h-80 rounded-full border border-white/10 flex items-center justify-center">
-                          <div className="w-60 h-60 rounded-full border border-white/20 flex items-center justify-center">
-                            <div className="w-40 h-40 rounded-full border border-[#8B6CFF]/40 bg-[#8B6CFF]/10 flex items-center justify-center shadow-[0_0_30px_rgba(139,92,246,0.15)]">
-                              <div className="w-20 h-20 rounded-full border border-[#FF5A4D]/60 bg-[#FF5A4D]/15 flex items-center justify-center">
+                        <div className="w-80 h-80 rounded-full border border-white/5 flex items-center justify-center">
+                          <div className="w-60 h-60 rounded-full border border-white/10 flex items-center justify-center">
+                            <div className="w-40 h-40 rounded-full border border-[#8B6CFF]/30 bg-[#8B6CFF]/5 flex items-center justify-center shadow-[0_0_30px_rgba(139,92,246,0.1)]">
+                              <div className="w-20 h-20 rounded-full border border-[#FF5A4D]/50 bg-[#FF5A4D]/10 flex items-center justify-center">
                                 {/* Bullseye */}
                                 <div className="w-8 h-8 rounded-full bg-[#FF5A4D] shadow-[0_0_20px_#FF5A4D] animate-pulse"></div>
                               </div>
@@ -403,7 +403,7 @@ export default function OltivaLandingPage() {
                         <div className="flex items-center -translate-y-1/2 drop-shadow-[0_0_10px_rgba(139,92,246,0.5)]">
                           <div className="w-0 h-0 border-y-[4px] border-y-transparent border-r-[12px] border-r-white"></div>
                           <div className="w-16 h-1 bg-gradient-to-l from-transparent to-white"></div>
-                          <div className="bg-[#8B6CFF] px-2 py-0.5 rounded-sm text-[11px] font-black text-white tracking-widest">DİSİPLİN</div>
+                          <div className="bg-[#8B6CFF] px-2 py-0.5 rounded-sm text-[10px] font-black text-white tracking-widest">DİSİPLİN</div>
                         </div>
                       </div>
 
@@ -412,7 +412,7 @@ export default function OltivaLandingPage() {
                         <div className="flex items-center -translate-y-1/2 drop-shadow-[0_0_10px_rgba(14,165,233,0.5)]">
                           <div className="w-0 h-0 border-y-[4px] border-y-transparent border-r-[12px] border-r-white"></div>
                           <div className="w-12 h-1 bg-gradient-to-l from-transparent to-white"></div>
-                          <div className="bg-[#0EA5E9] px-2 py-0.5 rounded-sm text-[11px] font-black text-white tracking-widest">ÖZVERİ</div>
+                          <div className="bg-[#0EA5E9] px-2 py-0.5 rounded-sm text-[10px] font-black text-white tracking-widest">ÖZVERİ</div>
                         </div>
                       </div>
 
@@ -422,7 +422,7 @@ export default function OltivaLandingPage() {
                           {/* BAŞARI DART */}
                           <div className="w-0 h-0 border-y-[6px] border-y-transparent border-r-[20px] border-r-[#FF5A4D]"></div>
                           <div className="w-24 h-1.5 bg-gradient-to-l from-transparent to-[#FF5A4D]"></div>
-                          <div className="bg-[#FF5A4D] px-4 py-1.5 rounded-sm text-[13px] font-black text-white tracking-widest shadow-[0_0_20px_#FF5A4D]">BAŞARI</div>
+                          <div className="bg-[#FF5A4D] px-4 py-1.5 rounded-sm text-[12px] font-black text-white tracking-widest shadow-[0_0_20px_#FF5A4D]">BAŞARI</div>
                         </div>
                       </div>
 
@@ -442,40 +442,40 @@ export default function OltivaLandingPage() {
             
             {/* Left: Streak Animation */}
             <div className="col-span-1">
-              <div className="bg-[#14161A]/95 border border-white/[0.08] rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair">
+              <div className="bg-[#14161A]/90 border border-white/[0.05] rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#FF5A4D]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                 
-                <div className="text-white text-xs font-bold uppercase tracking-[0.3em] mb-10 z-10">Günlük Seri</div>
+                <div className="text-[#9CA3AF] text-xs font-bold uppercase tracking-[0.3em] mb-10 z-10">Günlük Seri</div>
                 
                 <div className="flex items-center gap-2 md:gap-3 z-10">
                   {["Pzt", "Sal", "Çar", "Per"].map((d, i) => (
                     <div key={i} className="flex flex-col items-center gap-3">
-                       <Flame size={26} className="text-[#FF5A4D] drop-shadow-[0_0_8px_rgba(255,90,95,0.8)]" />
-                       <span className="text-xs text-white/70 font-bold uppercase">{d}</span>
+                       <Flame size={24} className="text-[#FF5A4D] drop-shadow-[0_0_8px_rgba(255,90,95,0.8)]" />
+                       <span className="text-[10px] text-white/50 font-bold uppercase">{d}</span>
                     </div>
                   ))}
                   
                   {/* Today (Animates on hover) */}
                   <div className="flex flex-col items-center gap-3 relative">
                      <div className="absolute inset-0 bg-[#FF5A4D] blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-1000 delay-300 rounded-full scale-150"></div>
-                     <Flame size={30} className="text-white/20 group-hover:text-[#FF5A4D] group-hover:drop-shadow-[0_0_15px_rgba(255,90,95,1)] transition-colors duration-1000 delay-300 relative z-10 group-hover:scale-110" />
-                     <span className="text-xs text-white/70 font-black group-hover:text-white transition-colors duration-1000 delay-300 uppercase">Cum</span>
+                     <Flame size={28} className="text-white/10 group-hover:text-[#FF5A4D] group-hover:drop-shadow-[0_0_15px_rgba(255,90,95,1)] transition-colors duration-1000 delay-300 relative z-10 group-hover:scale-110" />
+                     <span className="text-[10px] text-white/50 font-black group-hover:text-white transition-colors duration-1000 delay-300 uppercase">Cum</span>
                   </div>
                   
                   {["Cmt", "Paz"].map((d, i) => (
                     <div key={i} className="flex flex-col items-center gap-3">
-                       <Flame size={26} className="text-white/20" />
-                       <span className="text-xs text-white/40 font-bold uppercase">{d}</span>
+                       <Flame size={24} className="text-white/10" />
+                       <span className="text-[10px] text-white/20 font-bold uppercase">{d}</span>
                     </div>
                   ))}
                 </div>
                 
                 <div className="mt-12 text-center z-10">
-                  <div className="text-[6.5rem] font-black leading-none relative flex justify-center items-center h-[105px] overflow-hidden">
-                    <span className="absolute text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 group-hover:-translate-y-full group-hover:opacity-0 transition-all duration-[800ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]">12</span>
+                  <div className="text-[6rem] font-black leading-none relative flex justify-center items-center h-[100px] overflow-hidden">
+                    <span className="absolute text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 group-hover:-translate-y-full group-hover:opacity-0 transition-all duration-[800ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]">12</span>
                     <span className="absolute translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-[800ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] text-[#FF5A4D] drop-shadow-[0_0_30px_rgba(255,90,95,0.4)]">13</span>
                   </div>
-                  <div className="text-[#FF5A4D] font-bold tracking-widest mt-4 uppercase text-sm animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-[1200ms]">Gündür İlerliyorsun</div>
+                  <div className="text-[#FF5A4D] font-bold tracking-widest mt-4 uppercase text-xs animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-[1200ms]">Gündür İlerliyorsun</div>
                 </div>
               </div>
             </div>
@@ -483,56 +483,56 @@ export default function OltivaLandingPage() {
             {/* Center: Text Content */}
             <div className="col-span-1 flex flex-col justify-center text-center px-4">
               <div className="w-16 h-16 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center text-[#F59E0B] mx-auto mb-6 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
-                <Gamepad2 size={34} />
+                <Gamepad2 size={32} />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-6">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-6">
                 Oyunlaştırılmış <span className="text-[#F59E0B]">Eğitim</span>
               </h2>
-              <p className="text-gray-100 text-lg md:text-xl leading-relaxed font-normal">
+              <p className="text-[#9CA3AF] text-lg leading-relaxed font-medium">
                 Öğrenmeyi sıkıcı bir zorunluluk olmaktan çıkarıp, bağımlılık yapan bir serüvene dönüştürüyoruz. Kesintisiz çalışma serilerini <span className="text-[#FF5A4D] font-bold">(Streak)</span> koruyarak motivasyonunu zirvede tut ve kendi sınıfının liderlik tablosunda kıyasıya bir rekabete katıl!
               </p>
             </div>
 
             {/* Right: Leaderboard Animation */}
             <div className="col-span-1">
-              <div className="bg-[#14161A]/95 border border-white/[0.08] rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair">
+              <div className="bg-[#14161A]/90 border border-white/[0.05] rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F59E0B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
-                <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4 z-10">
-                  <span className="text-white text-sm font-bold tracking-[0.2em] uppercase">10/A SINIFI LİDERLERİ</span>
+                <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4 z-10">
+                  <span className="text-white text-xs font-bold tracking-[0.2em] uppercase">10/A SINIFI LİDERLERİ</span>
                   <Trophy className="text-[#F59E0B] w-5 h-5 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
                 </div>
 
                 <div className="relative h-56 w-full z-10">
                    {/* Row 1 (Drops to 2) */}
-                   <div className="absolute top-0 w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[4.5rem]">
+                   <div className="absolute top-0 w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[4.5rem]">
                      <div className="flex items-center gap-4">
-                        <span className="font-bold text-gray-200 w-4 text-center">1</span>
+                        <span className="font-bold text-[#9CA3AF] w-4 text-center">1</span>
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">DK</div>
-                        <span className="font-semibold text-white text-base">Deniz K.</span>
+                        <span className="font-semibold text-white text-sm">Deniz K.</span>
                      </div>
                      <span className="text-[#8B6CFF] font-bold text-sm">1450 XP</span>
                    </div>
 
                    {/* Row 2 (Drops to 3) */}
-                   <div className="absolute top-[4.5rem] w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[9rem]">
+                   <div className="absolute top-[4.5rem] w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[9rem]">
                      <div className="flex items-center gap-4">
-                        <span className="font-bold text-gray-200 w-4 text-center">2</span>
+                        <span className="font-bold text-[#9CA3AF] w-4 text-center">2</span>
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-cyan-500 flex items-center justify-center text-xs font-bold text-white">AM</div>
-                        <span className="font-semibold text-white text-base">Ayşe M.</span>
+                        <span className="font-semibold text-white text-sm">Ayşe M.</span>
                      </div>
                      <span className="text-[#8B6CFF] font-bold text-sm">1320 XP</span>
                    </div>
 
                    {/* Row 3 (User) -> Rises to 1 */}
-                   <div className="absolute top-[9rem] w-full flex items-center justify-between p-4 rounded-xl bg-[#FF5A4D]/15 border border-[#FF5A4D]/40 transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-0 group-hover:bg-[#F59E0B]/25 group-hover:border-[#F59E0B]/60 shadow-[0_0_15px_rgba(255,90,95,0.2)] group-hover:shadow-[0_0_30px_rgba(245,158,11,0.5)]">
+                   <div className="absolute top-[9rem] w-full flex items-center justify-between p-4 rounded-xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/30 transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-0 group-hover:bg-[#F59E0B]/20 group-hover:border-[#F59E0B]/50 shadow-[0_0_15px_rgba(255,90,95,0.1)] group-hover:shadow-[0_0_30px_rgba(245,158,11,0.4)]">
                      <div className="flex items-center gap-4">
                         <span className="font-bold text-[#FF5A4D] group-hover:text-[#F59E0B] transition-colors duration-[1000ms] delay-[800ms] w-4 text-center">
                           <span className="group-hover:opacity-0 absolute transition-opacity duration-500">3</span>
                           <span className="opacity-0 group-hover:opacity-100 absolute transition-opacity duration-500 delay-[1200ms]">1</span>
                         </span>
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF5A4D] to-[#F59E0B] flex items-center justify-center text-xs font-bold text-white shadow-inner border border-white/20">SEN</div>
-                        <span className="font-bold text-white text-base">Sen</span>
+                        <span className="font-bold text-white text-sm">Sen</span>
                      </div>
                      <div className="relative flex items-center justify-end w-20">
                         <span className="text-[#FF5A4D] font-bold text-sm absolute group-hover:opacity-0 transition-opacity duration-300">1280 XP</span>
@@ -547,62 +547,61 @@ export default function OltivaLandingPage() {
           </div>
 
         </section>
-
-        {/* 1. MISYONUMUZ SECTION */}
+              {/* 1. MISYONUMUZ SECTION */}
         <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-          <div className="relative rounded-3xl bg-gradient-to-b from-[#14161A] via-white/[0.04] to-[#14161A] border border-white/[0.1] p-8 md:p-16 overflow-hidden shadow-2xl">
+          <div className="relative rounded-3xl bg-gradient-to-b from-[#14161A] via-white/[0.02] to-[#14161A] border border-white/[0.08] p-8 md:p-16 overflow-hidden shadow-2xl">
             <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF5A4D]/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="text-center max-w-3xl mx-auto mb-16 relative z-10">
-              <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-white/[0.08] border border-white/[0.15] text-[#A78BFA] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-6">
-                <Sparkles className="w-4 h-4 text-[#FF5A4D]" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-6">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5A4D]" />
                 Misyonumuz & Vizyonumuz
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight mb-6">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] leading-tight mb-6">
                 Sınırların Ötesinde Bir <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent">Eğitim Devrimi</span>
               </h2>
-              <p className="text-gray-100 text-lg md:text-xl leading-relaxed font-normal">
+              <p className="text-[#9CA3AF] text-lg md:text-xl leading-relaxed font-normal">
                 Ezbere dayalı, tek tip ve pasif eğitim modellerini tarihe gömüyoruz. OLTVIA; yapay zekanın hesaplama gücünü insan odaklı pedagoji ve Sokratik sorgulama ile harmanlayarak her öğrencinin benzersiz zihinsel potansiyelini gerçeğe dönüştürür.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 mb-12">
-              <div className="p-8 rounded-2xl bg-white/[0.04] border border-white/[0.1] hover:border-[#FF5A4D]/50 transition-all duration-500 hover:-translate-y-2 group">
-                <div className="w-14 h-14 rounded-xl bg-[#FF5A4D]/15 border border-[#FF5A4D]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-[#FF5A4D]/40 transition-all duration-500 hover:-translate-y-2 group">
+                <div className="w-14 h-14 rounded-xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Brain className="w-7 h-7 text-[#FF5A4D]" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3">Sokratik Bilişsel Mentörlük</h3>
-                <p className="text-gray-200 text-base leading-relaxed font-normal">
+                <h3 className="text-xl font-bold text-[#F2F1ED] mb-3">Sokratik Bilişsel Mentörlük</h3>
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
                   Cevapları hazır sunmak yerine, zihni açan doğru sorular ve analojilerle öğrencinin mantık yürütmesini sağlarız. Ezber değil, kalıcı ve derin kavrayış inşa ederiz.
                 </p>
               </div>
 
-              <div className="p-8 rounded-2xl bg-white/[0.04] border border-white/[0.1] hover:border-[#8B6CFF]/50 transition-all duration-500 hover:-translate-y-2 group">
-                <div className="w-14 h-14 rounded-xl bg-[#8B6CFF]/15 border border-[#8B6CFF]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-[#8B6CFF]/40 transition-all duration-500 hover:-translate-y-2 group">
+                <div className="w-14 h-14 rounded-xl bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Target className="w-7 h-7 text-[#8B6CFF]" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3">Sıfır Sapma ile Hedef Rotası</h3>
-                <p className="text-gray-200 text-base leading-relaxed font-normal">
+                <h3 className="text-xl font-bold text-[#F2F1ED] mb-3">Sıfır Sapma ile Hedef Rotası</h3>
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
                   Her deneme ve soruyu analiz eden algoritmamız, öğrencinin bilişsel zayıf noktalarını milimetrik hassasiyetle tespit ederek hedefe giden en optimize rotayı çizer.
                 </p>
               </div>
 
-              <div className="p-8 rounded-2xl bg-white/[0.04] border border-white/[0.1] hover:border-white/40 transition-all duration-500 hover:-translate-y-2 group">
-                <div className="w-14 h-14 rounded-xl bg-white/[0.08] border border-white/[0.15] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/30 transition-all duration-500 hover:-translate-y-2 group">
+                <div className="w-14 h-14 rounded-xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Flame className="w-7 h-7 text-[#F59E0B]" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3">Bütünleşik & Canlı Ekosistem</h3>
-                <p className="text-gray-200 text-base leading-relaxed font-normal">
+                <h3 className="text-xl font-bold text-[#F2F1ED] mb-3">Bütünleşik & Canlı Ekosistem</h3>
+                <p className="text-[#9CA3AF] text-sm leading-relaxed">
                   Öğrenci, öğretmen, veli ve okulu tek bir şeffaf veri ağında birleştirir; streak ve seviye sistemleriyle çalışma disiplinini bağımlılık yaratan bir tutkuya dönüştürürüz.
                 </p>
               </div>
             </div>
 
             {/* Manifesto Callout Box */}
-            <div className="p-8 rounded-2xl bg-gradient-to-r from-[#FF5A4D]/15 via-[#8B6CFF]/15 to-transparent border border-white/[0.15] text-center max-w-4xl mx-auto">
-              <h4 className="text-xl font-bold text-white mb-3">Eğitim Manifestomuz</h4>
-              <p className="text-base sm:text-lg text-gray-100 leading-relaxed font-medium italic">
+            <div className="p-8 rounded-2xl bg-gradient-to-r from-[#FF5A4D]/10 via-[#8B6CFF]/10 to-transparent border border-white/[0.1] text-center max-w-4xl mx-auto">
+              <h4 className="text-lg font-bold text-white mb-2">Eğitim Manifestomuz</h4>
+              <p className="text-sm text-[#9CA3AF] leading-relaxed">
                 "Hiçbir öğrenci yeteneksiz değildir; yalnızca kendi hızına ve zihinsel ritmine uygun bir yol göstericiye ihtiyaç duyar. OLTVIA, öğrencinin hızına adapte olarak imkansız sanılan hedefleri tam 12'den vurması için tasarlandı."
               </p>
             </div>
@@ -612,14 +611,14 @@ export default function OltivaLandingPage() {
         {/* 2. S.S.S (FAQ) SECTION */}
         <section id="sss" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-white/[0.08] border border-white/[0.15] text-[#A78BFA] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-4">
-              <HelpCircle className="w-4 h-4 text-[#A78BFA]" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+              <HelpCircle className="w-3.5 h-3.5 text-[#8B6CFF]" />
               Sıkça Sorulan Sorular
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-4">
               Aklınıza Takılan Her Şey
             </h2>
-            <p className="text-gray-100 text-lg md:text-xl font-normal">
+            <p className="text-[#9CA3AF] text-base md:text-lg">
               OLTVIA'nın yapay zeka dinamikleri, çalışma yöntemleri ve güvenliği hakkında merak edilenler.
             </p>
           </div>
@@ -653,20 +652,20 @@ export default function OltivaLandingPage() {
             ].map((faq, idx) => (
               <div 
                 key={idx}
-                className="rounded-2xl bg-white/[0.04] border border-white/[0.1] overflow-hidden transition-all duration-300 hover:border-white/30"
+                className="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden transition-all duration-300 hover:border-white/20"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full px-7 py-6 flex items-center justify-between text-left gap-4"
+                  className="w-full px-6 py-5 flex items-center justify-between text-left gap-4"
                 >
-                  <span className="text-lg md:text-xl font-bold text-white flex items-center gap-3.5">
-                    <span className="text-xs sm:text-sm font-mono text-[#A78BFA] px-2.5 py-1 rounded bg-[#8B6CFF]/20 font-bold">0{idx + 1}</span>
+                  <span className="text-base md:text-lg font-bold text-[#F2F1ED] flex items-center gap-3">
+                    <span className="text-xs font-mono text-[#8B6CFF] px-2 py-1 rounded bg-[#8B6CFF]/10">0{idx + 1}</span>
                     {faq.q}
                   </span>
-                  <ChevronDown className={`w-6 h-6 text-gray-300 transition-transform duration-300 flex-shrink-0 ${openFaq === idx ? 'rotate-180 text-[#FF5A4D]' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-[#9CA3AF] transition-transform duration-300 flex-shrink-0 ${openFaq === idx ? 'rotate-180 text-[#FF5A4D]' : ''}`} />
                 </button>
                 {openFaq === idx && (
-                  <div className="px-7 pb-6 pt-2 text-gray-100 text-base md:text-lg leading-relaxed border-t border-white/[0.08] font-normal">
+                  <div className="px-6 pb-6 pt-2 text-[#9CA3AF] text-sm md:text-base leading-relaxed border-t border-white/[0.04]">
                     {faq.a}
                   </div>
                 )}
@@ -678,47 +677,47 @@ export default function OltivaLandingPage() {
         {/* 3. YASAL VE GUVENLIK ILKELERI (SARTLAR, KOSULLAR, GIZLILIK) */}
         <section id="yasal" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-white/[0.08] border border-white/[0.15] text-[#10B981] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-4">
-              <Shield className="w-4 h-4 text-[#10B981]" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#10B981] text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+              <Shield className="w-3.5 h-3.5 text-[#10B981]" />
               Yasal & Güvenlik Esasları
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-4">
               Şartlar, Koşullar ve Gizlilik
             </h2>
-            <p className="text-gray-100 text-lg md:text-xl max-w-2xl mx-auto font-normal">
+            <p className="text-[#9CA3AF] text-base md:text-lg max-w-2xl mx-auto">
               Şeffaflık, güvenilirlik ve veri koruma standartlarımız; tüm platform kullanımınızı yasal güvence altına alır.
             </p>
           </div>
 
-          <div className="rounded-3xl bg-white/[0.04] border border-white/[0.1] overflow-hidden shadow-2xl backdrop-blur-xl">
+          <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] overflow-hidden shadow-2xl backdrop-blur-xl">
             {/* Interactive Tab Switcher */}
-            <div className="flex border-b border-white/[0.1] bg-black/40 overflow-x-auto">
+            <div className="flex border-b border-white/[0.08] bg-black/30 overflow-x-auto">
               <button
                 onClick={() => setLegalTab('terms')}
-                className={`py-4 px-7 text-sm sm:text-base font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2.5 ${
+                className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
                   legalTab === 'terms' 
-                    ? 'border-[#FF5A4D] text-[#FF5A4D] bg-white/[0.06]' 
-                    : 'border-transparent text-gray-300 hover:text-white'
+                    ? 'border-[#FF5A4D] text-[#FF5A4D] bg-white/[0.03]' 
+                    : 'border-transparent text-[#9CA3AF] hover:text-white'
                 }`}
               >
                 <FileText className="w-4 h-4" /> Kullanım Şartları
               </button>
               <button
                 onClick={() => setLegalTab('conditions')}
-                className={`py-4 px-7 text-sm sm:text-base font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2.5 ${
+                className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
                   legalTab === 'conditions' 
-                    ? 'border-[#8B6CFF] text-[#A78BFA] bg-white/[0.06]' 
-                    : 'border-transparent text-gray-300 hover:text-white'
+                    ? 'border-[#8B6CFF] text-[#8B6CFF] bg-white/[0.03]' 
+                    : 'border-transparent text-[#9CA3AF] hover:text-white'
                 }`}
               >
                 <Check className="w-4 h-4" /> Şartlar ve Koşullar
               </button>
               <button
                 onClick={() => setLegalTab('privacy')}
-                className={`py-4 px-7 text-sm sm:text-base font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2.5 ${
+                className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
                   legalTab === 'privacy' 
-                    ? 'border-[#0EA5E9] text-[#38BDF8] bg-white/[0.06]' 
-                    : 'border-transparent text-gray-300 hover:text-white'
+                    ? 'border-[#0EA5E9] text-[#0EA5E9] bg-white/[0.03]' 
+                    : 'border-transparent text-[#9CA3AF] hover:text-white'
                 }`}
               >
                 <Lock className="w-4 h-4" /> Gizlilik & KVKK
@@ -726,16 +725,16 @@ export default function OltivaLandingPage() {
             </div>
 
             {/* Active Tab Content Area */}
-            <div className="p-8 md:p-12 text-gray-100 text-base md:text-lg leading-relaxed space-y-6">
+            <div className="p-8 md:p-12 text-[#9CA3AF] text-sm md:text-base leading-relaxed space-y-6">
               
               {legalTab === 'terms' && (
                 <div className="space-y-6 animate-fade-in">
-                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.1]">
+                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold text-white">Kullanım Şartları Sözleşmesi</h3>
-                      <p className="text-xs sm:text-sm text-gray-300 mt-1">Son Güncelleme: 13 Ekim 2026 • Versiyon 2.4</p>
+                      <p className="text-xs text-[#9CA3AF] mt-1">Son Güncelleme: 13 Ekim 2026 • Versiyon 2.4</p>
                     </div>
-                    <span className="text-xs font-mono text-[#FF5A4D] px-3 py-1 rounded bg-[#FF5A4D]/20 font-bold">RESMİ SÖZLEŞME</span>
+                    <span className="text-xs font-mono text-[#FF5A4D] px-3 py-1 rounded bg-[#FF5A4D]/10">RESMİ SÖZLEŞME</span>
                   </div>
 
                   <div className="space-y-5">
@@ -867,47 +866,47 @@ export default function OltivaLandingPage() {
             {/* Left Info Column */}
             <div className="lg:col-span-5 space-y-8">
               <div>
-                <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-white/[0.08] border border-white/[0.15] text-[#FF5A4D] text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-4">
-                  <Send className="w-4 h-4 text-[#FF5A4D]" />
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[#FF5A4D] text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+                  <Send className="w-3.5 h-3.5 text-[#FF5A4D]" />
                   Bize Ulaşın
                 </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#F2F1ED] mb-4">
                   Yeni Nesil Eğitim Serüvenine <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent">Birlikte Başlayalım</span>
                 </h2>
-                <p className="text-gray-100 text-lg md:text-xl leading-relaxed font-normal">
+                <p className="text-[#9CA3AF] text-base leading-relaxed">
                   İster bireysel öğrenci üyeliği, ister okulunuz veya kurs merkeziniz için kurumsal entegrasyon; uzman ekibimiz tüm sorularınızı yanıtlamaya hazır.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-start gap-4 p-6 rounded-2xl bg-white/[0.04] border border-white/[0.1]">
-                  <div className="p-3.5 rounded-xl bg-[#8B6CFF]/15 text-[#8B6CFF]">
-                    <MapPin className="w-6 h-6" />
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="p-3 rounded-xl bg-[#8B6CFF]/10 text-[#8B6CFF]">
+                    <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-white mb-1">Genel Merkez</h4>
-                    <p className="text-sm text-gray-200 leading-relaxed font-medium">Büyükdere Caddesi No: 195, Kanyon Ofis Kuleleri, Levent / İstanbul</p>
+                    <h4 className="text-sm font-bold text-[#F2F1ED] mb-1">Genel Merkez</h4>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">Büyükdere Caddesi No: 195, Kanyon Ofis Kuleleri, Levent / İstanbul</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 rounded-2xl bg-white/[0.04] border border-white/[0.1]">
-                  <div className="p-3.5 rounded-xl bg-[#FF5A4D]/15 text-[#FF5A4D]">
-                    <Mail className="w-6 h-6" />
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="p-3 rounded-xl bg-[#FF5A4D]/10 text-[#FF5A4D]">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-white mb-1">E-Posta İletişim</h4>
-                    <p className="text-sm text-gray-200 font-medium">Destek: <span className="text-white font-semibold">destek@oltvia.com</span></p>
-                    <p className="text-sm text-gray-200 font-medium">Kurumsal Demo: <span className="text-white font-semibold">kurumsal@oltvia.com</span></p>
+                    <h4 className="text-sm font-bold text-[#F2F1ED] mb-1">E-Posta İletişim</h4>
+                    <p className="text-xs text-[#9CA3AF]">Destek: <span className="text-white">destek@oltvia.com</span></p>
+                    <p className="text-xs text-[#9CA3AF]">Kurumsal Demo: <span className="text-white">kurumsal@oltvia.com</span></p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-6 rounded-2xl bg-white/[0.04] border border-white/[0.1]">
-                  <div className="p-3.5 rounded-xl bg-[#0EA5E9]/15 text-[#0EA5E9]">
-                    <Phone className="w-6 h-6" />
+                <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="p-3 rounded-xl bg-[#0EA5E9]/10 text-[#0EA5E9]">
+                    <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-white mb-1">Danışma & Destek Hattı</h4>
-                    <p className="text-sm text-gray-200 font-medium">+90 (212) 800 12 12 • Hafta içi 09:00 - 18:30</p>
+                    <h4 className="text-sm font-bold text-[#F2F1ED] mb-1">Danışma & Destek Hattı</h4>
+                    <p className="text-xs text-[#9CA3AF]">+90 (212) 800 12 12 • Hafta içi 09:00 - 18:30</p>
                   </div>
                 </div>
               </div>
@@ -915,14 +914,14 @@ export default function OltivaLandingPage() {
 
             {/* Right Contact Form Column */}
             <div className="lg:col-span-7">
-              <div className="p-8 md:p-12 rounded-3xl bg-white/[0.04] border border-white/[0.1] backdrop-blur-xl relative shadow-2xl">
+              <div className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl relative shadow-2xl">
                 {contactSubmitted ? (
                   <div className="text-center py-12 space-y-4">
-                    <div className="w-16 h-16 rounded-full bg-[#10B981]/15 border border-[#10B981]/40 text-[#10B981] flex items-center justify-center mx-auto">
+                    <div className="w-16 h-16 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 text-[#10B981] flex items-center justify-center mx-auto">
                       <Check className="w-8 h-8" />
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white">Mesajınız Başarıyla İletildi!</h3>
-                    <p className="text-base text-gray-200 max-w-md mx-auto leading-relaxed">
+                    <h3 className="text-2xl font-bold text-[#F2F1ED]">Mesajınız Başarıyla İletildi!</h3>
+                    <p className="text-sm text-[#9CA3AF] max-w-md mx-auto">
                       Talebiniz eğitim ve teknik danışmanlarımıza ulaştı. En geç 2 iş saati içinde e-posta adresiniz üzerinden geri dönüş yapacağız.
                     </p>
                     <button
@@ -930,7 +929,7 @@ export default function OltivaLandingPage() {
                         setContactSubmitted(false);
                         setContactForm({ name: '', email: '', role: 'Öğrenci', message: '' });
                       }}
-                      className="mt-6 px-7 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-sm font-bold uppercase tracking-widest text-white transition-colors"
+                      className="mt-6 px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold uppercase tracking-widest text-white transition-colors"
                     >
                       Yeni Mesaj Gönder
                     </button>
@@ -945,41 +944,41 @@ export default function OltivaLandingPage() {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-bold text-gray-200 uppercase tracking-wider mb-2.5">Ad Soyad</label>
+                        <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">Ad Soyad</label>
                         <input
                           type="text"
                           required
                           value={contactForm.name}
                           onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                           placeholder="Örn: Deniz Kaya"
-                          className="w-full px-5 py-4 rounded-xl bg-white/[0.05] border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-[#FF5A4D] transition-colors text-base font-medium"
+                          className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.1] text-white placeholder-white/20 focus:outline-none focus:border-[#FF5A4D] transition-colors text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-gray-200 uppercase tracking-wider mb-2.5">E-Posta Adresi</label>
+                        <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">E-Posta Adresi</label>
                         <input
                           type="email"
                           required
                           value={contactForm.email}
                           onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                           placeholder="deniz@example.com"
-                          className="w-full px-5 py-4 rounded-xl bg-white/[0.05] border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-[#FF5A4D] transition-colors text-base font-medium"
+                          className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/[0.1] text-white placeholder-white/20 focus:outline-none focus:border-[#FF5A4D] transition-colors text-sm"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-gray-200 uppercase tracking-wider mb-2.5">Rolünüz / Profiliniz</label>
+                      <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">Rolünüz / Profiliniz</label>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {['Öğrenci', 'Öğretmen', 'Veli', 'Kurumsal'].map((r) => (
                           <button
                             type="button"
                             key={r}
                             onClick={() => setContactForm({ ...contactForm, role: r })}
-                            className={`py-3 px-4 rounded-xl text-sm font-bold transition-all border ${
+                            className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all border ${
                               contactForm.role === r 
                                 ? 'bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] text-white border-transparent shadow-lg' 
-                                : 'bg-white/[0.04] text-gray-200 border-white/10 hover:border-white/30'
+                                : 'bg-white/[0.02] text-[#9CA3AF] border-white/[0.08] hover:border-white/20'
                             }`}
                           >
                             {r}
@@ -989,20 +988,20 @@ export default function OltivaLandingPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-gray-200 uppercase tracking-wider mb-2.5">Mesajınız / Talep Detayı</label>
+                      <label className="block text-xs font-bold text-[#9CA3AF] uppercase tracking-wider mb-2">Mesajınız / Talep Detayı</label>
                       <textarea
                         required
                         rows={4}
                         value={contactForm.message}
                         onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                         placeholder="Kurumunuz için demo talebi, soru havuzu entegrasyonu veya genel danışma talebinizi belirtin..."
-                        className="w-full px-5 py-4 rounded-xl bg-white/[0.05] border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-[#8B6CFF] transition-colors text-base font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.1] text-white placeholder-white/20 focus:outline-none focus:border-[#8B6CFF] transition-colors text-sm"
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4.5 rounded-xl bg-gradient-to-r from-[#FF5A4D] via-[#FF8A7A] to-[#8B6CFF] text-white font-bold text-base uppercase tracking-widest shadow-[0_0_30px_rgba(255,90,77,0.4)] hover:shadow-[0_0_40px_rgba(139,108,255,0.6)] transition-all hover:scale-[1.01] active:scale-[0.99]"
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF5A4D] via-[#FF8A7A] to-[#8B6CFF] text-white font-bold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,90,77,0.4)] hover:shadow-[0_0_40px_rgba(139,108,255,0.6)] transition-all hover:scale-[1.01] active:scale-[0.99]"
                     >
                       Mesajı Gönder
                     </button>
@@ -1017,65 +1016,65 @@ export default function OltivaLandingPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/[0.1] bg-[#0E1013] pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+      <footer className="border-t border-white/[0.08] bg-[#0E1013] pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/[0.08]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/[0.06]">
             
             {/* Col 1: Brand & Bio */}
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center gap-3">
-                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#FFFFFF" strokeWidth="16" />
+                <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#F2F1ED" strokeWidth="16" />
                   <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
                   <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-                  <circle cx="45" cy="40" r="10" fill="#FFFFFF" />
-                  <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#FFFFFF" />
+                  <circle cx="45" cy="40" r="10" fill="#F2F1ED" />
+                  <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#F2F1ED" />
                 </svg>
-                <span className="text-2xl sm:text-3xl font-extrabold tracking-widest text-white font-sans">OLTVIA</span>
+                <span className="text-2xl font-black tracking-widest text-[#F2F1ED] font-sans">OLTVIA</span>
               </div>
-              <p className="text-base text-gray-200 max-w-sm leading-relaxed font-normal">
+              <p className="text-sm text-[#9CA3AF] max-w-sm leading-relaxed">
                 Yapay zekanın bilişsel gücüyle her öğrenciye özel Sokratik eğitim ekosistemi. Sıfır sapma, yüksek motivasyon ve hedefe tam odaklanma.
               </p>
-              <div className="pt-2 text-sm font-mono text-[#A78BFA] font-bold tracking-widest uppercase">
+              <div className="pt-2 text-xs font-mono text-[#8B6CFF] tracking-widest uppercase">
                 BEYOND WHAT YOU KNOW
               </div>
             </div>
 
             {/* Col 2: Platform Links */}
             <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-[0.25em] mb-4">Platform</h4>
-              <ul className="space-y-3.5 text-base text-gray-200">
-                <li><a href="#ozellikler" className="hover:text-white transition-colors">Sokratik Mentör</a></li>
-                <li><a href="#ozellikler" className="hover:text-white transition-colors">Hedef Rotası Analizi</a></li>
-                <li><a href="#ozellikler" className="hover:text-white transition-colors">Başarı Oku (Dartboard)</a></li>
-                <li><a href="#ozellikler" className="hover:text-white transition-colors">Streak & Liderlik Tablosu</a></li>
-                <li><a href="#girisler" className="hover:text-white transition-colors">Giriş Portalları</a></li>
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.25em] mb-4">Platform</h4>
+              <ul className="space-y-3 text-sm text-[#9CA3AF]">
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Sokratik Mentör</a></li>
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Hedef Rotası Analizi</a></li>
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Başarı Oku (Dartboard)</a></li>
+                <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Streak & Liderlik Tablosu</a></li>
+                <li><a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Giriş Portalları</a></li>
               </ul>
             </div>
 
             {/* Col 3: Kurumsal Links */}
             <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-[0.25em] mb-4">Kurumsal</h4>
-              <ul className="space-y-3.5 text-base text-gray-200">
-                <li><a href="#misyonumuz" className="hover:text-white transition-colors">Misyonumuz</a></li>
-                <li><a href="#sss" className="hover:text-white transition-colors">Sıkça Sorulan Sorular</a></li>
-                <li><a href="#yasal" className="hover:text-white transition-colors">Yasal İlkeler</a></li>
-                <li><a href="#iletisim" className="hover:text-white transition-colors">Bize Ulaşın</a></li>
-                <li><a href="#girisler" className="hover:text-white transition-colors">Kurumsal Yönetici Paneli</a></li>
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.25em] mb-4">Kurumsal</h4>
+              <ul className="space-y-3 text-sm text-[#9CA3AF]">
+                <li><a href="#misyonumuz" className="hover:text-[#8B6CFF] transition-colors">Misyonumuz</a></li>
+                <li><a href="#sss" className="hover:text-[#8B6CFF] transition-colors">Sıkça Sorulan Sorular</a></li>
+                <li><a href="#yasal" className="hover:text-[#8B6CFF] transition-colors">Yasal İlkeler</a></li>
+                <li><a href="#iletisim" className="hover:text-[#8B6CFF] transition-colors">Bize Ulaşın</a></li>
+                <li><a href="#girisler" className="hover:text-[#8B6CFF] transition-colors">Kurumsal Yönetici Paneli</a></li>
               </ul>
             </div>
 
             {/* Col 4: Yasal & Güvenlik Links */}
             <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-[0.25em] mb-4">Yasal & Güvenlik</h4>
-              <ul className="space-y-3.5 text-base text-gray-200">
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.25em] mb-4">Yasal & Güvenlik</h4>
+              <ul className="space-y-3 text-sm text-[#9CA3AF]">
                 <li>
                   <button 
                     onClick={() => {
                       setLegalTab('terms');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className="hover:text-white transition-colors text-left"
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
                   >
                     Kullanım Şartları
                   </button>
@@ -1086,7 +1085,7 @@ export default function OltivaLandingPage() {
                       setLegalTab('conditions');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className="hover:text-white transition-colors text-left"
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
                   >
                     Şartlar ve Koşullar
                   </button>
@@ -1097,7 +1096,7 @@ export default function OltivaLandingPage() {
                       setLegalTab('privacy');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className="hover:text-white transition-colors text-left"
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
                   >
                     Gizlilik Politikası
                   </button>
@@ -1108,7 +1107,7 @@ export default function OltivaLandingPage() {
                       setLegalTab('privacy');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className="hover:text-white transition-colors text-left"
+                    className="hover:text-[#F2F1ED] transition-colors text-left"
                   >
                     KVKK Aydınlatma Metni
                   </button>
@@ -1118,13 +1117,13 @@ export default function OltivaLandingPage() {
 
           </div>
 
-          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300 font-medium">
+          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#9CA3AF]/60">
             <div>
               © {new Date().getFullYear()} OLTVIA INC. TÜM HAKLARI SAKLIDIR.
             </div>
             <div className="flex items-center gap-6">
-              <span className="flex items-center gap-2 text-[#10B981] font-semibold">
-                <Shield className="w-4 h-4" /> KVKK & GDPR Uyumlu
+              <span className="flex items-center gap-1.5 text-[#10B981]">
+                <Shield className="w-3.5 h-3.5" /> KVKK & GDPR Uyumlu
               </span>
               <span>256-Bit Uçtan Uca Şifreleme</span>
             </div>

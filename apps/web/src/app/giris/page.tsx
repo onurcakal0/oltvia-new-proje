@@ -746,19 +746,19 @@ function GirisContent() {
       />
 
       {/* 3. MODAL CONTAINER WITH CLOSE BUTTON */}
-      <div className="relative w-full max-w-4xl lg:max-w-5xl z-10 my-auto animate-in fade-in zoom-in-95 duration-300">
+      <div className="relative w-full max-w-4xl lg:max-w-[55rem] z-10 my-auto animate-in fade-in zoom-in-95 duration-300">
         
         {/* Floating Close (X) Button */}
         <Link 
           href="/"
-          className="absolute -top-3.5 -right-3.5 sm:-top-5 sm:-right-5 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/20 hover:bg-white/35 border border-white/40 text-white flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl hover:scale-110 z-50 group"
+          className="absolute -top-3.5 -right-3.5 sm:-top-5 sm:-right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/15 hover:bg-white/30 border border-white/30 text-white flex items-center justify-center backdrop-blur-2xl transition-all shadow-2xl hover:scale-110 z-50 group"
           title="Ana Sayfaya Dön"
         >
-          <X size={20} className="transition-transform group-hover:rotate-90 text-white" />
+          <X size={18} className="transition-transform group-hover:rotate-90 text-white" />
         </Link>
 
         {/* Main Unified Payoneer-Style Card Container */}
-        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.85),_0_0_60px_rgba(139,108,255,0.18)] border border-white/20 flex flex-col lg:flex-row min-h-[640px] bg-[#12141A]">
+        <div className="w-full rounded-[2.5rem] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.85),_0_0_60px_rgba(139,108,255,0.18)] border border-white/20 flex flex-col lg:flex-row min-h-[620px] bg-[#12141A]">
           
           {/* ================= LEFT SIDE: SPACE NEBULA + SHOOTING STARS + 3D LIQUID GLASS LOGO ================= */}
           <div 
@@ -783,13 +783,13 @@ function GirisContent() {
           <div className="relative z-20 flex items-center justify-between">
             <Link 
               href="/"
-              className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-white/90 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-medium text-white/70 hover:text-white transition-colors"
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={16} />
               <span>Ana Sayfaya Dön</span>
             </Link>
 
-            <span className="text-xs sm:text-sm font-mono font-bold tracking-[0.25em] uppercase text-white/80">
+            <span className="text-[11px] font-mono tracking-widest uppercase text-white/40">
               OLTVIA
             </span>
           </div>
@@ -800,18 +800,18 @@ function GirisContent() {
             <LiquidGlassLogo mousePos={mousePos} />
 
             {/* Slogan */}
-            <div className="mt-8 space-y-2.5 max-w-sm">
-              <span className="block text-xs sm:text-sm font-bold tracking-[0.35em] uppercase text-white/90">
+            <div className="mt-8 space-y-2 max-w-sm">
+              <span className="block text-[11px] font-semibold tracking-[0.3em] uppercase text-white/50">
                 BEYOND LEARNING
               </span>
-              <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
+              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white tracking-tight drop-shadow-md">
                 Beyond What You Know
               </h2>
             </div>
           </div>
 
           {/* Bottom Copyright */}
-          <div className="relative z-20 text-xs sm:text-sm text-white/70 font-medium">
+          <div className="relative z-20 text-[11px] text-white/40 font-light">
             © 2026 OLTVIA Inc. Tüm hakları saklıdır.
           </div>
         </div>
@@ -822,9 +822,9 @@ function GirisContent() {
           {/* Top Brand & Status Row */}
           <div className="flex items-center justify-between pb-6 border-b border-gray-100">
             {/* OLTVIA Brand Mark */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-full bg-gray-950 flex items-center justify-center shadow-sm">
-                <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 100 100" fill="none">
                   <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#FFFFFF" strokeWidth="16" />
                   <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
                   <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
@@ -832,12 +832,12 @@ function GirisContent() {
                   <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#FFFFFF" />
                 </svg>
               </div>
-              <span className="text-xl font-black tracking-wider text-gray-950 font-sans">
+              <span className="text-lg font-black tracking-widest text-gray-900 font-sans">
                 OLTVIA
               </span>
             </Link>
 
-            <span className="text-xs sm:text-sm text-gray-600 font-bold bg-gray-100/80 px-3 py-1 rounded-full">
+            <span className="text-xs text-gray-400 font-medium">
               Güvenli Giriş
             </span>
           </div>
@@ -847,23 +847,23 @@ function GirisContent() {
             
             {/* Alerts */}
             {errorMsg && (
-              <div className="mb-5 p-4 rounded-2xl bg-red-50 border-2 border-red-200 text-red-700 text-sm font-semibold flex items-center gap-2.5 animate-shake shadow-sm">
-                <AlertCircle size={18} className="flex-shrink-0 text-red-600" />
+              <div className="mb-5 p-3.5 rounded-2xl bg-red-50 border border-red-100 text-red-600 text-xs flex items-center gap-2 animate-shake">
+                <AlertCircle size={16} className="flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             {successMsg && (
-              <div className="mb-5 p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center gap-2.5 shadow-sm">
-                <CheckCircle2 size={18} className="flex-shrink-0 text-emerald-600" />
+              <div className="mb-5 p-3.5 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs flex items-center gap-2">
+                <CheckCircle2 size={16} className="flex-shrink-0" />
                 <span>{successMsg}</span>
               </div>
             )}
 
             {viewMode === 'login' ? (
               <>
-                {/* Clean Role Switcher (Pill tabs) */}
-                <div className="mb-7 p-1.5 bg-gray-100/90 rounded-2xl flex gap-1.5 shadow-inner">
+                {/* Clean Minimal Role Switcher (Pill tabs) */}
+                <div className="mb-7 p-1 bg-gray-100 rounded-full flex gap-1">
                   {(Object.keys(ROLES) as RoleType[]).map((rKey) => {
                     const r = ROLES[rKey];
                     const isSelected = activeRole === rKey;
@@ -876,10 +876,10 @@ function GirisContent() {
                           setErrorMsg(null);
                           setSuccessMsg(null);
                         }}
-                        className={`flex-1 py-3 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-center truncate ${
+                        className={`flex-1 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-center truncate ${
                           isSelected 
-                            ? 'bg-white text-gray-950 shadow-md font-extrabold' 
-                            : 'text-gray-600 hover:text-gray-950 font-semibold'
+                            ? 'bg-white text-gray-900 shadow-sm' 
+                            : 'text-gray-500 hover:text-gray-800'
                         }`}
                       >
                         {r.tabLabel}
@@ -890,10 +890,10 @@ function GirisContent() {
 
                 {/* Title */}
                 <div className="mb-6">
-                  <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-950 tracking-tight">
+                  <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 tracking-tight">
                     {config.heading}
                   </h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1.5 font-normal">
                     {config.subheading}
                   </p>
                 </div>
@@ -910,7 +910,7 @@ function GirisContent() {
                         value={schoolCode}
                         onChange={(e) => setSchoolCode(e.target.value.toUpperCase())}
                         placeholder="Okul / Kurum Kodu (Örn: IST-1094)"
-                        className="w-full px-6 py-4.5 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-semibold focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
+                        className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
                       />
                     </div>
                   )}
@@ -923,7 +923,7 @@ function GirisContent() {
                       value={identity}
                       onChange={(e) => setIdentity(e.target.value)}
                       placeholder={config.identityLabel}
-                      className="w-full px-6 py-4.5 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-medium focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                      className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
                     />
                   </div>
 
@@ -935,25 +935,25 @@ function GirisContent() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Şifre"
-                      className="w-full px-6 py-4.5 pr-14 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-medium focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                      className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-5 top-4.5 text-gray-400 hover:text-gray-800 transition-colors"
+                      className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
                     >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
 
                   {/* Remember Me & Forgot Password Row */}
-                  <div className="flex items-center justify-between text-sm px-2 pt-1">
-                    <label className="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-gray-950 select-none font-semibold">
+                  <div className="flex items-center justify-between text-xs px-2 pt-1">
+                    <label className="flex items-center gap-2 cursor-pointer text-gray-500 hover:text-gray-700 select-none">
                       <input
                         type="checkbox"
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
-                        className="w-4.5 h-4.5 rounded border-gray-300 text-gray-900 focus:ring-0 cursor-pointer"
+                        className="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-0 cursor-pointer"
                       />
                       <span>Beni hatırla</span>
                     </label>
@@ -966,29 +966,29 @@ function GirisContent() {
                         setErrorMsg(null);
                         setSuccessMsg(null);
                       }}
-                      className="font-bold text-[#FF5A4D] hover:underline"
+                      className="font-medium text-[#FF5A4D] hover:underline"
                     >
                       Şifremi unuttum?
                     </button>
                   </div>
 
-                  {/* Payoneer-Style Gradient Sign-In Button */}
+                  {/* Payoneer-Style Gradient Pill Sign-In Button */}
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className={`w-full py-4.5 mt-3 rounded-2xl text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-2.5 shadow-xl transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                    className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2.5 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
                     style={{
-                      boxShadow: `0 14px 30px -6px ${config.accentColor}60`,
+                      boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
                     }}
                   >
                     {isLoading ? (
                       <>
-                        <Loader2 size={20} className="animate-spin" />
+                        <Loader2 size={18} className="animate-spin" />
                         <span>Giriş Yapılıyor...</span>
                       </>
                     ) : (
                       <>
-                        <ArrowRight size={20} />
+                        <ArrowRight size={18} />
                         <span>{config.buttonText}</span>
                       </>
                     )}
@@ -999,9 +999,9 @@ function GirisContent() {
                     <button
                       type="button"
                       onClick={handleFillDemo}
-                      className="text-sm text-gray-600 hover:text-gray-950 transition-colors inline-flex items-center gap-1.5 font-semibold"
+                      className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
                     >
-                      <Sparkles size={14} style={{ color: config.accentColor }} />
+                      <Sparkles size={13} style={{ color: config.accentColor }} />
                       <span>{config.tabLabel} demo bilgileriyle otomatik doldur</span>
                     </button>
                   </div>
@@ -1011,7 +1011,7 @@ function GirisContent() {
               /* FORGOT PASSWORD MULTI-STEP VERIFICATION FLOW */
               <div className="space-y-6 animate-in fade-in duration-300">
                 {/* Top Back to Login Link & Progress Indicator */}
-                <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+                <div className="flex items-center justify-between pb-2 border-b border-gray-100">
                   <button
                     type="button"
                     onClick={() => {
@@ -1019,18 +1019,18 @@ function GirisContent() {
                       setErrorMsg(null);
                       setSuccessMsg(null);
                     }}
-                    className="inline-flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-gray-950 transition-colors group"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-gray-900 transition-colors group"
                   >
-                    <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" />
+                    <ArrowLeft size={15} className="transition-transform group-hover:-translate-x-1" />
                     <span>Giriş Yap'a Dön</span>
                   </button>
 
                   {/* Step indicators */}
-                  <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-400">
                     <span 
-                      className="px-2.5 py-1 rounded-full text-xs sm:text-sm font-extrabold"
+                      className="px-2 py-0.5 rounded-full text-[11px] font-bold"
                       style={{ 
-                        backgroundColor: forgotStep === 1 ? config.accentColor + '20' : 'transparent',
+                        backgroundColor: forgotStep === 1 ? config.accentColor + '15' : 'transparent',
                         color: forgotStep === 1 ? config.accentColor : undefined 
                       }}
                     >
@@ -1038,9 +1038,9 @@ function GirisContent() {
                     </span>
                     <span>•</span>
                     <span 
-                      className="px-2.5 py-1 rounded-full text-xs sm:text-sm font-extrabold"
+                      className="px-2 py-0.5 rounded-full text-[11px] font-bold"
                       style={{ 
-                        backgroundColor: forgotStep === 2 ? config.accentColor + '20' : 'transparent',
+                        backgroundColor: forgotStep === 2 ? config.accentColor + '15' : 'transparent',
                         color: forgotStep === 2 ? config.accentColor : undefined 
                       }}
                     >
@@ -1048,9 +1048,9 @@ function GirisContent() {
                     </span>
                     <span>•</span>
                     <span 
-                      className="px-2.5 py-1 rounded-full text-xs sm:text-sm font-extrabold"
+                      className="px-2 py-0.5 rounded-full text-[11px] font-bold"
                       style={{ 
-                        backgroundColor: forgotStep >= 3 ? config.accentColor + '20' : 'transparent',
+                        backgroundColor: forgotStep >= 3 ? config.accentColor + '15' : 'transparent',
                         color: forgotStep >= 3 ? config.accentColor : undefined 
                       }}
                     >
@@ -1063,16 +1063,16 @@ function GirisContent() {
                 {forgotStep === 1 && (
                   <form onSubmit={handleSendOtp} className="space-y-5">
                     <div>
-                      <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
                         Şifrenizi mi Unuttunuz?
                       </h2>
-                      <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
                         Hesabınızı doğrulamak ve şifrenizi sıfırlamak için tercih ettiğiniz yöntemi seçin.
                       </p>
                     </div>
 
                     {/* Method Switcher: E-Posta vs Telefon */}
-                    <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 rounded-2xl shadow-inner">
+                    <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 rounded-2xl">
                       <button
                         type="button"
                         onClick={() => {
@@ -1080,13 +1080,13 @@ function GirisContent() {
                           setResetContact('');
                           setErrorMsg(null);
                         }}
-                        className={`py-3.5 px-3 rounded-xl flex items-center justify-center gap-2 text-sm sm:text-base font-bold transition-all ${
+                        className={`py-3 px-3 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold transition-all ${
                           resetMethod === 'email'
-                            ? 'bg-white text-gray-950 shadow-md font-extrabold'
-                            : 'text-gray-600 hover:text-gray-950'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-500 hover:text-gray-800'
                         }`}
                       >
-                        <Mail size={18} style={{ color: resetMethod === 'email' ? config.accentColor : undefined }} />
+                        <Mail size={16} style={{ color: resetMethod === 'email' ? config.accentColor : undefined }} />
                         <span>E-Posta ile</span>
                       </button>
 
@@ -1097,18 +1097,18 @@ function GirisContent() {
                           setResetContact('');
                           setErrorMsg(null);
                         }}
-                        className={`py-3.5 px-3 rounded-xl flex items-center justify-center gap-2 text-sm sm:text-base font-bold transition-all ${
+                        className={`py-3 px-3 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold transition-all ${
                           resetMethod === 'phone'
-                            ? 'bg-white text-gray-950 shadow-md font-extrabold'
-                            : 'text-gray-600 hover:text-gray-950'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-500 hover:text-gray-800'
                         }`}
                       >
-                        <Smartphone size={18} style={{ color: resetMethod === 'phone' ? config.accentColor : undefined }} />
+                        <Smartphone size={16} style={{ color: resetMethod === 'phone' ? config.accentColor : undefined }} />
                         <span>Telefon ile</span>
                       </button>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3.5">
                       {/* School Code if applicable */}
                       {config.hasSchoolCode && (
                         <div>
@@ -1118,7 +1118,7 @@ function GirisContent() {
                             value={resetSchoolCode}
                             onChange={(e) => setResetSchoolCode(e.target.value.toUpperCase())}
                             placeholder="Okul / Kurum Kodu (Örn: IST-1094)"
-                            className="w-full px-6 py-4.5 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-semibold focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
+                            className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-mono"
                           />
                         </div>
                       )}
@@ -1135,7 +1135,7 @@ function GirisContent() {
                               ? 'Kayıtlı Kurumsal / Şahsi E-Postanız' 
                               : 'Kayıtlı Cep Telefonu (05XX XXX XX XX)'
                           }
-                          className="w-full px-6 py-4.5 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-medium focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                          className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
                         />
                       </div>
                     </div>
@@ -1143,19 +1143,19 @@ function GirisContent() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-4.5 rounded-2xl text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
                       style={{
-                        boxShadow: `0 14px 30px -6px ${config.accentColor}60`,
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
                       }}
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 size={20} className="animate-spin" />
+                          <Loader2 size={18} className="animate-spin" />
                           <span>Kod Gönderiliyor...</span>
                         </>
                       ) : (
                         <>
-                          <ArrowRight size={20} />
+                          <ArrowRight size={18} />
                           <span>Doğrulama Kodu Gönder</span>
                         </>
                       )}
@@ -1165,9 +1165,9 @@ function GirisContent() {
                       <button
                         type="button"
                         onClick={handleFillDemoForgot}
-                        className="text-sm text-gray-600 hover:text-gray-950 transition-colors inline-flex items-center gap-1.5 font-semibold"
+                        className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
                       >
-                        <Sparkles size={14} style={{ color: config.accentColor }} />
+                        <Sparkles size={13} style={{ color: config.accentColor }} />
                         <span>Örnek {resetMethod === 'email' ? 'e-posta' : 'telefon'} ile otomatik doldur</span>
                       </button>
                     </div>
@@ -1178,16 +1178,16 @@ function GirisContent() {
                 {forgotStep === 2 && (
                   <form onSubmit={handleVerifyOtp} className="space-y-6">
                     <div>
-                      <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
                         Doğrulama Kodu
                       </h2>
-                      <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">
-                        <span className="font-bold text-gray-900">{resetContact}</span> {resetMethod === 'email' ? 'e-posta adresinize' : 'telefonunuza'} gönderilen 6 haneli güvenlik kodunu girin.
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
+                        <span className="font-semibold text-gray-800">{resetContact}</span> {resetMethod === 'email' ? 'e-posta adresinize' : 'telefonunuza'} gönderilen 6 haneli güvenlik kodunu girin.
                       </p>
                     </div>
 
                     {/* 6 OTP Boxes */}
-                    <div className="flex items-center justify-between gap-2 sm:gap-3">
+                    <div className="flex items-center justify-between gap-2 sm:gap-2.5">
                       {otpDigits.map((digit, idx) => (
                         <input
                           key={idx}
@@ -1199,20 +1199,20 @@ function GirisContent() {
                           onChange={(e) => handleOtpChange(idx, e.target.value)}
                           onKeyDown={(e) => handleOtpKeyDown(idx, e)}
                           onPaste={handleOtpPaste}
-                          className="w-12 h-16 sm:w-14 sm:h-18 text-center text-2xl sm:text-3xl font-black text-gray-950 rounded-2xl border-2 border-gray-300 bg-gray-50/90 focus:bg-white focus:outline-none transition-all duration-200"
+                          className="w-12 h-14 sm:w-13 sm:h-16 text-center text-xl sm:text-2xl font-bold text-gray-900 rounded-2xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none transition-all duration-200"
                           style={{
                             borderColor: digit ? config.accentColor : undefined,
-                            boxShadow: digit ? `0 0 0 3px ${config.accentColor}30` : undefined,
+                            boxShadow: digit ? `0 0 0 2px ${config.accentColor}25` : undefined,
                           }}
                         />
                       ))}
                     </div>
 
                     {/* Countdown and Resend */}
-                    <div className="flex items-center justify-between text-sm px-1 text-gray-700 font-semibold">
+                    <div className="flex items-center justify-between text-xs px-1 text-gray-500">
                       <span>
                         Kalan Süre:{' '}
-                        <span className="font-mono font-black text-base text-gray-950">
+                        <span className="font-mono font-bold text-gray-800">
                           {formatTimer(timer)}
                         </span>
                       </span>
@@ -1221,7 +1221,7 @@ function GirisContent() {
                         type="button"
                         disabled={timer > 0}
                         onClick={handleResendOtp}
-                        className="font-bold text-sm text-[#FF5A4D] hover:underline disabled:opacity-40 disabled:hover:no-underline"
+                        className="font-medium text-[#FF5A4D] hover:underline disabled:opacity-40 disabled:hover:no-underline"
                       >
                         Kodu Tekrar Gönder
                       </button>
@@ -1230,19 +1230,19 @@ function GirisContent() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-4.5 rounded-2xl text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
                       style={{
-                        boxShadow: `0 14px 30px -6px ${config.accentColor}60`,
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
                       }}
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 size={20} className="animate-spin" />
+                          <Loader2 size={18} className="animate-spin" />
                           <span>Doğrulanıyor...</span>
                         </>
                       ) : (
                         <>
-                          <ShieldCheck size={20} />
+                          <ShieldCheck size={18} />
                           <span>Kodu Doğrula ve Devam Et</span>
                         </>
                       )}
@@ -1252,9 +1252,9 @@ function GirisContent() {
                       <button
                         type="button"
                         onClick={handleFillDemoForgot}
-                        className="text-sm text-gray-600 hover:text-gray-950 transition-colors inline-flex items-center gap-1.5 font-semibold"
+                        className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
                       >
-                        <Sparkles size={14} style={{ color: config.accentColor }} />
+                        <Sparkles size={13} style={{ color: config.accentColor }} />
                         <span>Test kodunu doldur ({demoOtpCode || '482916'})</span>
                       </button>
                     </div>
@@ -1265,10 +1265,10 @@ function GirisContent() {
                 {forgotStep === 3 && (
                   <form onSubmit={handleResetPassword} className="space-y-4">
                     <div>
-                      <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
                         Yeni Şifre Belirleyin
                       </h2>
-                      <p className="text-sm sm:text-base text-gray-600 mt-2 font-medium">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1.5">
                         Hesabınız için güçlü ve yeni bir şifre tanımlayın.
                       </p>
                     </div>
@@ -1281,14 +1281,14 @@ function GirisContent() {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Yeni Şifre (En az 8 karakter)"
-                        className="w-full px-6 py-4.5 pr-14 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-medium focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                        className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
                       />
                       <button
                         type="button"
                         onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-5 top-4.5 text-gray-400 hover:text-gray-800 transition-colors"
+                        className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
                       >
-                        {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
 
@@ -1300,26 +1300,26 @@ function GirisContent() {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Yeni Şifreyi Tekrar Girin"
-                        className="w-full px-6 py-4.5 pr-14 rounded-2xl border-2 border-gray-200 bg-gray-50/90 text-gray-950 placeholder-gray-400 text-base font-medium focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
+                        className="w-full px-6 py-4 pr-12 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-5 top-4.5 text-gray-400 hover:text-gray-800 transition-colors"
+                        className="absolute right-5 top-4 text-gray-400 hover:text-gray-700 transition-colors"
                       >
-                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
 
                     {/* Password Strength Indicator */}
-                    <div className="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2 text-sm font-semibold">
-                      <div className="flex items-center justify-between text-gray-700">
+                    <div className="p-3 bg-gray-50 rounded-2xl border border-gray-100 space-y-2 text-xs">
+                      <div className="flex items-center justify-between text-gray-600 font-medium">
                         <span>Şifre Güvenliği:</span>
                         <span className={newPassword.length >= 8 ? 'text-emerald-600 font-bold' : 'text-amber-600 font-bold'}>
                           {newPassword.length >= 8 ? 'Güçlü' : newPassword.length > 0 ? 'Orta' : 'Belirtilmedi'}
                         </span>
                       </div>
-                      <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                         <div 
                           className="h-full rounded-full transition-all duration-300"
                           style={{
@@ -1333,19 +1333,19 @@ function GirisContent() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-4.5 mt-3 rounded-2xl text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
+                      className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
                       style={{
-                        boxShadow: `0 14px 30px -6px ${config.accentColor}60`,
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
                       }}
                     >
                       {isLoading ? (
                         <>
-                          <Loader2 size={20} className="animate-spin" />
+                          <Loader2 size={18} className="animate-spin" />
                           <span>Güncelleniyor...</span>
                         </>
                       ) : (
                         <>
-                          <Check size={20} />
+                          <Check size={18} />
                           <span>Şifreyi Güncelle</span>
                         </>
                       )}
@@ -1355,9 +1355,9 @@ function GirisContent() {
                       <button
                         type="button"
                         onClick={handleFillDemoForgot}
-                        className="text-sm text-gray-600 hover:text-gray-950 transition-colors inline-flex items-center gap-1.5 font-semibold"
+                        className="text-xs text-gray-400 hover:text-gray-700 transition-colors inline-flex items-center gap-1.5 font-medium"
                       >
-                        <Sparkles size={14} style={{ color: config.accentColor }} />
+                        <Sparkles size={13} style={{ color: config.accentColor }} />
                         <span>Örnek güçlü şifre doldur (Oltvia2026!)</span>
                       </button>
                     </div>
@@ -1372,10 +1372,10 @@ function GirisContent() {
                     </div>
 
                     <div>
-                      <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
                         Şifreniz Değiştirildi!
                       </h2>
-                      <p className="text-base sm:text-lg text-gray-600 mt-2 max-w-sm mx-auto leading-relaxed font-medium">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-2 max-w-sm mx-auto leading-relaxed">
                         Yeni şifreniz başarıyla kaydedildi. Artık güncel şifrenizle sisteminize giriş yapabilirsiniz.
                       </p>
                     </div>
@@ -1383,13 +1383,13 @@ function GirisContent() {
                     <button
                       type="button"
                       onClick={handleFinishReset}
-                      className={`w-full py-4.5 rounded-2xl text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-2 shadow-xl transition-all duration-300 hover:opacity-95 active:scale-[0.99] bg-gradient-to-r ${config.gradient}`}
+                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] bg-gradient-to-r ${config.gradient}`}
                       style={{
-                        boxShadow: `0 14px 30px -6px ${config.accentColor}60`,
+                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
                       }}
                     >
                       <span>Giriş Ekranına Dön</span>
-                      <ArrowRight size={20} />
+                      <ArrowRight size={18} />
                     </button>
                   </div>
                 )}
@@ -1398,18 +1398,18 @@ function GirisContent() {
           </div>
 
           {/* Clean Minimalist Bottom Footer */}
-          <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm font-semibold text-gray-500">
+          <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
             <div>© 2026 OLTVIA Inc.</div>
             <div className="flex items-center gap-4">
-              <Link href="/#iletisim" className="hover:text-gray-900 transition-colors">
+              <Link href="/#iletisim" className="hover:text-gray-700 transition-colors">
                 Bize Ulaşın
               </Link>
               <span>•</span>
-              <Link href="/kullanim-sartlari" className="hover:text-gray-900 transition-colors">
+              <Link href="/kullanim-sartlari" className="hover:text-gray-700 transition-colors">
                 Kullanım Şartları
               </Link>
               <span>•</span>
-              <Link href="/gizlilik" className="hover:text-gray-900 transition-colors">
+              <Link href="/gizlilik" className="hover:text-gray-700 transition-colors">
                 Gizlilik
               </Link>
             </div>
