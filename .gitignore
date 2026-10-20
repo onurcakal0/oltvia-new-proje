@@ -9,3 +9,5 @@ build/
 infra/db-data/
 __pycache__/
 venv/
+*.db
+*.sqlite

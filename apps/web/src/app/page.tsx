@@ -397,8 +397,7 @@ export default function OltivaLandingPage() {
             
             <div className="flex-1 w-full">
               <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
-                <div className="absolute inset-0 bg-[#FF5A4D]/20 blur-[80px] -z-10 rounded-full" />
-                
+                <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
                 <div className={"rounded-[23px] backdrop-blur-xl h-[420px] flex flex-col relative overflow-hidden border shadow-2xl group cursor-crosshair " + (theme === 'dark' ? "bg-[#14161A]/90 border-white/[0.05]" : "bg-white/95 border-slate-200 shadow-xl")}>
                   
                   {/* Header */}
