@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function KullanimSartlariPage() {
   return (
-    <div className="min-h-screen bg-[#14161A] text-[#F2F1ED] font-serif selection:bg-[#FF5A4D]/30 py-16 px-6">
+    <div className="min-h-screen bg-[#14161A] text-[#E2E8F0] font-serif selection:bg-[#FF5A4D]/30 py-16 px-6">
       <div className="max-w-4xl mx-auto">
         <Link 
           href="/" 

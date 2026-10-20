@@ -484,7 +484,7 @@ function GirisContent() {
             </Link>
 
             <span className="text-[11px] font-mono tracking-widest uppercase text-white/40">
-              OLTVIA
+              OLTVIΛ
             </span>
           </div>
 
@@ -527,7 +527,7 @@ function GirisContent() {
                 </svg>
               </div>
               <span className="text-lg font-black tracking-widest text-gray-900 font-sans">
-                OLTVIA
+                OLTVIΛ
               </span>
             </Link>
 

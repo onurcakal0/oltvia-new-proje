@@ -110,14 +110,14 @@
 
 
 @keyframes swap-i {
-  0%, 30% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+  0%, 30% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
   45%, 85% { transform: translateX(0.65em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); z-index: 10; }
-  100% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+  100% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
 }
 @keyframes swap-a {
-  0%, 30% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+  0%, 30% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
   45%, 85% { transform: translateX(-0.3em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); }
-  100% { transform: translateX(0); color: #F2F1ED; text-shadow: none; }
+  100% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
 }
 
 @keyframes chat-loop-1 {
@@ -188,3 +188,47 @@
 }
 .group:hover .animate-earthquake { animation: earthquake-shake 0.5s ease-out 1.2s forwards; }
 .group:hover .animate-cracks { animation: crack-reveal 0.5s ease-out 1.2s forwards; }
+
+/* OLTVIA 360° Performans Çarkı (System Flywheel) */
+@keyframes flywheel-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes flywheel-counter {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes pulse-core-glow {
+  0%, 100% { transform: scale(1); opacity: 0.9; filter: drop-shadow(0 0 20px rgba(139, 108, 255, 0.6)); }
+  50% { transform: scale(1.06); opacity: 1; filter: drop-shadow(0 0 32px rgba(255, 90, 77, 0.9)); }
+}
+
+@keyframes orbit-particle-flow {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-flywheel-spin {
+  animation: flywheel-spin 26s linear infinite;
+}
+
+.animate-flywheel-counter {
+  animation: flywheel-counter 26s linear infinite;
+}
+
+.animate-core-glow {
+  animation: pulse-core-glow 3.5s ease-in-out infinite;
+}
+
+.animate-particle-flow {
+  stroke-dasharray: 8 12;
+  animation: orbit-particle-flow 12s linear infinite;
+}
+
+.flywheel-paused,
+.group:hover .animate-flywheel-spin,
+.group:hover .animate-flywheel-counter {
+  animation-play-state: paused !important;
+}
