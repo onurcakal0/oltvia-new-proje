@@ -11,3 +11,5 @@ __pycache__/
 venv/
 *.db
 *.sqlite
+*.tsbuildinfo
+oltvia-new-proje/

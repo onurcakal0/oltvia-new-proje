@@ -37,33 +37,33 @@
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 260 50% 4%;
+    --foreground: 250 30% 96%;
+    --card: 265 45% 7%;
+    --card-foreground: 250 30% 96%;
+    --popover: 265 45% 7%;
+    --popover-foreground: 250 30% 96%;
+    --primary: 250 30% 96%;
+    --primary-foreground: 260 50% 6%;
+    --secondary: 265 30% 14%;
+    --secondary-foreground: 250 30% 96%;
+    --muted: 265 25% 14%;
+    --muted-foreground: 255 15% 65%;
+    --accent: 265 30% 16%;
+    --accent-foreground: 250 30% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 0 0% 0%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 265 25% 18%;
+    --input: 265 25% 18%;
+    --ring: 265 80% 65%;
+    --sidebar-background: 260 50% 4%;
+    --sidebar-foreground: 250 20% 90%;
+    --sidebar-primary: 265 80% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 265 30% 14%;
+    --sidebar-accent-foreground: 250 20% 90%;
+    --sidebar-border: 265 25% 18%;
+    --sidebar-ring: 265 80% 65%;
   }
 }
 
@@ -75,7 +75,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-black text-foreground antialiased;
+    @apply bg-[#080411] text-foreground antialiased;
     font-family: 'Cormorant Garamond', 'Cinzel', serif;
   }
   ::selection {
@@ -83,6 +83,31 @@
     color: #fff;
   }
 }
+
+@layer utilities {
+  .obsidian-glass {
+    background: rgba(19, 11, 36, 0.72);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .specular-top {
+    position: relative;
+    overflow: hidden;
+  }
+  .specular-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    pointer-events: none;
+    z-index: 20;
+  }
+}
+
 
 @layer utilities {
   .font-script {
@@ -231,4 +256,32 @@
 .group:hover .animate-flywheel-spin,
 .group:hover .animate-flywheel-counter {
   animation-play-state: paused !important;
+}
+
+/* Fullscreen Overlay Menu Motion & Animations */
+@keyframes overlayFadeIn {
+  0% { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+  100% { opacity: 1; backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); }
+}
+
+@keyframes menuSlideUp {
+  0% { opacity: 0; transform: translateY(26px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes menuSlideDown {
+  0% { opacity: 0; transform: translateY(-16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-overlay-in {
+  animation: overlayFadeIn 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-menu-item {
+  animation: menuSlideUp 550ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.animate-sub-item {
+  animation: menuSlideUp 450ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }

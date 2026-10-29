@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { 
   Rocket, Network, Shield, Building2, Sparkles, Brain, Cpu, 
@@ -8,28 +8,6 @@ import {
   FileText, Lock, X, Check, ArrowRight,
   Activity, BarChart3, Compass, RotateCcw, CheckCircle2
 } from 'lucide-react';
-
-export function LogoLambda({ className = "" }: { className?: string }) {
-  return (
-    <span 
-      className={"inline-flex items-center justify-center align-baseline select-none " + className} 
-      style={{ width: '0.64em', height: '0.78em', marginLeft: '0.04em', marginRight: '0.02em', verticalAlign: '-0.02em' }}
-      aria-hidden="true"
-    >
-      <svg 
-        viewBox="0 0 20 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="3.2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-        className="w-full h-full overflow-visible"
-      >
-        <path d="M 2.5 22 L 10 3.2 L 17.5 22" />
-      </svg>
-    </span>
-  );
-}
 
 export default function OltivaLandingPage() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -46,6 +24,92 @@ export default function OltivaLandingPage() {
   });
   const [legalTab, setLegalTab] = useState<'terms' | 'conditions' | 'privacy'>('terms');
   const [activeFlywheelModule, setActiveFlywheelModule] = useState<number | null>(null);
+
+  // Floating capsule navbar sliding indicator state & items (Portallar before Özellikler)
+  const [activeNav, setActiveNav] = useState('home');
+  const [navIndicator, setNavIndicator] = useState({ left: 0, width: 0, opacity: 0 });
+  const navTabRefs = useRef<{ [key: string]: HTMLAnchorElement | null }>({});
+  const isClickScrollingRef = useRef(false);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const navItems = [
+    { id: 'home', label: 'Ana Sayfa', href: '#' },
+    { id: 'girisler', label: 'Portallar', href: '#girisler' },
+    { id: 'ozellikler', label: 'Özellikler', href: '#ozellikler' },
+    { id: 'misyonumuz', label: 'Misyonumuz', href: '#misyonumuz' },
+    { id: 'sss', label: 'S.S.S', href: '#sss' },
+    { id: 'iletisim', label: 'İletişim', href: '#iletisim' },
+  ];
+
+  const updateNavIndicator = (id: string) => {
+    const el = navTabRefs.current[id];
+    if (el) {
+      setNavIndicator({
+        left: el.offsetLeft,
+        width: el.offsetWidth,
+        opacity: 1,
+      });
+    }
+  };
+
+  const handleNavClick = (item: typeof navItems[0], e: React.MouseEvent) => {
+    e.preventDefault();
+    isClickScrollingRef.current = true;
+    if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+    
+    setActiveNav(item.id);
+    
+    if (item.href === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const targetEl = document.querySelector(item.href);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickScrollingRef.current = false;
+    }, 1000);
+  };
+
+  useEffect(() => {
+    updateNavIndicator(activeNav);
+    const handleResize = () => updateNavIndicator(activeNav);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [activeNav]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => updateNavIndicator('home'), 150);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isClickScrollingRef.current) return;
+
+      const scrollPos = window.scrollY + 250;
+      const sections = [
+        { id: 'iletisim', el: document.getElementById('iletisim') },
+        { id: 'sss', el: document.getElementById('sss') },
+        { id: 'misyonumuz', el: document.getElementById('misyonumuz') },
+        { id: 'ozellikler', el: document.getElementById('ozellikler') },
+        { id: 'girisler', el: document.getElementById('girisler') },
+      ];
+
+      for (const sec of sections) {
+        if (sec.el && sec.el.offsetTop <= scrollPos) {
+          setActiveNav(sec.id);
+          return;
+        }
+      }
+      setActiveNav('home');
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('oltvia-theme') as 'dark' | 'light' | null;
@@ -145,135 +209,279 @@ export default function OltivaLandingPage() {
   }, []);
 
   return (
-    <div className={"min-h-screen font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden transition-colors duration-300 " + (theme === 'dark' ? "bg-[#14161A] text-[#E2E8F0]" : "bg-[#F8FAFC] text-[#0F172A]")}>
+    <div className={"min-h-screen font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden transition-colors duration-300 " + (theme === 'dark' ? "bg-[#080411] text-[#E2E8F0]" : "bg-[#F8FAFC] text-[#0F172A]")}>
 
-      {/* Animated Mesh / Glowing Orbs */}
-      <div className={"fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[150px] pointer-events-none animate-pulse transition-opacity duration-500 " + (theme === 'dark' ? "bg-[#FF5A4D]/15 opacity-100" : "bg-[#FF5A4D]/10 opacity-70")} style={{ animationDuration: '8s' }} />
-      <div className={"fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[150px] pointer-events-none animate-pulse transition-opacity duration-500 " + (theme === 'dark' ? "bg-[#8B6CFF]/15 opacity-100" : "bg-[#8B6CFF]/10 opacity-70")} style={{ animationDuration: '10s' }} />
+      {/* Animated Mesh / Glowing Orbs & Cyber Geometric Line Grid (Matching Reference Screenshot) */}
+      {theme === 'dark' ? (
+        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          {/* 1. Deep Ambient Lighting Orbs */}
+          {/* Top-Left Deep Plum / Violet Spotlight */}
+          <div className="absolute top-[-5%] left-[-5%] w-[55vw] h-[55vw] max-w-[850px] max-h-[850px] rounded-full bg-gradient-to-br from-[#7C3AED]/24 via-[#581C87]/16 to-transparent blur-[140px] pointer-events-none" />
+          
+          {/* Top-Right Warm Coral Flare behind CTA */}
+          <div className="absolute top-[6%] right-[-5%] w-[40vw] h-[40vw] max-w-[650px] max-h-[650px] rounded-full bg-gradient-to-bl from-[#FF5A4D]/18 via-[#FF7A50]/10 to-transparent blur-[130px] pointer-events-none" />
 
-      {/* NAVBAR */}
-      <nav className={"fixed top-0 w-full z-50 backdrop-blur-xl border-b transition-colors duration-300 " + (theme === 'dark' ? "bg-[#14161A]/70 border-white/[0.05]" : "bg-white/85 border-slate-200/80 shadow-sm")}>
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform hover:scale-105 transition-transform cursor-pointer">
+          {/* Center-Hero Indigo Nebula Ambiance */}
+          <div className="absolute top-[30%] left-[12%] w-[55vw] h-[42vw] max-w-[800px] rounded-full bg-[#6366F1]/12 blur-[160px] pointer-events-none" />
+
+          {/* Bottom Ambient Glow */}
+          <div className="absolute bottom-[-10%] right-[12%] w-[48vw] h-[48vw] max-w-[720px] rounded-full bg-[#8B5CF6]/15 blur-[160px] pointer-events-none" />
+
+          {/* 2. Geometric Tech Lines Matching the Reference Screenshot */}
+          <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 900">
+            <defs>
+              {/* Violet to Coral Line Gradient */}
+              <linearGradient id="refCyberGrad" x1="0%" y1="0%" x2="100%" y2="80%">
+                <stop offset="0%" stopColor="rgba(255,255,255,0.03)" />
+                <stop offset="20%" stopColor="rgba(192,132,252,0.25)" />
+                <stop offset="50%" stopColor="rgba(139,108,255,0.2)" />
+                <stop offset="80%" stopColor="rgba(255,90,77,0.2)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.02)" />
+              </linearGradient>
+
+              {/* Faint Horizontal Guide Gradient */}
+              <linearGradient id="horizonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+                <stop offset="30%" stopColor="rgba(168,85,247,0.18)" />
+                <stop offset="70%" stopColor="rgba(255,90,77,0.14)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+              </linearGradient>
+
+              {/* Filter for glowing nodes */}
+              <filter id="glowPurple" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* Left Side Architectural Facet Paths (Exact to screenshot) */}
+            <path d="M -30 360 L 120 360 L 240 210 L 420 210 L 490 110" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1.2" />
+            <path d="M 120 360 L 190 530 L 320 600" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1" />
+            <path d="M 240 210 L 290 80 L 180 10" fill="none" stroke="url(#refCyberGrad)" strokeWidth="0.9" opacity="0.7" />
+
+            {/* Right Side Horizon & Sweeping Tangent Curve (Exact to screenshot) */}
+            <path d="M 1470 310 L 1220 310 L 1080 190 L 960 190" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1.2" />
+            <path d="M 1220 310 L 1140 480 L 1050 550" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1" />
+            
+            {/* Center Faint Horizon Line behind Hero */}
+            <line x1="0" y1="310" x2="1440" y2="310" stroke="url(#horizonGrad)" strokeWidth="0.8" />
+
+            {/* Sweeping Elliptical Arc behind Title (From right-hand curve in screenshot) */}
+            <path d="M 320 460 Q 720 180 1280 440" fill="none" stroke="url(#refCyberGrad)" strokeWidth="0.8" opacity="0.6" />
+
+            {/* Glowing Accent Intersection Nodes */}
+            <circle cx="240" cy="210" r="2.5" fill="#C084FC" filter="url(#glowPurple)" />
+            <circle cx="420" cy="210" r="2" fill="#FF7A50" opacity="0.85" />
+            <circle cx="120" cy="360" r="2" fill="#818CF8" opacity="0.85" />
+            <circle cx="1080" cy="190" r="2.5" fill="#C084FC" filter="url(#glowPurple)" />
+            <circle cx="1220" cy="310" r="2" fill="#FF7A50" opacity="0.85" />
+          </svg>
+
+          {/* 3. Deep Cinematic Vignette (Softening Canvas Edges) */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse at center, transparent 35%, rgba(8, 4, 17, 0.75) 85%, #080411 100%)'
+            }}
+          />
+        </div>
+      ) : (
+        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[140px] bg-[#FF5A4D]/10 opacity-70" />
+          <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[140px] bg-[#8B6CFF]/10 opacity-70" />
+        </div>
+      )}
+
+      {/* FLOATING CAPSULE NAVBAR (Adapted from Reference Screenshot) */}
+      <header className="fixed top-5 inset-x-0 z-50 px-4 sm:px-6 max-w-7xl mx-auto flex items-center justify-between pointer-events-none">
+        
+        {/* Left: Brand Logo Capsule */}
+        <Link 
+          href="/"
+          className={"pointer-events-auto flex items-center gap-3 px-4 py-2 rounded-full backdrop-blur-2xl border transition-all duration-300 hover:scale-[1.02] " + (
+            theme === 'dark' 
+              ? "bg-[#140B25]/85 border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.45)] text-[#E2E8F0]" 
+              : "bg-white/90 border-slate-200 shadow-md text-slate-900"
+          )}
+        >
+          <div className="relative w-8 h-8 flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#0F172A"} strokeWidth="16" />
               <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
               <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
               <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
               <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
             </svg>
-            <span className={"text-2xl font-black tracking-widest font-sans transition-colors duration-300 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>
-              OLTVIΛ
-            </span>
           </div>
-          
-          <div className={"hidden md:flex items-center gap-7 text-sm font-semibold tracking-wide transition-colors duration-300 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
-            <a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Özellikler</a>
-            <a href="#girisler" className="hover:text-[#FF5A4D] transition-colors">Girişler</a>
-            <a href="#misyonumuz" className="hover:text-[#FF5A4D] transition-colors">Misyonumuz</a>
-            <a href="#sss" className="hover:text-[#FF5A4D] transition-colors">S.S.S</a>
-            <a href="#yasal" className="hover:text-[#FF5A4D] transition-colors">Şartlar & Gizlilik</a>
-            <a href="#iletisim" className="hover:text-[#FF5A4D] transition-colors">Bize Ulaşın</a>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className={"hidden lg:block border-l pl-5 transition-colors duration-300 " + (theme === 'dark' ? "border-white/[0.08]" : "border-slate-200")}>
-              <span className={"text-xs font-bold tracking-[0.3em] uppercase bg-gradient-to-r text-transparent bg-clip-text animate-slogan-flow " + (theme === 'dark' ? "from-[#9CA3AF] via-[#E2E8F0] to-[#9CA3AF]" : "from-slate-400 via-slate-800 to-slate-400")}>
-                Beyond What You Know
-              </span>
-            </div>
-            
-            <Link 
-              href="/giris?rol=ogrenci"
-              className={"px-5 py-2.5 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 shadow-md flex items-center gap-1.5 " + (
-                theme === 'dark' 
-                  ? "bg-white/[0.04] hover:bg-white/[0.1] border-white/[0.1] text-[#E2E8F0] hover:border-[#FF5A4D]/50" 
-                  : "bg-slate-100 hover:bg-slate-200/80 border-slate-300 text-slate-800 hover:border-[#FF5A4D]/50"
-              )}
-            >
-              <span>Giriş Yap</span>
-              <ChevronRight className="w-3.5 h-3.5 text-[#FF5A4D]" />
-            </Link>
-
-            {/* Yaratıcı "Tutulma (Eclipse)" Butonu: Güneş ve Ay Geçişi */}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? "Aydınlık Moda Geç (Güneş)" : "Karanlık Moda Geç (Güneş Tutulması)"}
-              title={theme === 'dark' ? "Aydınlık Moda Geç" : "Karanlık Moda Geç (Tutulma)"}
-              className={"relative w-10 h-10 rounded-xl border transition-all duration-300 hover:scale-105 flex items-center justify-center overflow-hidden " + (
-                theme === 'dark' 
-                  ? "bg-white/[0.04] border-white/10 hover:border-[#FF5A4D]/50 text-[#E2E8F0] shadow-[0_0_15px_rgba(255,90,77,0.15)]" 
-                  : "bg-slate-100 border-slate-300 hover:border-[#F59E0B]/60 text-slate-800 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
-              )}
-            >
-              <div className="relative w-6 h-6 flex items-center justify-center pointer-events-none">
-                {/* Güneş Işınları (Aydınlık modda açılır) */}
-                <div className={"absolute inset-0 transition-all duration-500 " + (theme === 'light' ? "opacity-100 scale-100 rotate-45" : "opacity-0 scale-50 rotate-0")}>
-                  {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-                    <span 
-                      key={deg} 
-                      style={{ transform: ('rotate(' + deg + 'deg) translateY(-9px)') }}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-1.5 rounded-full bg-amber-500"
-                    />
-                  ))}
-                </div>
-
-                {/* Güneş Çemberi (Amber/Ateş Mercanı) */}
-                <div 
-                  className={"w-4 h-4 rounded-full transition-all duration-500 relative z-10 " + (
-                    theme === 'dark'
-                      ? "bg-gradient-to-tr from-[#FF5A4D] to-[#8B6CFF] shadow-[0_0_12px_rgba(255,90,77,0.8)]"
-                      : "bg-gradient-to-tr from-amber-400 to-orange-500 shadow-[0_0_12px_rgba(245,158,11,0.9)]"
-                  )}
-                >
-                  {/* Totality Flare (Tutulma Tepe Noktası) */}
-                  {theme === 'dark' && (
-                    <span className="absolute -top-0.5 -right-0.5 w-1 h-1 rounded-full bg-white shadow-[0_0_6px_#fff]" />
-                  )}
-                </div>
-
-                {/* Siyah Ay Diski: Güneş'in önüne yavaşça kayarak girer, Güneş'i kaplar ve karanlık modu başlatır */}
-                <div 
-                  className={"absolute w-4 h-4 rounded-full z-20 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] " + (
-                    theme === 'dark'
-                      ? "translate-x-0 bg-[#14161A] border border-[#FF5A4D]/50 shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.2)]"
-                      : "translate-x-6 opacity-0 bg-slate-900"
-                  )}
-                />
-              </div>
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      <main className="relative z-10 pt-32 pb-20">
+          <span className="text-xl font-black tracking-widest font-sans">
+            OLTVIΛ
+          </span>
+        </Link>
         
-        {/* HERO SECTION */}
-        <section className="max-w-7xl mx-auto px-6 pt-32 pb-48 text-center flex flex-col items-center relative min-h-[50vh] justify-center reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        {/* Center: Floating Capsule Pill Nav with Sliding Active Indicator */}
+        <nav className={"hidden md:inline-flex items-center p-1.5 rounded-full backdrop-blur-2xl border pointer-events-auto relative transition-colors duration-300 " + (
+          theme === 'dark'
+            ? "bg-[#140B25]/85 border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.5)]"
+            : "bg-white/90 border-slate-200/90 shadow-lg"
+        )}>
+          {/* Smooth Sliding Pill Indicator */}
+          <div 
+            className={"absolute top-1.5 bottom-1.5 rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none " + (
+              theme === 'dark'
+                ? "bg-white/15 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)] border border-white/15 backdrop-blur-sm"
+                : "bg-slate-900 shadow-sm"
+            )}
+            style={{
+              left: `${navIndicator.left}px`,
+              width: `${navIndicator.width}px`,
+              opacity: navIndicator.opacity,
+            }}
+          />
+
+          {navItems.map((item) => {
+            const isActive = activeNav === item.id;
+            return (
+              <a 
+                key={item.id}
+                ref={(el) => { navTabRefs.current[item.id] = el; }}
+                href={item.href}
+                onClick={(e) => handleNavClick(item, e)}
+                className={"relative z-10 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-colors duration-200 text-center " + (
+                  isActive
+                    ? "text-white"
+                    : (theme === 'dark' ? "text-[#9D93B3] hover:text-white" : "text-slate-600 hover:text-slate-900")
+                )}
+              >
+                {item.label}
+              </a>
+            );
+          })}
+        </nav>
+        
+        {/* Right: Glowing Pill CTA Button & Eclipse Switcher */}
+        <div className="flex items-center gap-3 pointer-events-auto">
+          {/* Glowing Pill Action Button ("Get Started" in Reference) */}
+          <Link 
+            href="/giris?rol=ogrenci"
+            className={"relative group px-5 sm:px-6 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex items-center gap-2 " + (
+              theme === 'dark' 
+                ? "bg-[#FF5A4D]/10 hover:bg-[#FF5A4D] border-[#FF5A4D]/70 text-white shadow-[0_0_22px_rgba(255,90,77,0.45)] hover:shadow-[0_0_35px_rgba(255,90,77,0.8)]" 
+                : "bg-[#FF5A4D] hover:bg-[#ff4536] border-[#FF5A4D] text-white shadow-[0_0_20px_rgba(255,90,77,0.35)]"
+            )}
+          >
+            <span>Giriş Yap</span>
+            <ChevronRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+
+          {/* Yaratıcı "Tutulma (Eclipse)" Butonu: Güneş ve Ay Geçişi */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? "Aydınlık Moda Geç (Güneş)" : "Karanlık Moda Geç (Güneş Tutulması)"}
+            title={theme === 'dark' ? "Aydınlık Moda Geç" : "Karanlık Moda Geç (Tutulma)"}
+            className={"relative w-10 h-10 rounded-full border transition-all duration-300 hover:scale-105 flex items-center justify-center overflow-hidden " + (
+              theme === 'dark' 
+                ? "bg-[#140B25]/85 border-white/10 hover:border-[#FF5A4D]/50 text-[#E2E8F0] shadow-[0_0_15px_rgba(255,90,77,0.15)]" 
+                : "bg-white/90 border-slate-300 hover:border-[#F59E0B]/60 text-slate-800 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+            )}
+          >
+            <div className="relative w-6 h-6 flex items-center justify-center pointer-events-none">
+              {/* Güneş Işınları */}
+              <div className={"absolute inset-0 transition-all duration-500 " + (theme === 'light' ? "opacity-100 scale-100 rotate-45" : "opacity-0 scale-50 rotate-0")}>
+                {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+                  <span 
+                    key={deg} 
+                    style={{ transform: ('rotate(' + deg + 'deg) translateY(-9px)') }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-1.5 rounded-full bg-amber-500"
+                  />
+                ))}
+              </div>
+
+              {/* Güneş Çemberi */}
+              <div 
+                className={"w-4 h-4 rounded-full transition-all duration-500 relative z-10 " + (
+                  theme === 'dark'
+                    ? "bg-gradient-to-tr from-[#FF5A4D] to-[#8B6CFF] shadow-[0_0_12px_rgba(255,90,77,0.8)]"
+                    : "bg-gradient-to-tr from-amber-400 to-orange-500 shadow-[0_0_12px_rgba(245,158,11,0.9)]"
+                )}
+              >
+                {theme === 'dark' && (
+                  <span className="absolute -top-0.5 -right-0.5 w-1 h-1 rounded-full bg-white shadow-[0_0_6px_#fff]" />
+                )}
+              </div>
+
+              {/* Siyah Ay Diski */}
+              <div 
+                className={"absolute w-4 h-4 rounded-full z-20 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] " + (
+                  theme === 'dark'
+                    ? "translate-x-0 bg-[#080411] border border-[#FF5A4D]/50 shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.2)]"
+                    : "translate-x-6 opacity-0 bg-slate-900"
+                )}
+              />
+            </div>
+          </button>
+        </div>
+      </header>
+
+      <main className="relative z-10">
+        
+        {/* HERO SECTION - Only Beyond Learning Title shown on initial screen */}
+        <section className="min-h-screen max-w-7xl mx-auto px-6 pt-20 pb-12 text-center flex flex-col items-center justify-center relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          
+          {/* Brand Beyond Learning Title & Hover Reveal */}
           <div className="grid w-full max-w-5xl place-items-center group cursor-default">
             <h1 className="col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:blur-[24px] group-hover:opacity-0 group-hover:scale-90 text-center z-10 select-none flex flex-col items-center justify-center w-full">
-              <div className="w-full max-w-4xl px-2 py-4 flex items-center justify-center drop-shadow-[0_0_50px_rgba(255,90,95,0.35)]">
+              <div className="w-full max-w-4xl px-2 py-2 flex items-center justify-center drop-shadow-[0_0_50px_rgba(255,90,95,0.35)]">
                 <img 
                   src="/beyond-learning.svg" 
                   alt="Beyond Learning" 
-                  className="w-full h-auto max-h-[160px] object-contain select-none pointer-events-none drop-shadow-[0_0_35px_rgba(139,108,255,0.3)]" 
+                  className="w-full h-auto max-h-[140px] sm:max-h-[160px] object-contain select-none pointer-events-none drop-shadow-[0_0_35px_rgba(139,108,255,0.3)]" 
                 />
               </div>
-              <span className="block font-serif text-xs md:text-sm font-medium uppercase tracking-[0.35em] text-[#9CA3AF] mt-3 opacity-80">
+              <span className="block font-serif text-xs md:text-sm font-semibold uppercase tracking-[0.35em] text-[#A59BB8] mt-3 opacity-90">
                 BEYOND WHAT YOU KNOW
               </span>
             </h1>
             
             <p className={"col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] font-serif tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
-              OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında <span className="text-[#FF5A4D] italic font-semibold">adapte olan</span> yenilikçi bir ekosistemdir.
+              OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında adapte olan yenilikçi bir ekosistemdir.
             </p>
           </div>
+
         </section>
 
-        {/* 4 ENTRY PORTALS */}
-        <section id="girisler" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-40 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* 4 ENTRY PORTALS & CTA ACTION BUTTONS (Revealed upon scroll) */}
+        <section id="girisler" className="scroll-mt-24 max-w-7xl mx-auto px-6 mb-40 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          
+          {/* Dual Pill CTA Buttons (Vibrant Neon Glow as in Reference Screenshot) */}
+          <div className="flex flex-wrap items-center justify-center gap-5 z-20 mb-16 pt-6">
+            {/* Primary Coral Aura Button */}
+            <Link 
+              href="/giris?rol=ogrenci"
+              className="relative rounded-full px-8 sm:px-9 py-3.5 bg-gradient-to-r from-[#FF5A43] to-[#FF7A50] text-white font-bold text-sm tracking-wide shadow-[0_0_35px_rgba(255,90,67,0.6)] hover:shadow-[0_0_55px_rgba(255,90,67,0.9)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group"
+            >
+              <span>Hemen Başla</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            {/* Secondary Violet Aura Button */}
+            <a 
+              href="#portal-cards"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('portal-cards')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="relative rounded-full px-8 sm:px-9 py-3.5 bg-gradient-to-r from-[#5136CA] to-[#6E4CF2] text-white font-bold text-sm tracking-wide shadow-[0_0_35px_rgba(110,76,242,0.55)] hover:shadow-[0_0_55px_rgba(110,76,242,0.85)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group"
+            >
+              <span>Portalları Keşfet</span>
+              <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+            </a>
+          </div>
+
+          <div id="portal-cards" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { title: "Öğrenci", role: "ogrenci", icon: Rocket, desc: "Sokratik Mentör & Hedef Rotası" },
               { title: "Öğretmen", role: "ogretmen", icon: Network, desc: "Sınıf Analitiği & Ödev Yönetimi" },
@@ -283,13 +491,13 @@ export default function OltivaLandingPage() {
               <div key={idx} className={"group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] " + (theme === 'dark' ? "bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" : "bg-slate-200/80 hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF] shadow-sm")} style={{ transitionDelay: (idx * 100) + 'ms' }}>
                 <Link 
                   href={'/giris?rol=' + portal.role} 
-                  className={"relative w-full h-full flex flex-col items-center justify-center p-10 backdrop-blur-[16px] rounded-[31px] text-center " + (theme === 'dark' ? "bg-[#14161A]/90" : "bg-white/95 shadow-lg border border-slate-200/60")}
+                  className={"relative w-full h-full flex flex-col items-center justify-center p-10 backdrop-blur-2xl rounded-[31px] text-center specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border border-white/[0.08]" : "bg-white/95 shadow-lg border border-slate-200/60")}
                 >
-                  <div className={"w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner " + (theme === 'dark' ? "bg-white/[0.03] border border-white/[0.05]" : "bg-slate-100 border border-slate-200")}>
+                  <div className={"w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner " + (theme === 'dark' ? "bg-white/[0.04] border border-white/[0.08]" : "bg-slate-100 border border-slate-200")}>
                     <portal.icon size={36} className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-800") + " group-hover:text-[#FF5A4D] transition-colors duration-300"} strokeWidth={1.5} />
                   </div>
                   <h3 className={"text-xl font-bold mb-2 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>{portal.title}</h3>
-                  <p className={"text-xs max-w-[200px] leading-relaxed mb-6 opacity-75 group-hover:opacity-100 transition-opacity " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>
+                  <p className={"text-xs max-w-[200px] leading-relaxed mb-6 opacity-75 group-hover:opacity-100 transition-opacity " + (theme === 'dark' ? "text-[#A59BB8]" : "text-slate-500")}>
                     {portal.desc}
                   </p>
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#8B6CFF] group-hover:text-[#FF5A4D] transition-colors">
@@ -327,12 +535,12 @@ export default function OltivaLandingPage() {
             </div>
             
             <div className="flex-1 w-full">
-              <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
+              <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.08] to-transparent p-[1px]">
                 <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
-                <div className={"rounded-[23px] backdrop-blur-xl p-8 h-96 flex flex-col justify-end relative overflow-hidden border shadow-2xl " + (theme === 'dark' ? "bg-[#14161A]/90 border-white/[0.05]" : "bg-white/95 border-slate-200 shadow-xl")}>
+                <div className={"rounded-[23px] backdrop-blur-2xl p-8 h-96 flex flex-col justify-end relative overflow-hidden border shadow-2xl specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08]" : "bg-white/95 border-slate-200 shadow-xl")}>
                   
-                  <div className={"absolute top-4 left-4 right-4 flex items-center gap-4 border-b pb-6 backdrop-blur-md z-20 " + (theme === 'dark' ? "border-white/[0.05] bg-[#14161A]/50" : "border-slate-200 bg-slate-50/80")}>
-                    <div className={"w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(139,108,255,0.4)] border " + (theme === 'dark' ? "bg-[#14161A] border-white/5" : "bg-white border-slate-200")}>
+                  <div className={"absolute top-4 left-4 right-4 flex items-center gap-4 border-b pb-6 backdrop-blur-md z-20 " + (theme === 'dark' ? "border-white/[0.08] bg-[#140B25]/60" : "border-slate-200 bg-slate-50/80")}>
+                    <div className={"w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(139,108,255,0.4)] border " + (theme === 'dark' ? "bg-[#130B24] border-white/10" : "bg-white border-slate-200")}>
                       <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#0F172A"} strokeWidth="16" />
                         <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
@@ -396,9 +604,9 @@ export default function OltivaLandingPage() {
             </div>
             
             <div className="flex-1 w-full">
-              <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.05] to-transparent p-[1px]">
+              <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.08] to-transparent p-[1px]">
                 <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
-                <div className={"rounded-[23px] backdrop-blur-xl h-[420px] flex flex-col relative overflow-hidden border shadow-2xl group cursor-crosshair " + (theme === 'dark' ? "bg-[#14161A]/90 border-white/[0.05]" : "bg-white/95 border-slate-200 shadow-xl")}>
+                <div className={"rounded-[23px] backdrop-blur-2xl h-[420px] flex flex-col relative overflow-hidden border shadow-2xl group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08]" : "bg-white/95 border-slate-200 shadow-xl")}>
                   
                   {/* Header */}
                   <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-20 transition-opacity duration-500 group-hover:opacity-0">
@@ -452,7 +660,7 @@ export default function OltivaLandingPage() {
                         <g className="transition-all duration-700 opacity-0 group-hover:opacity-100" style={{ transitionDelay: '300ms' }}>
                           <line x1="150" y1="100" x2="150" y2="145" stroke={theme === 'dark' ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)"} strokeWidth="1" strokeDasharray="3 3" />
                           {/* Target Node */}
-                          <circle cx="150" cy="100" r="5" fill={theme === 'dark' ? "#14161A" : "#FFFFFF"} stroke="#FF5A4D" strokeWidth="2" />
+                          <circle cx="150" cy="100" r="5" fill={theme === 'dark' ? "#130B24" : "#FFFFFF"} stroke="#FF5A4D" strokeWidth="2" />
                           <rect x="90" y="60" width="120" height="30" rx="4" fill="#FF5A4D" opacity={theme === 'dark' ? "0.15" : "0.2"} />
                           <text x="150" y="80" fill="#FF5A4D" fontSize="10" fontWeight="bold" textAnchor="middle">Hedef: 85 Net</text>
                           {/* Current Node */}
@@ -463,7 +671,7 @@ export default function OltivaLandingPage() {
 
                         {/* Data Point 2: The Future Convergence (May) */}
                         <g className="transition-all duration-700 opacity-0 group-hover:opacity-100" style={{ transitionDelay: '500ms' }}>
-                          <circle cx="350" cy="55" r="5" fill={theme === 'dark' ? "#14161A" : "#FFFFFF"} stroke="#FF5A4D" strokeWidth="2" />
+                          <circle cx="350" cy="55" r="5" fill={theme === 'dark' ? "#130B24" : "#FFFFFF"} stroke="#FF5A4D" strokeWidth="2" />
                           <rect x="290" y="15" width="120" height="30" rx="4" fill="#FF5A4D" opacity={theme === 'dark' ? "0.15" : "0.2"} />
                           <text x="350" y="35" fill="#FF5A4D" fontSize="10" fontWeight="bold" textAnchor="middle">YKS Hedefi: 110 Net</text>
                         </g>
@@ -548,8 +756,8 @@ export default function OltivaLandingPage() {
                   theme === 'dark' ? "opacity-100" : "opacity-60"
                 )} />
                 
-                <div className={"rounded-[23px] relative overflow-hidden border shadow-2xl group min-h-[530px] flex flex-col justify-between p-6 sm:p-7 transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-[#14161A]/95 border-white/[0.06] backdrop-blur-2xl" : "bg-white/90 border-slate-200/90 backdrop-blur-xl shadow-lg"
+                <div className={"rounded-[23px] relative overflow-hidden border shadow-2xl group min-h-[530px] flex flex-col justify-between p-6 sm:p-7 transition-colors duration-300 specular-top " + (
+                  theme === 'dark' ? "bg-[#130B24]/90 border-white/[0.08] backdrop-blur-2xl" : "bg-white/90 border-slate-200/90 backdrop-blur-xl shadow-lg"
                 )}>
                   
                   {/* Üst Durum Çubuğu */}
@@ -859,7 +1067,7 @@ export default function OltivaLandingPage() {
             
             {/* Left: Streak Animation */}
             <div className="col-span-1">
-              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair " + (theme === 'dark' ? "bg-[#14161A]/90 border-white/[0.05]" : "bg-white/95 border-slate-200 shadow-xl")}>
+              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white/95 border-slate-200 shadow-xl")}>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#FF5A4D]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                 
                 <div className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500") + " text-xs font-bold uppercase tracking-[0.3em] mb-10 z-10"}>Günlük Seri</div>
@@ -912,7 +1120,7 @@ export default function OltivaLandingPage() {
 
             {/* Right: Leaderboard Animation */}
             <div className="col-span-1">
-              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair " + (theme === 'dark' ? "bg-[#14161A]/90 border-white/[0.05]" : "bg-white/95 border-slate-200 shadow-xl")}>
+              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white/95 border-slate-200 shadow-xl")}>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F59E0B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
                 <div className={"flex justify-between items-center mb-8 border-b pb-4 z-10 " + (theme === 'dark' ? "border-white/5" : "border-slate-200")}>
@@ -966,7 +1174,7 @@ export default function OltivaLandingPage() {
         </section>
               {/* 1. MISYONUMUZ SECTION */}
         <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-          <div className={"relative rounded-3xl border p-8 md:p-16 overflow-hidden shadow-2xl transition-colors duration-300 " + (theme === 'dark' ? "bg-gradient-to-b from-[#14161A] via-white/[0.02] to-[#14161A] border-white/[0.08]" : "bg-gradient-to-b from-white via-slate-50 to-white border-slate-200 shadow-xl")}>
+          <div className={"relative rounded-3xl border p-8 md:p-16 overflow-hidden shadow-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-gradient-to-b from-[#130B24] via-[#0E061B] to-[#130B24] border-white/[0.08] backdrop-blur-2xl" : "bg-gradient-to-b from-white via-slate-50 to-white border-slate-200 shadow-xl")}>
             <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF5A4D]/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -984,7 +1192,7 @@ export default function OltivaLandingPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 mb-12">
-              <div className={"p-8 rounded-2xl border hover:border-[#FF5A4D]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm")}>
+              <div className={"p-8 rounded-2xl border hover:border-[#FF5A4D]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm")}>
                 <div className="w-14 h-14 rounded-xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Brain className="w-7 h-7 text-[#FF5A4D]" />
                 </div>
@@ -994,7 +1202,7 @@ export default function OltivaLandingPage() {
                 </p>
               </div>
 
-              <div className={"p-8 rounded-2xl border hover:border-[#8B6CFF]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm")}>
+              <div className={"p-8 rounded-2xl border hover:border-[#8B6CFF]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm")}>
                 <div className="w-14 h-14 rounded-xl bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Target className="w-7 h-7 text-[#8B6CFF]" />
                 </div>
@@ -1004,7 +1212,7 @@ export default function OltivaLandingPage() {
                 </p>
               </div>
 
-              <div className={"p-8 rounded-2xl border hover:border-white/30 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm")}>
+              <div className={"p-8 rounded-2xl border hover:border-white/30 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm")}>
                 <div className={"w-14 h-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform " + (theme === 'dark' ? "bg-white/[0.06] border border-white/[0.1]" : "bg-slate-100 border border-slate-200")}>
                   <Flame className="w-7 h-7 text-[#F59E0B]" />
                 </div>
@@ -1069,7 +1277,7 @@ export default function OltivaLandingPage() {
             ].map((faq, idx) => (
               <div 
                 key={idx}
-                className={"rounded-2xl border overflow-hidden transition-all duration-300 " + (theme === 'dark' ? "bg-white/[0.02] border-white/[0.06] hover:border-white/20" : "bg-white border-slate-200 hover:border-slate-300 shadow-sm")}
+                className={"rounded-2xl border overflow-hidden transition-all duration-300 " + (theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] hover:border-white/20 backdrop-blur-xl" : "bg-white border-slate-200 hover:border-slate-300 shadow-sm")}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
@@ -1106,9 +1314,9 @@ export default function OltivaLandingPage() {
             </p>
           </div>
 
-          <div className={"rounded-3xl border overflow-hidden shadow-2xl backdrop-blur-xl transition-colors duration-300 " + (theme === 'dark' ? "bg-white/[0.02] border-white/[0.08]" : "bg-white border-slate-200 shadow-xl")}>
+          <div className={"rounded-3xl border overflow-hidden shadow-2xl backdrop-blur-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-[#130B24]/80 border-white/[0.08]" : "bg-white border-slate-200 shadow-xl")}>
             {/* Interactive Tab Switcher */}
-            <div className={"flex border-b overflow-x-auto " + (theme === 'dark' ? "border-white/[0.08] bg-black/30" : "border-slate-200 bg-slate-50")}>
+            <div className={"flex border-b overflow-x-auto " + (theme === 'dark' ? "border-white/[0.08] bg-[#0E061B]/80" : "border-slate-200 bg-slate-50")}>
               <button
                 onClick={() => setLegalTab('terms')}
                 className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
@@ -1303,7 +1511,7 @@ export default function OltivaLandingPage() {
 
               <div className="space-y-4">
                 <div className={"flex items-start gap-4 p-5 rounded-2xl border transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm"
                 )}>
                   <div className="p-3 rounded-xl bg-[#8B6CFF]/10 text-[#8B6CFF]">
                     <MapPin className="w-5 h-5" />
@@ -1315,7 +1523,7 @@ export default function OltivaLandingPage() {
                 </div>
 
                 <div className={"flex items-start gap-4 p-5 rounded-2xl border transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm"
                 )}>
                   <div className="p-3 rounded-xl bg-[#FF5A4D]/10 text-[#FF5A4D]">
                     <Mail className="w-5 h-5" />
@@ -1328,7 +1536,7 @@ export default function OltivaLandingPage() {
                 </div>
 
                 <div className={"flex items-start gap-4 p-5 rounded-2xl border transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm"
                 )}>
                   <div className="p-3 rounded-xl bg-[#0EA5E9]/10 text-[#0EA5E9]">
                     <Phone className="w-5 h-5" />
@@ -1343,8 +1551,8 @@ export default function OltivaLandingPage() {
 
             {/* Right Corporate Contact Form Column */}
             <div className="lg:col-span-7">
-              <div className={"p-8 md:p-12 rounded-3xl border relative shadow-2xl transition-colors duration-300 " + (
-                theme === 'dark' ? "bg-white/[0.02] border-white/[0.08] backdrop-blur-xl" : "bg-white/95 border-slate-200 backdrop-blur-xl shadow-xl"
+              <div className={"p-8 md:p-12 rounded-3xl border relative shadow-2xl transition-colors duration-300 specular-top " + (
+                theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white/95 border-slate-200 backdrop-blur-xl shadow-xl"
               )}>
                 {contactSubmitted ? (
                   <div className="text-center py-12 space-y-4">
@@ -1388,7 +1596,7 @@ export default function OltivaLandingPage() {
                           placeholder="Örn: Bilge Koleji / Özel Fen Lisesi"
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
-                              ? "bg-white/[0.03] border-white/[0.1] text-[#E2E8F0] placeholder-white/20 focus:border-[#FF5A4D]" 
+                              ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
                               : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
                           )}
                         />
@@ -1405,7 +1613,7 @@ export default function OltivaLandingPage() {
                           placeholder="Örn: Dr. Ahmet Yılmaz (Kurucu / Müdür)"
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
-                              ? "bg-white/[0.03] border-white/[0.1] text-[#E2E8F0] placeholder-white/20 focus:border-[#FF5A4D]" 
+                              ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
                               : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
                           )}
                         />
@@ -1425,7 +1633,7 @@ export default function OltivaLandingPage() {
                           placeholder="yonetim@kolej.k12.tr"
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
-                              ? "bg-white/[0.03] border-white/[0.1] text-[#E2E8F0] placeholder-white/20 focus:border-[#FF5A4D]" 
+                              ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
                               : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
                           )}
                         />
@@ -1442,7 +1650,7 @@ export default function OltivaLandingPage() {
                           placeholder="+90 (5XX) XXX XX XX"
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
-                              ? "bg-white/[0.03] border-white/[0.1] text-[#E2E8F0] placeholder-white/20 focus:border-[#FF5A4D]" 
+                              ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
                               : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
                           )}
                         />
@@ -1505,7 +1713,7 @@ export default function OltivaLandingPage() {
                         placeholder="Kurumunuz için demo takvimi, pilot çalışma planı veya müfredat entegrasyonu talebinizi paylaşın..."
                         className={"w-full px-4 py-3 rounded-xl border transition-colors text-sm focus:outline-none " + (
                           theme === 'dark' 
-                            ? "bg-white/[0.03] border-white/[0.1] text-[#E2E8F0] placeholder-white/20 focus:border-[#8B6CFF]" 
+                            ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#8B6CFF] focus:ring-2 focus:ring-[#8B6CFF]/20" 
                             : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#8B6CFF]"
                         )}
                       />
@@ -1513,7 +1721,7 @@ export default function OltivaLandingPage() {
 
                     <button
                       type="submit"
-                      className="w-full py-4 rounded-xl bg-gradient-to-r from-[#FF5A4D] via-[#FF8A7A] to-[#8B6CFF] text-white font-bold text-sm uppercase tracking-widest shadow-[0_0_30px_rgba(255,90,77,0.4)] hover:shadow-[0_0_40px_rgba(139,108,255,0.6)] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+                      className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF5A43] via-[#FF7A50] to-[#8B6CFF] text-white font-bold text-sm uppercase tracking-widest shadow-[0_0_35px_rgba(255,90,67,0.5)] hover:shadow-[0_0_50px_rgba(255,90,67,0.8)] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
                     >
                       <Building2 size={16} />
                       <span>Kurumsal Demo ve Bilgi Talebi Oluştur</span>
@@ -1529,7 +1737,7 @@ export default function OltivaLandingPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className={"border-t pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "border-white/[0.08] bg-[#0E1013]" : "border-slate-200 bg-slate-50")}>
+      <footer className={"border-t pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "border-white/[0.08] bg-[#0A0515]/95 backdrop-blur-2xl" : "border-slate-200 bg-slate-50")}>
         <div className="max-w-7xl mx-auto px-6">
           <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-slate-200")}>
             

@@ -713,7 +713,11 @@ function GirisContent() {
 
       setSuccessMsg(`Hoş geldiniz, ${data.user?.full_name || 'Kullanıcı'}! Giriş başarılı. Yönlendiriliyorsunuz...`);
       setTimeout(() => {
-        router.push('/');
+        if (activeRole === 'ogrenci') {
+          router.push('/ogrenci');
+        } else {
+          router.push('/');
+        }
       }, 1200);
     } catch (err: any) {
       setErrorMsg(err.message || 'Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyiniz.');
