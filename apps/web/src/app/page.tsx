@@ -209,7 +209,7 @@ export default function OltivaLandingPage() {
   }, []);
 
   return (
-    <div className={"min-h-screen font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden transition-colors duration-300 " + (theme === 'dark' ? "bg-[#080411] text-[#E2E8F0]" : "bg-[#F8FAFC] text-[#0F172A]")}>
+    <div className={"min-h-screen font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden transition-colors duration-300 " + (theme === 'dark' ? "bg-[#080411] text-[#E2E8F0]" : "bg-[#E9E3DE] text-[#1A1D24]")}>
 
       {/* Animated Mesh / Glowing Orbs & Cyber Geometric Line Grid (Matching Reference Screenshot) */}
       {theme === 'dark' ? (
@@ -290,8 +290,9 @@ export default function OltivaLandingPage() {
         </div>
       ) : (
         <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-          <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[140px] bg-[#FF5A4D]/10 opacity-70" />
-          <div className="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[140px] bg-[#8B6CFF]/10 opacity-70" />
+          <div className="absolute top-[-10%] left-[-5%] w-[45vw] h-[45vw] max-w-[650px] max-h-[650px] rounded-full blur-[140px] bg-[#5B3FD9]/8 opacity-80" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[45vw] h-[45vw] max-w-[650px] max-h-[650px] rounded-full blur-[140px] bg-[#FF5A4D]/8 opacity-80" />
+          <div className="absolute top-[35%] right-[15%] w-[35vw] h-[35vw] max-w-[500px] rounded-full blur-[130px] bg-[#5B3FD9]/5 opacity-60" />
         </div>
       )}
 
@@ -304,16 +305,16 @@ export default function OltivaLandingPage() {
           className={"pointer-events-auto flex items-center gap-3 px-4 py-2 rounded-full backdrop-blur-2xl border transition-all duration-300 hover:scale-[1.02] " + (
             theme === 'dark' 
               ? "bg-[#140B25]/85 border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.45)] text-[#E2E8F0]" 
-              : "bg-white/90 border-slate-200 shadow-md text-slate-900"
+              : "bg-white/95 border-[#E3E6EB] shadow-md text-[#1A1D24]"
           )}
         >
           <div className="relative w-8 h-8 flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#0F172A"} strokeWidth="16" />
-              <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} strokeWidth="16" />
+              <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
               <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-              <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
-              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
+              <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
+              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
             </svg>
           </div>
           <span className="text-xl font-black tracking-widest font-sans">
@@ -325,14 +326,14 @@ export default function OltivaLandingPage() {
         <nav className={"hidden md:inline-flex items-center p-1.5 rounded-full backdrop-blur-2xl border pointer-events-auto relative transition-colors duration-300 " + (
           theme === 'dark'
             ? "bg-[#140B25]/85 border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.5)]"
-            : "bg-white/90 border-slate-200/90 shadow-lg"
+            : "bg-white/95 border-[#E3E6EB] shadow-md"
         )}>
-          {/* Smooth Sliding Pill Indicator */}
+          {/* Smooth Sliding Pill Indicator (Light mode uses 10% opacity accent background) */}
           <div 
             className={"absolute top-1.5 bottom-1.5 rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none " + (
               theme === 'dark'
                 ? "bg-white/15 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)] border border-white/15 backdrop-blur-sm"
-                : "bg-slate-900 shadow-sm"
+                : "bg-[#5B3FD9]/10 border border-[#5B3FD9]/20"
             )}
             style={{
               left: `${navIndicator.left}px`,
@@ -351,8 +352,8 @@ export default function OltivaLandingPage() {
                 onClick={(e) => handleNavClick(item, e)}
                 className={"relative z-10 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-colors duration-200 text-center " + (
                   isActive
-                    ? "text-white"
-                    : (theme === 'dark' ? "text-[#9D93B3] hover:text-white" : "text-slate-600 hover:text-slate-900")
+                    ? (theme === 'dark' ? "text-white" : "text-[#5B3FD9] font-bold")
+                    : (theme === 'dark' ? "text-[#9D93B3] hover:text-white" : "text-[#68707D] hover:text-[#1A1D24]")
                 )}
               >
                 {item.label}
@@ -369,7 +370,7 @@ export default function OltivaLandingPage() {
             className={"relative group px-5 sm:px-6 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex items-center gap-2 " + (
               theme === 'dark' 
                 ? "bg-[#FF5A4D]/10 hover:bg-[#FF5A4D] border-[#FF5A4D]/70 text-white shadow-[0_0_22px_rgba(255,90,77,0.45)] hover:shadow-[0_0_35px_rgba(255,90,77,0.8)]" 
-                : "bg-[#FF5A4D] hover:bg-[#ff4536] border-[#FF5A4D] text-white shadow-[0_0_20px_rgba(255,90,77,0.35)]"
+                : "bg-[#FF5A4D] hover:bg-[#ff4536] border-[#FF5A4D] text-white shadow-[0_4px_14px_rgba(255,90,77,0.35)]"
             )}
           >
             <span>Giriş Yap</span>
@@ -385,7 +386,7 @@ export default function OltivaLandingPage() {
             className={"relative w-10 h-10 rounded-full border transition-all duration-300 hover:scale-105 flex items-center justify-center overflow-hidden " + (
               theme === 'dark' 
                 ? "bg-[#140B25]/85 border-white/10 hover:border-[#FF5A4D]/50 text-[#E2E8F0] shadow-[0_0_15px_rgba(255,90,77,0.15)]" 
-                : "bg-white/90 border-slate-300 hover:border-[#F59E0B]/60 text-slate-800 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+                : "bg-white border-[#E3E6EB] hover:border-[#F59E0B]/60 text-[#1A1D24] shadow-sm hover:shadow-md"
             )}
           >
             <div className="relative w-6 h-6 flex items-center justify-center pointer-events-none">
@@ -418,7 +419,7 @@ export default function OltivaLandingPage() {
                 className={"absolute w-4 h-4 rounded-full z-20 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] " + (
                   theme === 'dark'
                     ? "translate-x-0 bg-[#080411] border border-[#FF5A4D]/50 shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.2)]"
-                    : "translate-x-6 opacity-0 bg-slate-900"
+                    : "translate-x-6 opacity-0 bg-[#1A1D24]"
                 )}
               />
             </div>
@@ -446,7 +447,7 @@ export default function OltivaLandingPage() {
               </span>
             </h1>
             
-            <p className={"col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] font-serif tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
+            <p className={"col-start-1 row-start-1 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 blur-[20px] scale-110 group-hover:opacity-100 group-hover:blur-0 group-hover:scale-100 text-2xl md:text-3xl lg:text-4xl leading-relaxed font-normal z-20 text-center max-w-5xl px-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] font-serif tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
               OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında adapte olan yenilikçi bir ekosistemdir.
             </p>
           </div>
@@ -488,16 +489,16 @@ export default function OltivaLandingPage() {
               { title: "Veli", role: "veli", icon: Shield, desc: "Gelişim Raporları & Odaklanma" },
               { title: "Okul İdaresi", role: "kurumsal", icon: Building2, desc: "Okul Lisansları & Kota Takibi" }
             ].map((portal, idx) => (
-              <div key={idx} className={"group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] " + (theme === 'dark' ? "bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" : "bg-slate-200/80 hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF] shadow-sm")} style={{ transitionDelay: (idx * 100) + 'ms' }}>
+              <div key={idx} className={"group relative rounded-[2rem] p-[1px] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(139,92,246,0.2)] " + (theme === 'dark' ? "bg-white/[0.05] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#8B6CFF]" : "bg-[#E3E6EB] hover:bg-gradient-to-br hover:from-[#FF5A4D] hover:to-[#5B3FD9] shadow-sm")} style={{ transitionDelay: (idx * 100) + 'ms' }}>
                 <Link 
                   href={'/giris?rol=' + portal.role} 
-                  className={"relative w-full h-full flex flex-col items-center justify-center p-10 backdrop-blur-2xl rounded-[31px] text-center specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border border-white/[0.08]" : "bg-white/95 shadow-lg border border-slate-200/60")}
+                  className={"relative w-full h-full flex flex-col items-center justify-center p-10 backdrop-blur-2xl rounded-[31px] text-center specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border border-white/[0.08]" : "bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#E3E6EB]")}
                 >
-                  <div className={"w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner " + (theme === 'dark' ? "bg-white/[0.04] border border-white/[0.08]" : "bg-slate-100 border border-slate-200")}>
-                    <portal.icon size={36} className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-800") + " group-hover:text-[#FF5A4D] transition-colors duration-300"} strokeWidth={1.5} />
+                  <div className={"w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 shadow-inner " + (theme === 'dark' ? "bg-white/[0.04] border border-white/[0.08]" : "bg-[#E9E3DE]/40 border border-[#E3E6EB]")}>
+                    <portal.icon size={36} className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]") + " group-hover:text-[#FF5A4D] transition-colors duration-300"} strokeWidth={1.5} />
                   </div>
-                  <h3 className={"text-xl font-bold mb-2 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>{portal.title}</h3>
-                  <p className={"text-xs max-w-[200px] leading-relaxed mb-6 opacity-75 group-hover:opacity-100 transition-opacity " + (theme === 'dark' ? "text-[#A59BB8]" : "text-slate-500")}>
+                  <h3 className={"text-xl font-bold mb-2 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>{portal.title}</h3>
+                  <p className={"text-xs max-w-[200px] leading-relaxed mb-6 opacity-75 group-hover:opacity-100 transition-opacity " + (theme === 'dark' ? "text-[#A59BB8]" : "text-[#68707D]")}>
                     {portal.desc}
                   </p>
                   <div className="flex items-center gap-1.5 text-xs font-bold text-[#8B6CFF] group-hover:text-[#FF5A4D] transition-colors">
@@ -520,16 +521,16 @@ export default function OltivaLandingPage() {
                 <Brain size={32} />
               </div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight flex items-center flex-wrap gap-2">
-                <span className={theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900"}>Sokratik</span>
-                <span className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900") + " flex items-center relative"}>
+                <span className={theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]"}>Sokratik</span>
+                <span className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]") + " flex items-center relative font-sans font-black tracking-wide"}>
                   OLTV
                   <span className="inline-flex items-center relative ml-[1px]">
-                    <span className="animate-[swap-i_8s_infinite] inline-block relative z-10">İ</span>
-                    <span className="animate-[swap-a_8s_infinite] inline-block relative">Λ</span>
+                    <span className={(theme === 'dark' ? "animate-[swap-i-dark_8s_infinite]" : "animate-[swap-i-light_8s_infinite]") + " inline-block relative z-10"}>I</span>
+                    <span className={(theme === 'dark' ? "animate-[swap-a-dark_8s_infinite]" : "animate-[swap-a-light_8s_infinite]") + " inline-block relative"}>Λ</span>
                   </span>
                 </span>
               </h2>
-              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-lg leading-relaxed font-medium"}>
+              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-lg leading-relaxed font-medium"}>
                 Öğrenciye doğrudan cevabı vermek yerine, onu düşünmeye iten sorular sorar. Yüksek yapay zeka zekasıyla anlama hızına göre benzersiz diyaloglar kurar.
               </p>
             </div>
@@ -537,28 +538,28 @@ export default function OltivaLandingPage() {
             <div className="flex-1 w-full">
               <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.08] to-transparent p-[1px]">
                 <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
-                <div className={"rounded-[23px] backdrop-blur-2xl p-8 h-96 flex flex-col justify-end relative overflow-hidden border shadow-2xl specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08]" : "bg-white/95 border-slate-200 shadow-xl")}>
+                <div className={"rounded-[23px] backdrop-blur-2xl p-8 h-96 flex flex-col justify-end relative overflow-hidden border shadow-2xl specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08]" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
                   
-                  <div className={"absolute top-4 left-4 right-4 flex items-center gap-4 border-b pb-6 backdrop-blur-md z-20 " + (theme === 'dark' ? "border-white/[0.08] bg-[#140B25]/60" : "border-slate-200 bg-slate-50/80")}>
-                    <div className={"w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(139,108,255,0.4)] border " + (theme === 'dark' ? "bg-[#130B24] border-white/10" : "bg-white border-slate-200")}>
+                  <div className={"absolute top-4 left-4 right-4 flex items-center gap-4 border-b pb-6 backdrop-blur-md z-20 " + (theme === 'dark' ? "border-white/[0.08] bg-[#140B25]/60" : "border-[#E3E6EB] bg-white/80")}>
+                    <div className={"w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(139,108,255,0.4)] border " + (theme === 'dark' ? "bg-[#130B24] border-white/10" : "bg-white border-[#E3E6EB]")}>
                       <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#0F172A"} strokeWidth="16" />
-                        <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+                        <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} strokeWidth="16" />
+                        <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
                         <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-                        <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
-                        <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
+                        <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
+                        <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
                       </svg>
                     </div>
                     <div>
-                      <span className={"block text-base font-bold tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Oltvia Zeka</span>
-                      <span className="block text-xs text-[#8B6CFF] font-medium mt-1">12. Sınıf İleri Matematik - Limit</span>
+                      <span className={"block text-base font-bold tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Oltvia Zeka</span>
+                      <span className="block text-xs text-[#5B3FD9] font-medium mt-1">12. Sınıf İleri Matematik - Limit</span>
                     </div>
                   </div>
                   
                   <div className="space-y-4 z-10 pt-20">
                     {/* User Message */}
-                    <div className={"opacity-0 animate-[chat-loop-1_12s_infinite] border rounded-3xl rounded-tr-sm p-4 w-[90%] ml-auto backdrop-blur-sm " + (theme === 'dark' ? "bg-white/[0.03] border-white/[0.05]" : "bg-slate-100 border-slate-200 shadow-sm")}>
-                      <p className={"text-sm font-medium leading-relaxed " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-800")}>
+                    <div className={"opacity-0 animate-[chat-loop-1_12s_infinite] border rounded-3xl rounded-tr-sm p-4 w-[90%] ml-auto backdrop-blur-sm " + (theme === 'dark' ? "bg-white/[0.03] border-white/[0.05]" : "bg-[#E9E3DE]/30 border-[#E3E6EB] shadow-xs")}>
+                      <p className={"text-sm font-medium leading-relaxed " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
                         Hocam, L'Hopital kuralını kullanmadan sin(x)/x'in 0'daki limitinin 1 olduğunu geometrik olarak nasıl ispatlarız?
                       </p>
                     </div>
@@ -575,10 +576,10 @@ export default function OltivaLandingPage() {
                       <div className={"opacity-0 animate-[chat-loop-2_12s_infinite] rounded-3xl rounded-tl-sm p-4 w-[95%] backdrop-blur-sm shadow-sm border " + (
                         theme === 'dark' 
                           ? "bg-[#8B6CFF]/10 border-[#8B6CFF]/20 shadow-[0_0_15px_rgba(139,92,246,0.1)]" 
-                          : "bg-purple-50/90 border-purple-200/90 shadow-[0_4px_16px_rgba(139,108,255,0.08)]"
+                          : "bg-[#5B3FD9]/10 border-[#5B3FD9]/20 shadow-[0_4px_16px_rgba(91,63,217,0.08)]"
                       )}>
-                        <p className={"text-sm font-medium leading-relaxed " + (theme === 'dark' ? "text-[#E9D5FF]" : "text-purple-950")}>
-                          Harika bir soru! L'Hopital bazen ezbere kaçabilir. Birim çember üzerinde çok küçük bir <span className={"font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-purple-900")}>x açısı</span> çizdiğini hayal et. Sence bu açının gördüğü <span className={"italic font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-purple-900")}>yay uzunluğu (x)</span> ile üçgenin yüksekliği <span className={"italic font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-purple-900")}>(sin x)</span> birbirine nasıl yaklaşır?
+                        <p className={"text-sm font-medium leading-relaxed " + (theme === 'dark' ? "text-[#E9D5FF]" : "text-[#1A1D24]")}>
+                          Harika bir soru! L'Hopital bazen ezbere kaçabilir. Birim çember üzerinde çok küçük bir <span className={"font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#5B3FD9]")}>x açısı</span> çizdiğini hayal et. Sence bu açının gördüğü <span className={"italic font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#5B3FD9]")}>yay uzunluğu (x)</span> ile üçgenin yüksekliği <span className={"italic font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#5B3FD9]")}>(sin x)</span> birbirine nasıl yaklaşır?
                         </p>
                       </div>
                     </div>
@@ -595,10 +596,10 @@ export default function OltivaLandingPage() {
               <div className="w-16 h-16 rounded-2xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center text-[#FF5A4D] mb-6 shadow-[0_0_20px_rgba(255,90,95,0.2)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
               </div>
-              <h2 className={"text-4xl md:text-5xl font-black tracking-tight " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
+              <h2 className={"text-4xl md:text-5xl font-black tracking-tight " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
                 Sıfır Sapma ile <span className="text-[#FF5A4D]">Hedef Rotası</span>
               </h2>
-              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-lg leading-relaxed font-medium"}>
+              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-lg leading-relaxed font-medium"}>
                 Öğrencinin mevcut TYT-AYT netleri ile hayalindeki üniversitenin gerektirdiği net eğrisi arasındaki farkı milimetrik olarak analiz eder. Sistemin tek bir amacı vardır: Eksikleri anında tespit ederek bu iki eğriyi kusursuzca birleştirmek.
               </p>
             </div>
@@ -606,15 +607,15 @@ export default function OltivaLandingPage() {
             <div className="flex-1 w-full">
               <div className="relative rounded-3xl bg-gradient-to-b from-white/[0.08] to-transparent p-[1px]">
                 <div className="absolute inset-0 bg-[#8B6CFF]/20 blur-[80px] -z-10 rounded-full" />
-                <div className={"rounded-[23px] backdrop-blur-2xl h-[420px] flex flex-col relative overflow-hidden border shadow-2xl group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08]" : "bg-white/95 border-slate-200 shadow-xl")}>
+                <div className={"rounded-[23px] backdrop-blur-2xl h-[420px] flex flex-col relative overflow-hidden border shadow-2xl group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08]" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
                   
                   {/* Header */}
                   <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-20 transition-opacity duration-500 group-hover:opacity-0">
                      <div className="flex items-center gap-3">
                        <div className="w-3 h-3 rounded-full bg-[#FF5A4D] animate-pulse shadow-[0_0_10px_#FF5A4D]"></div>
-                       <span className={"text-sm font-bold tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>TYT/AYT Gelişim Grafiği</span>
+                       <span className={"text-sm font-bold tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>TYT/AYT Gelişim Grafiği</span>
                      </div>
-                     <span className={"text-xs font-bold border px-3 py-1.5 rounded-full " + (theme === 'dark' ? "bg-white/5 border-white/10 text-[#9CA3AF]" : "bg-slate-100 border-slate-200 text-slate-600")}>
+                     <span className={"text-xs font-bold border px-3 py-1.5 rounded-full " + (theme === 'dark' ? "bg-white/5 border-white/10 text-[#9CA3AF]" : "bg-white border-[#E3E6EB] text-[#68707D] shadow-xs")}>
                        Detay için üzerine gel
                      </span>
                   </div>
@@ -623,7 +624,7 @@ export default function OltivaLandingPage() {
                   <div className="absolute inset-0 pt-20 pb-10 px-8 transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.3] group-hover:-translate-y-4 group-hover:-translate-x-8">
                     
                     {/* Y-Axis Labels */}
-                    <div className={"absolute left-4 top-16 bottom-12 flex flex-col justify-between text-[10px] font-bold transition-opacity duration-500 group-hover:opacity-0 " + (theme === 'dark' ? "text-white/30" : "text-slate-400")}>
+                    <div className={"absolute left-4 top-16 bottom-12 flex flex-col justify-between text-[10px] font-bold transition-opacity duration-500 group-hover:opacity-0 " + (theme === 'dark' ? "text-white/30" : "text-[#68707D]")}>
                       <span>120</span>
                       <span>90</span>
                       <span>60</span>
@@ -666,7 +667,7 @@ export default function OltivaLandingPage() {
                           {/* Current Node */}
                           <circle cx="150" cy="145" r="5" fill="#8B6CFF" stroke="#fff" strokeWidth="2" filter="drop-shadow(0 0 4px #8B6CFF)" />
                           <rect x="90" y="160" width="120" height="30" rx="4" fill="#8B6CFF" opacity={theme === 'dark' ? "0.15" : "0.2"} />
-                          <text x="150" y="180" fill={theme === 'dark' ? "#E9D5FF" : "#581C87"} fontSize="10" fontWeight="bold" textAnchor="middle">Gerçekleşen: 65 Net</text>
+                          <text x="150" y="180" fill={theme === 'dark' ? "#E9D5FF" : "#5B3FD9"} fontSize="10" fontWeight="bold" textAnchor="middle">Gerçekleşen: 65 Net</text>
                         </g>
 
                         {/* Data Point 2: The Future Convergence (May) */}
@@ -679,7 +680,7 @@ export default function OltivaLandingPage() {
                     </div>
 
                     {/* X-Axis Labels */}
-                    <div className={"absolute bottom-4 left-8 right-8 flex justify-between text-[10px] font-bold transition-opacity duration-500 group-hover:opacity-0 uppercase tracking-widest " + (theme === 'dark' ? "text-white/40" : "text-slate-500 font-bold")}>
+                    <div className={"absolute bottom-4 left-8 right-8 flex justify-between text-[10px] font-bold transition-opacity duration-500 group-hover:opacity-0 uppercase tracking-widest " + (theme === 'dark' ? "text-white/40" : "text-[#68707D] font-bold")}>
                       <span>Eyl</span>
                       <span>Kas</span>
                       <span>Oca</span>
@@ -703,47 +704,47 @@ export default function OltivaLandingPage() {
             
             {/* Sol: Açıklama ve Stratejik Vizyon Metni */}
             <div className="flex-1 space-y-8">
-              <div className={"inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold text-[#8B6CFF] tracking-wider uppercase backdrop-blur-md shadow-[0_0_20px_rgba(139,108,255,0.15)] transition-colors duration-300 " + (
-                theme === 'dark' ? "bg-white/[0.04] border border-white/10" : "bg-white border border-slate-200 shadow-sm"
+              <div className={"inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold text-[#5B3FD9] tracking-wider uppercase backdrop-blur-md shadow-sm transition-colors duration-300 " + (
+                theme === 'dark' ? "bg-white/[0.04] border border-white/10" : "bg-white border border-[#E3E6EB] shadow-xs"
               )}>
                 <RotateCcw size={14} className="text-[#FF5A4D] animate-spin" style={{ animationDuration: '10s' }} />
                 <span>OLTVIA 360° Sistem Mimarisi</span>
               </div>
 
               <h2 className={"text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.18] transition-colors duration-300 " + (
-                theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]"
+                theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]"
               )}>
                 Sınırları Aşan Öğrenciler İçin{" "}
-                <span className="bg-gradient-to-r from-[#FF5A4D] via-[#FF8075] to-[#8B6CFF] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#FF5A4D] via-[#FF8075] to-[#5B3FD9] bg-clip-text text-transparent">
                   Yeni Nesil Eğitim Ekosistemi
                 </span>
               </h2>
 
               <p className={"text-base sm:text-lg leading-relaxed font-normal transition-colors duration-300 " + (
-                theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600"
+                theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]"
               )}>
-                <strong className={"font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>OLTVIA;</strong> disiplin, adanmışlık ve yapay zeka teknolojisini tek bir yapıda buluşturarak öğrenme süreçlerini veriye dayalı bir kesinliğe dönüştürür. Geleneksel müfredat sınırlarının ötesine geçerek, her öğrenciyi potansiyelini en üst düzeyde ortaya çıkaracağı stratejik hedeflere kilitler. Başarı bir tesadüf değil, doğru kurgulanmış bir sistemin kaçınılmaz sonucudur.
+                <strong className={"font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>OLTVIA;</strong> disiplin, adanmışlık ve yapay zeka teknolojisini tek bir yapıda buluşturarak öğrenme süreçlerini veriye dayalı bir kesinliğe dönüştürür. Geleneksel müfredat sınırlarının ötesine geçerek, her öğrenciyi potansiyelini en üst düzeyde ortaya çıkaracağı stratejik hedeflere kilitler. Başarı bir tesadüf değil, doğru kurgulanmış bir sistemin kaçınılmaz sonucudur.
               </p>
 
               {/* 3 Stratejik Güvence Maddesi */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div className={"p-3.5 rounded-2xl border backdrop-blur-sm transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-white/[0.03] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-white/[0.03] border-white/[0.06]" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 )}>
-                  <div className="text-[11px] font-bold text-[#8B6CFF] uppercase tracking-wider mb-1">Telemetri</div>
-                  <div className={"text-xs font-medium " + (theme === 'dark' ? "text-[#D1D5DB]" : "text-slate-700")}>Anlık Bilişsel Haritalama</div>
+                  <div className="text-[11px] font-bold text-[#5B3FD9] uppercase tracking-wider mb-1">Telemetri</div>
+                  <div className={"text-xs font-medium " + (theme === 'dark' ? "text-[#D1D5DB]" : "text-[#68707D]")}>Anlık Bilişsel Haritalama</div>
                 </div>
                 <div className={"p-3.5 rounded-2xl border backdrop-blur-sm transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-white/[0.03] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-white/[0.03] border-white/[0.06]" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 )}>
                   <div className="text-[11px] font-bold text-[#FF5A4D] uppercase tracking-wider mb-1">Adaptasyon</div>
-                  <div className={"text-xs font-medium " + (theme === 'dark' ? "text-[#D1D5DB]" : "text-slate-700")}>Dinamik Sokratik AI</div>
+                  <div className={"text-xs font-medium " + (theme === 'dark' ? "text-[#D1D5DB]" : "text-[#68707D]")}>Dinamik Sokratik AI</div>
                 </div>
                 <div className={"p-3.5 rounded-2xl border backdrop-blur-sm transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-white/[0.03] border-white/[0.06]" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-white/[0.03] border-white/[0.06]" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 )}>
                   <div className="text-[11px] font-bold text-[#10B981] uppercase tracking-wider mb-1">Kesinlik</div>
-                  <div className={"text-xs font-medium " + (theme === 'dark' ? "text-[#D1D5DB]" : "text-slate-700")}>Sıfır Sapma ile Sonuç</div>
+                  <div className={"text-xs font-medium " + (theme === 'dark' ? "text-[#D1D5DB]" : "text-[#68707D]")}>Sıfır Sapma ile Sonuç</div>
                 </div>
               </div>
             </div>
@@ -757,27 +758,27 @@ export default function OltivaLandingPage() {
                 )} />
                 
                 <div className={"rounded-[23px] relative overflow-hidden border shadow-2xl group min-h-[530px] flex flex-col justify-between p-6 sm:p-7 transition-colors duration-300 specular-top " + (
-                  theme === 'dark' ? "bg-[#130B24]/90 border-white/[0.08] backdrop-blur-2xl" : "bg-white/90 border-slate-200/90 backdrop-blur-xl shadow-lg"
+                  theme === 'dark' ? "bg-[#130B24]/90 border-white/[0.08] backdrop-blur-2xl" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]"
                 )}>
                   
                   {/* Üst Durum Çubuğu */}
                   <div className="flex items-center justify-between z-30 mb-2">
                     <div className={"flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors duration-300 " + (
-                      theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-slate-100 border-slate-200"
+                      theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-[#E9E3DE]/40 border-[#E3E6EB]"
                     )}>
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
                       </span>
                       <span className={"text-[10px] font-black tracking-[0.2em] uppercase " + (
-                        theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600"
+                        theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]"
                       )}>
                         System Flywheel
                       </span>
                     </div>
 
                     <div className={"text-[10px] font-semibold border px-2.5 py-1 rounded-full transition-colors " + (
-                      theme === 'dark' ? "text-[#9CA3AF] bg-white/[0.03] border-white/[0.06] group-hover:text-white" : "text-slate-500 bg-slate-100 border-slate-200 group-hover:text-slate-900"
+                      theme === 'dark' ? "text-[#9CA3AF] bg-white/[0.03] border-white/[0.06] group-hover:text-white" : "text-[#68707D] bg-white border-[#E3E6EB] group-hover:text-[#1A1D24] shadow-xs"
                     )}>
                       {activeFlywheelModule !== null ? "Dönüş Duraklatıldı" : "Modüle gelip incele"}
                     </div>
@@ -943,8 +944,8 @@ export default function OltivaLandingPage() {
                                 <span 
                                   className={"mt-1 whitespace-nowrap text-[11px] sm:text-xs font-bold tracking-wide transition-all duration-200 text-center " + (
                                     isHovered 
-                                      ? (theme === 'dark' ? "text-[#E2E8F0] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]" : "text-[#0F172A] drop-shadow-sm")
-                                      : (theme === 'dark' ? "text-[#E2E8F0]/75 group-hover/node:text-[#E2E8F0]" : "text-slate-600 group-hover/node:text-slate-900")
+                                      ? (theme === 'dark' ? "text-[#E2E8F0] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]" : "text-[#1A1D24] drop-shadow-sm")
+                                      : (theme === 'dark' ? "text-[#E2E8F0]/75 group-hover/node:text-[#E2E8F0]" : "text-[#68707D] group-hover/node:text-[#1A1D24]")
                                   )}
                                   style={{ color: isHovered ? mod.color : undefined }}
                                 >
@@ -965,7 +966,7 @@ export default function OltivaLandingPage() {
                       /* Aktif Modül Mikro Detay Kartı */
                       <div 
                         className={"rounded-2xl p-4 border backdrop-blur-2xl shadow-2xl transition-all duration-300 " + (
-                          theme === 'dark' ? "bg-[#181B22]/95" : "bg-white/95"
+                          theme === 'dark' ? "bg-[#181B22]/95" : "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
                         )}
                         style={{
                           borderColor: flywheelModules[activeFlywheelModule].borderGlow,
@@ -980,7 +981,7 @@ export default function OltivaLandingPage() {
                             >
                               {flywheelModules[activeFlywheelModule].step}
                             </span>
-                            <span className={"text-sm font-black tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>
+                            <span className={"text-sm font-black tracking-wide " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
                               {flywheelModules[activeFlywheelModule].title}
                             </span>
                           </div>
@@ -998,16 +999,16 @@ export default function OltivaLandingPage() {
                         </div>
 
                         <p className={"text-xs sm:text-[13px] leading-relaxed font-normal " + (
-                          theme === 'dark' ? "text-[#D1D5DB]" : "text-slate-600"
+                          theme === 'dark' ? "text-[#D1D5DB]" : "text-[#68707D]"
                         )}>
                           {flywheelModules[activeFlywheelModule].detail}
                         </p>
 
                         <div className={"mt-2.5 pt-2 border-t flex items-center justify-between text-[11px] " + (
-                          theme === 'dark' ? "border-white/[0.06]" : "border-slate-100"
+                          theme === 'dark' ? "border-white/[0.06]" : "border-[#E3E6EB]"
                         )}>
-                          <span className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500"}>Sistem Çıktısı:</span>
-                          <span className={"font-bold flex items-center gap-1.5 " + (theme === 'dark' ? "text-white" : "text-slate-900")}>
+                          <span className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]"}>Sistem Çıktısı:</span>
+                          <span className={"font-bold flex items-center gap-1.5 " + (theme === 'dark' ? "text-white" : "text-[#1A1D24]")}>
                             <CheckCircle2 size={13} style={{ color: flywheelModules[activeFlywheelModule].color }} />
                             {flywheelModules[activeFlywheelModule].metric}
                           </span>
@@ -1016,12 +1017,12 @@ export default function OltivaLandingPage() {
                     ) : (
                       /* Varsayılan 4'lü Seçim Barı & Rehber */
                       <div className={"rounded-2xl p-3 border backdrop-blur-md transition-colors duration-300 " + (
-                        theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-slate-50 border-slate-200"
+                        theme === 'dark' ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-[#E3E6EB] shadow-xs"
                       )}>
                         <div className={"text-[11px] text-center mb-2.5 font-medium flex items-center justify-center gap-1.5 " + (
-                          theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600"
+                          theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]"
                         )}>
-                          <RotateCcw size={12} className="text-[#8B6CFF]" />
+                          <RotateCcw size={12} className="text-[#5B3FD9]" />
                           <span>Çark üzerindeki simgelerin üzerine gelerek mikro detayları açın:</span>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
@@ -1035,7 +1036,7 @@ export default function OltivaLandingPage() {
                               className={"px-2 py-1.5 rounded-xl border text-left transition-all duration-200 flex items-center gap-1.5 group/btn " + (
                                 theme === 'dark' 
                                   ? "bg-white/[0.03] hover:bg-white/[0.08] border-white/[0.06]" 
-                                  : "bg-white hover:bg-slate-100 border-slate-200 shadow-xs"
+                                  : "bg-white hover:bg-[#E9E3DE]/30 border-[#E3E6EB] shadow-xs"
                               )}
                             >
                               <span 
@@ -1045,7 +1046,7 @@ export default function OltivaLandingPage() {
                                 {m.step}
                               </span>
                               <span className={"text-[10px] font-bold truncate transition-colors " + (
-                                theme === 'dark' ? "text-[#D1D5DB] group-hover/btn:text-white" : "text-slate-700 group-hover/btn:text-slate-950"
+                                theme === 'dark' ? "text-[#D1D5DB] group-hover/btn:text-white" : "text-[#68707D] group-hover/btn:text-[#1A1D24]"
                               )}>
                                 {m.title}
                               </span>
@@ -1067,37 +1068,37 @@ export default function OltivaLandingPage() {
             
             {/* Left: Streak Animation */}
             <div className="col-span-1">
-              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white/95 border-slate-200 shadow-xl")}>
+              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#FF5A4D]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                 
-                <div className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500") + " text-xs font-bold uppercase tracking-[0.3em] mb-10 z-10"}>Günlük Seri</div>
+                <div className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-xs font-bold uppercase tracking-[0.3em] mb-10 z-10"}>Günlük Seri</div>
                 
                 <div className="flex items-center gap-2 md:gap-3 z-10">
                   {["Pzt", "Sal", "Çar", "Per"].map((d, i) => (
                     <div key={i} className="flex flex-col items-center gap-3">
                        <Flame size={24} className="text-[#FF5A4D] drop-shadow-[0_0_8px_rgba(255,90,95,0.8)]" />
-                       <span className={"text-[10px] font-bold uppercase " + (theme === 'dark' ? "text-white/50" : "text-slate-500")}>{d}</span>
+                       <span className={"text-[10px] font-bold uppercase " + (theme === 'dark' ? "text-white/50" : "text-[#68707D]")}>{d}</span>
                     </div>
                   ))}
                   
                   {/* Today (Animates on hover) */}
                   <div className="flex flex-col items-center gap-3 relative">
                      <div className="absolute inset-0 bg-[#FF5A4D] blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-1000 delay-300 rounded-full scale-150"></div>
-                     <Flame size={28} className={"group-hover:text-[#FF5A4D] group-hover:drop-shadow-[0_0_15px_rgba(255,90,95,1)] transition-colors duration-1000 delay-300 relative z-10 group-hover:scale-110 " + (theme === 'dark' ? "text-white/10" : "text-slate-300")} />
-                     <span className={"text-[10px] font-black group-hover:text-[#FF5A4D] transition-colors duration-1000 delay-300 uppercase " + (theme === 'dark' ? "text-white/50" : "text-slate-500")}>Cum</span>
+                     <Flame size={28} className={"group-hover:text-[#FF5A4D] group-hover:drop-shadow-[0_0_15px_rgba(255,90,95,1)] transition-colors duration-1000 delay-300 relative z-10 group-hover:scale-110 " + (theme === 'dark' ? "text-white/10" : "text-[#68707D]/30")} />
+                     <span className={"text-[10px] font-black group-hover:text-[#FF5A4D] transition-colors duration-1000 delay-300 uppercase " + (theme === 'dark' ? "text-white/50" : "text-[#68707D]")}>Cum</span>
                   </div>
                   
                   {["Cmt", "Paz"].map((d, i) => (
                     <div key={i} className="flex flex-col items-center gap-3">
-                       <Flame size={24} className={theme === 'dark' ? "text-white/10" : "text-slate-200"} />
-                       <span className={"text-[10px] font-bold uppercase " + (theme === 'dark' ? "text-white/20" : "text-slate-300")}>{d}</span>
+                       <Flame size={24} className={theme === 'dark' ? "text-white/10" : "text-[#E3E6EB]"} />
+                       <span className={"text-[10px] font-bold uppercase " + (theme === 'dark' ? "text-white/20" : "text-[#68707D]/40")}>{d}</span>
                     </div>
                   ))}
                 </div>
                 
                 <div className="mt-12 text-center z-10">
                   <div className="text-[6rem] font-black leading-none relative flex justify-center items-center h-[100px] overflow-hidden">
-                    <span className={"absolute text-transparent bg-clip-text group-hover:-translate-y-full group-hover:opacity-0 transition-all duration-[800ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "bg-gradient-to-b from-[#E2E8F0] to-white/20" : "bg-gradient-to-b from-slate-900 to-slate-400")}>12</span>
+                    <span className={"absolute text-transparent bg-clip-text group-hover:-translate-y-full group-hover:opacity-0 transition-all duration-[800ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "bg-gradient-to-b from-[#E2E8F0] to-white/20" : "bg-gradient-to-b from-[#1A1D24] to-[#68707D]")}>12</span>
                     <span className="absolute translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-[800ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] text-[#FF5A4D] drop-shadow-[0_0_30px_rgba(255,90,95,0.4)]">13</span>
                   </div>
                   <div className="text-[#FF5A4D] font-bold tracking-widest mt-4 uppercase text-xs animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-[1200ms]">Gündür İlerliyorsun</div>
@@ -1110,54 +1111,54 @@ export default function OltivaLandingPage() {
               <div className="w-16 h-16 rounded-2xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 flex items-center justify-center text-[#F59E0B] mx-auto mb-6 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
                 <Gamepad2 size={32} />
               </div>
-              <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-6 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
+              <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-6 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
                 Oyunlaştırılmış <span className="text-[#F59E0B]">Eğitim</span>
               </h2>
-              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-lg leading-relaxed font-medium"}>
+              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-lg leading-relaxed font-medium"}>
                 Öğrenmeyi sıkıcı bir zorunluluk olmaktan çıkarıp, bağımlılık yapan bir serüvene dönüştürüyoruz. Kesintisiz çalışma serilerini <span className="text-[#FF5A4D] font-bold">(Streak)</span> koruyarak motivasyonunu zirvede tut ve kendi sınıfının liderlik tablosunda kıyasıya bir rekabete katıl!
               </p>
             </div>
 
             {/* Right: Leaderboard Animation */}
             <div className="col-span-1">
-              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white/95 border-slate-200 shadow-xl")}>
+              <div className={"border rounded-[23px] p-8 h-[420px] flex flex-col justify-center shadow-2xl relative overflow-hidden group cursor-crosshair specular-top " + (theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F59E0B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
-                <div className={"flex justify-between items-center mb-8 border-b pb-4 z-10 " + (theme === 'dark' ? "border-white/5" : "border-slate-200")}>
-                  <span className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900") + " text-xs font-bold tracking-[0.2em] uppercase"}>10/A SINIFI LİDERLERİ</span>
+                <div className={"flex justify-between items-center mb-8 border-b pb-4 z-10 " + (theme === 'dark' ? "border-white/5" : "border-[#E3E6EB]")}>
+                  <span className={(theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]") + " text-xs font-bold tracking-[0.2em] uppercase"}>10/A SINIFI LİDERLERİ</span>
                   <Trophy className="text-[#F59E0B] w-5 h-5 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
                 </div>
 
                 <div className="relative h-56 w-full z-10">
                    {/* Row 1 (Drops to 2) */}
-                   <div className={"absolute top-0 w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[4.5rem] " + (theme === 'dark' ? "bg-white/5 border-white/5" : "bg-slate-100/80 border-slate-200")}>
+                   <div className={"absolute top-0 w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[4.5rem] " + (theme === 'dark' ? "bg-white/5 border-white/5" : "bg-[#E9E3DE]/30 border-[#E3E6EB]")}>
                      <div className="flex items-center gap-4">
-                        <span className={"font-bold w-4 text-center " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>1</span>
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">DK</div>
-                        <span className={"font-semibold text-sm " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-800")}>Deniz K.</span>
+                        <span className={"font-bold w-4 text-center " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>1</span>
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-[#5B3FD9] flex items-center justify-center text-xs font-bold text-white">DK</div>
+                        <span className={"font-semibold text-sm " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Deniz K.</span>
                      </div>
-                     <span className="text-[#8B6CFF] font-bold text-sm">1450 XP</span>
+                     <span className="text-[#5B3FD9] font-bold text-sm">1450 XP</span>
                    </div>
 
                    {/* Row 2 (Drops to 3) */}
-                   <div className={"absolute top-[4.5rem] w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[9rem] " + (theme === 'dark' ? "bg-white/5 border-white/5" : "bg-slate-100/80 border-slate-200")}>
+                   <div className={"absolute top-[4.5rem] w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-[9rem] " + (theme === 'dark' ? "bg-white/5 border-white/5" : "bg-[#E9E3DE]/30 border-[#E3E6EB]")}>
                      <div className="flex items-center gap-4">
-                        <span className={"font-bold w-4 text-center " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>2</span>
+                        <span className={"font-bold w-4 text-center " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>2</span>
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-cyan-500 flex items-center justify-center text-xs font-bold text-white">AM</div>
-                        <span className={"font-semibold text-sm " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-800")}>Ayşe M.</span>
+                        <span className={"font-semibold text-sm " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Ayşe M.</span>
                      </div>
-                     <span className="text-[#8B6CFF] font-bold text-sm">1320 XP</span>
+                     <span className="text-[#5B3FD9] font-bold text-sm">1320 XP</span>
                    </div>
 
                    {/* Row 3 (User) -> Rises to 1 */}
-                   <div className={"absolute top-[9rem] w-full flex items-center justify-between p-4 rounded-xl transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-0 " + (theme === 'dark' ? "bg-[#FF5A4D]/10 border border-[#FF5A4D]/30 group-hover:bg-[#F59E0B]/20 group-hover:border-[#F59E0B]/50 shadow-[0_0_15px_rgba(255,90,95,0.1)] group-hover:shadow-[0_0_30px_rgba(245,158,11,0.4)]" : "bg-[#FF5A4D]/15 border border-[#FF5A4D]/40 group-hover:bg-[#F59E0B]/20 group-hover:border-[#F59E0B]/60 shadow-md")}>
+                   <div className={"absolute top-[9rem] w-full flex items-center justify-between p-4 rounded-xl transition-all duration-[1000ms] delay-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-0 " + (theme === 'dark' ? "bg-[#FF5A4D]/10 border border-[#FF5A4D]/30 group-hover:bg-[#F59E0B]/20 group-hover:border-[#F59E0B]/50 shadow-[0_0_15px_rgba(255,90,95,0.1)] group-hover:shadow-[0_0_30px_rgba(245,158,11,0.4)]" : "bg-[#FF5A4D]/10 border border-[#FF5A4D]/40 group-hover:bg-[#F59E0B]/15 group-hover:border-[#F59E0B]/50 shadow-sm")}>
                      <div className="flex items-center gap-4">
                         <span className="font-bold text-[#FF5A4D] group-hover:text-[#F59E0B] transition-colors duration-[1000ms] delay-[800ms] w-4 text-center">
                           <span className="group-hover:opacity-0 absolute transition-opacity duration-500">3</span>
                           <span className="opacity-0 group-hover:opacity-100 absolute transition-opacity duration-500 delay-[1200ms]">1</span>
                         </span>
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF5A4D] to-[#F59E0B] flex items-center justify-center text-xs font-bold text-white shadow-inner border border-white/20">SEN</div>
-                        <span className={"font-bold text-sm " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Sen</span>
+                        <span className={"font-bold text-sm " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Sen</span>
                      </div>
                      <div className="relative flex items-center justify-end w-20">
                         <span className="text-[#FF5A4D] font-bold text-sm absolute group-hover:opacity-0 transition-opacity duration-300">1280 XP</span>
@@ -1174,59 +1175,59 @@ export default function OltivaLandingPage() {
         </section>
               {/* 1. MISYONUMUZ SECTION */}
         <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-          <div className={"relative rounded-3xl border p-8 md:p-16 overflow-hidden shadow-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-gradient-to-b from-[#130B24] via-[#0E061B] to-[#130B24] border-white/[0.08] backdrop-blur-2xl" : "bg-gradient-to-b from-white via-slate-50 to-white border-slate-200 shadow-xl")}>
+          <div className={"relative rounded-3xl border p-8 md:p-16 overflow-hidden shadow-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-gradient-to-b from-[#130B24] via-[#0E061B] to-[#130B24] border-white/[0.08] backdrop-blur-2xl" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
             <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF5A4D]/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="text-center max-w-3xl mx-auto mb-16 relative z-10">
-              <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-6 " + (theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-slate-100 border-slate-200")}>
+              <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[#5B3FD9] text-xs font-semibold tracking-[0.25em] uppercase mb-6 " + (theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-white border-[#E3E6EB] shadow-xs")}>
                 <Sparkles className="w-3.5 h-3.5 text-[#FF5A4D]" />
                 Misyonumuz & Vizyonumuz
               </div>
-              <h2 className={"text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
-                Sınırların Ötesinde Bir <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent">Eğitim Devrimi</span>
+              <h2 className={"text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
+                Sınırların Ötesinde Bir <span className="bg-gradient-to-r from-[#FF5A4D] to-[#5B3FD9] bg-clip-text text-transparent">Eğitim Devrimi</span>
               </h2>
-              <p className={"text-lg md:text-xl leading-relaxed font-normal " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
+              <p className={"text-lg md:text-xl leading-relaxed font-normal " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
                 Ezbere dayalı, tek tip ve pasif eğitim modellerini tarihe gömüyoruz. OLTVIA; yapay zekanın hesaplama gücünü insan odaklı pedagoji ve Sokratik sorgulama ile harmanlayarak her öğrencinin benzersiz zihinsel potansiyelini gerçeğe dönüştürür.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 mb-12">
-              <div className={"p-8 rounded-2xl border hover:border-[#FF5A4D]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm")}>
+              <div className={"p-8 rounded-2xl border hover:border-[#FF5A4D]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]")}>
                 <div className="w-14 h-14 rounded-xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Brain className="w-7 h-7 text-[#FF5A4D]" />
                 </div>
-                <h3 className={"text-xl font-bold mb-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Sokratik Bilişsel Mentörlük</h3>
-                <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-sm leading-relaxed"}>
+                <h3 className={"text-xl font-bold mb-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Sokratik Bilişsel Mentörlük</h3>
+                <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-sm leading-relaxed"}>
                   Cevapları hazır sunmak yerine, zihni açan doğru sorular ve analojilerle öğrencinin mantık yürütmesini sağlarız. Ezber değil, kalıcı ve derin kavrayış inşa ederiz.
                 </p>
               </div>
 
-              <div className={"p-8 rounded-2xl border hover:border-[#8B6CFF]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm")}>
-                <div className="w-14 h-14 rounded-xl bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Target className="w-7 h-7 text-[#8B6CFF]" />
+              <div className={"p-8 rounded-2xl border hover:border-[#8B6CFF]/40 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]")}>
+                <div className="w-14 h-14 rounded-xl bg-[#5B3FD9]/10 border border-[#5B3FD9]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Target className="w-7 h-7 text-[#5B3FD9]" />
                 </div>
-                <h3 className={"text-xl font-bold mb-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Sıfır Sapma ile Hedef Rotası</h3>
-                <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-sm leading-relaxed"}>
+                <h3 className={"text-xl font-bold mb-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Sıfır Sapma ile Hedef Rotası</h3>
+                <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-sm leading-relaxed"}>
                   Her deneme ve soruyu analiz eden algoritmamız, öğrencinin bilişsel zayıf noktalarını milimetrik hassasiyetle tespit ederek hedefe giden en optimize rotayı çizer.
                 </p>
               </div>
 
-              <div className={"p-8 rounded-2xl border hover:border-white/30 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm")}>
-                <div className={"w-14 h-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform " + (theme === 'dark' ? "bg-white/[0.06] border border-white/[0.1]" : "bg-slate-100 border border-slate-200")}>
+              <div className={"p-8 rounded-2xl border hover:border-white/30 transition-all duration-500 hover:-translate-y-2 group " + (theme === 'dark' ? "bg-[#160D2A]/60 border-white/[0.08] backdrop-blur-xl" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]")}>
+                <div className={"w-14 h-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform " + (theme === 'dark' ? "bg-white/[0.06] border border-white/[0.1]" : "bg-[#E9E3DE]/40 border-[#E3E6EB]")}>
                   <Flame className="w-7 h-7 text-[#F59E0B]" />
                 </div>
-                <h3 className={"text-xl font-bold mb-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Bütünleşik & Canlı Ekosistem</h3>
-                <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-sm leading-relaxed"}>
+                <h3 className={"text-xl font-bold mb-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Bütünleşik & Canlı Ekosistem</h3>
+                <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-sm leading-relaxed"}>
                   Öğrenci, öğretmen, veli ve okulu tek bir şeffaf veri ağında birleştirir; streak ve seviye sistemleriyle çalışma disiplinini bağımlılık yaratan bir tutkuya dönüştürürüz.
                 </p>
               </div>
             </div>
 
             {/* Manifesto Callout Box */}
-            <div className={"p-8 rounded-2xl border text-center max-w-4xl mx-auto " + (theme === 'dark' ? "bg-gradient-to-r from-[#FF5A4D]/10 via-[#8B6CFF]/10 to-transparent border-white/[0.1]" : "bg-gradient-to-r from-[#FF5A4D]/10 via-[#8B6CFF]/10 to-slate-100 border-slate-200 shadow-sm")}>
-              <h4 className={"text-lg font-bold mb-2 " + (theme === 'dark' ? "text-white" : "text-slate-900")}>Eğitim Manifestomuz</h4>
-              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-sm leading-relaxed"}>
+            <div className={"p-8 rounded-2xl border text-center max-w-4xl mx-auto " + (theme === 'dark' ? "bg-gradient-to-r from-[#FF5A4D]/10 via-[#8B6CFF]/10 to-transparent border-white/[0.1]" : "bg-[#E9E3DE]/30 border-[#E3E6EB] shadow-xs")}>
+              <h4 className={"text-lg font-bold mb-2 " + (theme === 'dark' ? "text-white" : "text-[#1A1D24]")}>Eğitim Manifestomuz</h4>
+              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-sm leading-relaxed"}>
                 "Hiçbir öğrenci yeteneksiz değildir; yalnızca kendi hızına ve zihinsel ritmine uygun bir yol göstericiye ihtiyaç duyar. OLTVIA, öğrencinin hızına adapte olarak imkansız sanılan hedefleri tam 12'den vurması için tasarlandı."
               </p>
             </div>
@@ -1236,14 +1237,14 @@ export default function OltivaLandingPage() {
         {/* 2. S.S.S (FAQ) SECTION */}
         <section id="sss" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="text-center mb-16">
-            <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[#8B6CFF] text-xs font-semibold tracking-[0.25em] uppercase mb-4 " + (theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-slate-100 border-slate-200")}>
-              <HelpCircle className="w-3.5 h-3.5 text-[#8B6CFF]" />
+            <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[#5B3FD9] text-xs font-semibold tracking-[0.25em] uppercase mb-4 " + (theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-white border-[#E3E6EB] shadow-xs")}>
+              <HelpCircle className="w-3.5 h-3.5 text-[#5B3FD9]" />
               Sıkça Sorulan Sorular
             </div>
-            <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-4 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
+            <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-4 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
               Aklınıza Takılan Her Şey
             </h2>
-            <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-base md:text-lg"}>
+            <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-base md:text-lg"}>
               OLTVIA'nın yapay zeka dinamikleri, çalışma yöntemleri ve güvenliği hakkında merak edilenler.
             </p>
           </div>
@@ -1277,20 +1278,20 @@ export default function OltivaLandingPage() {
             ].map((faq, idx) => (
               <div 
                 key={idx}
-                className={"rounded-2xl border overflow-hidden transition-all duration-300 " + (theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] hover:border-white/20 backdrop-blur-xl" : "bg-white border-slate-200 hover:border-slate-300 shadow-sm")}
+                className={"rounded-2xl border overflow-hidden transition-all duration-300 " + (theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] hover:border-white/20 backdrop-blur-xl" : "bg-white border-[#E3E6EB] hover:border-[#5B3FD9]/40 shadow-[0_2px_12px_rgba(0,0,0,0.03)]")}
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left gap-4"
                 >
-                  <span className={"text-base md:text-lg font-bold flex items-center gap-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
-                    <span className="text-xs font-mono text-[#8B6CFF] px-2 py-1 rounded bg-[#8B6CFF]/10">0{idx + 1}</span>
+                  <span className={"text-base md:text-lg font-bold flex items-center gap-3 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
+                    <span className="text-xs font-mono text-[#5B3FD9] px-2 py-1 rounded bg-[#5B3FD9]/10">0{idx + 1}</span>
                     {faq.q}
                   </span>
                   <ChevronDown className={`w-5 h-5 text-[#9CA3AF] transition-transform duration-300 flex-shrink-0 ${openFaq === idx ? 'rotate-180 text-[#FF5A4D]' : ''}`} />
                 </button>
                 {openFaq === idx && (
-                  <div className={"px-6 pb-6 pt-2 text-sm md:text-base leading-relaxed border-t " + (theme === 'dark' ? "text-[#9CA3AF] border-white/[0.04]" : "text-slate-600 border-slate-100")}>
+                  <div className={"px-6 pb-6 pt-2 text-sm md:text-base leading-relaxed border-t " + (theme === 'dark' ? "text-[#9CA3AF] border-white/[0.04]" : "text-[#68707D] border-[#E3E6EB]")}>
                     {faq.a}
                   </div>
                 )}
@@ -1302,27 +1303,27 @@ export default function OltivaLandingPage() {
         {/* 3. YASAL VE GUVENLIK ILKELERI (SARTLAR, KOSULLAR, GIZLILIK) */}
         <section id="yasal" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
           <div className="text-center mb-12">
-            <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[#10B981] text-xs font-semibold tracking-[0.25em] uppercase mb-4 " + (theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-slate-100 border-slate-200")}>
+            <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[#10B981] text-xs font-semibold tracking-[0.25em] uppercase mb-4 " + (theme === 'dark' ? "bg-white/[0.04] border-white/[0.08]" : "bg-white border-[#E3E6EB] shadow-xs")}>
               <Shield className="w-3.5 h-3.5 text-[#10B981]" />
               Yasal & Güvenlik Esasları
             </div>
-            <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-4 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>
+            <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-4 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>
               Şartlar, Koşullar ve Gizlilik
             </h2>
-            <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-base md:text-lg max-w-2xl mx-auto"}>
+            <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-base md:text-lg max-w-2xl mx-auto"}>
               Şeffaflık, güvenilirlik ve veri koruma standartlarımız; tüm platform kullanımınızı yasal güvence altına alır.
             </p>
           </div>
 
-          <div className={"rounded-3xl border overflow-hidden shadow-2xl backdrop-blur-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-[#130B24]/80 border-white/[0.08]" : "bg-white border-slate-200 shadow-xl")}>
+          <div className={"rounded-3xl border overflow-hidden shadow-2xl backdrop-blur-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-[#130B24]/80 border-white/[0.08]" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
             {/* Interactive Tab Switcher */}
-            <div className={"flex border-b overflow-x-auto " + (theme === 'dark' ? "border-white/[0.08] bg-[#0E061B]/80" : "border-slate-200 bg-slate-50")}>
+            <div className={"flex border-b overflow-x-auto " + (theme === 'dark' ? "border-white/[0.08] bg-[#0E061B]/80" : "border-[#E3E6EB] bg-[#E9E3DE]/30")}>
               <button
                 onClick={() => setLegalTab('terms')}
                 className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
                   legalTab === 'terms' 
-                    ? (theme === 'dark' ? 'border-[#FF5A4D] text-[#FF5A4D] bg-white/[0.04]' : 'border-[#FF5A4D] text-[#FF5A4D] bg-white shadow-xs font-bold') 
-                    : (theme === 'dark' ? 'border-transparent text-[#9CA3AF] hover:text-[#E2E8F0]' : 'border-transparent text-slate-500 hover:text-slate-900')
+                    ? (theme === 'dark' ? 'border-[#FF5A4D] text-[#FF5A4D] bg-white/[0.04]' : 'border-[#FF5A4D] text-[#FF5A4D] bg-[#FF5A4D]/10 font-bold') 
+                    : (theme === 'dark' ? 'border-transparent text-[#9CA3AF] hover:text-[#E2E8F0]' : 'border-transparent text-[#68707D] hover:text-[#1A1D24]')
                 }`}
               >
                 <FileText className="w-4 h-4" /> Kullanım Şartları
@@ -1331,8 +1332,8 @@ export default function OltivaLandingPage() {
                 onClick={() => setLegalTab('conditions')}
                 className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
                   legalTab === 'conditions' 
-                    ? (theme === 'dark' ? 'border-[#8B6CFF] text-[#8B6CFF] bg-white/[0.04]' : 'border-[#8B6CFF] text-[#8B6CFF] bg-white shadow-xs font-bold') 
-                    : (theme === 'dark' ? 'border-transparent text-[#9CA3AF] hover:text-[#E2E8F0]' : 'border-transparent text-slate-500 hover:text-slate-900')
+                    ? (theme === 'dark' ? 'border-[#8B6CFF] text-[#8B6CFF] bg-white/[0.04]' : 'border-[#5B3FD9] text-[#5B3FD9] bg-[#5B3FD9]/10 font-bold') 
+                    : (theme === 'dark' ? 'border-transparent text-[#9CA3AF] hover:text-[#E2E8F0]' : 'border-transparent text-[#68707D] hover:text-[#1A1D24]')
                 }`}
               >
                 <Check className="w-4 h-4" /> Şartlar ve Koşullar
@@ -1341,8 +1342,8 @@ export default function OltivaLandingPage() {
                 onClick={() => setLegalTab('privacy')}
                 className={`py-4 px-6 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap flex items-center gap-2 ${
                   legalTab === 'privacy' 
-                    ? (theme === 'dark' ? 'border-[#0EA5E9] text-[#0EA5E9] bg-white/[0.04]' : 'border-[#0EA5E9] text-[#0EA5E9] bg-white shadow-xs font-bold') 
-                    : (theme === 'dark' ? 'border-transparent text-[#9CA3AF] hover:text-[#E2E8F0]' : 'border-transparent text-slate-500 hover:text-slate-900')
+                    ? (theme === 'dark' ? 'border-[#0EA5E9] text-[#0EA5E9] bg-white/[0.04]' : 'border-[#5B3FD9] text-[#5B3FD9] bg-[#5B3FD9]/10 font-bold') 
+                    : (theme === 'dark' ? 'border-transparent text-[#9CA3AF] hover:text-[#E2E8F0]' : 'border-transparent text-[#68707D] hover:text-[#1A1D24]')
                 }`}
               >
                 <Lock className="w-4 h-4" /> Gizlilik & KVKK
@@ -1350,43 +1351,43 @@ export default function OltivaLandingPage() {
             </div>
 
             {/* Active Tab Content Area */}
-            <div className={"p-8 md:p-12 text-sm md:text-base leading-relaxed space-y-6 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
+            <div className={"p-8 md:p-12 text-sm md:text-base leading-relaxed space-y-6 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
               
               {legalTab === 'terms' && (
                 <div className="space-y-6 animate-fade-in">
-                  <div className={"flex items-center justify-between pb-4 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-slate-200")}>
+                  <div className={"flex items-center justify-between pb-4 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-[#E3E6EB]")}>
                     <div>
-                      <h3 className={"text-xl md:text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Kullanım Şartları Sözleşmesi</h3>
-                      <p className={"text-xs mt-1 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500 font-medium")}>Son Güncelleme: 13 Ekim 2026 • Versiyon 2.4</p>
+                      <h3 className={"text-xl md:text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Kullanım Şartları Sözleşmesi</h3>
+                      <p className={"text-xs mt-1 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-medium")}>Son Güncelleme: 13 Ekim 2026 • Versiyon 2.4</p>
                     </div>
                     <span className="text-xs font-mono text-[#FF5A4D] px-3 py-1 rounded bg-[#FF5A4D]/10">RESMİ SÖZLEŞME</span>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>1. Taraflar ve Hizmetin Tanımı</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>1. Taraflar ve Hizmetin Tanımı</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         İşbu Kullanım Şartları, OLTVIA Eğitim Teknolojileri A.Ş. ("OLTVIA") tarafından sunulan internet sitesi, mobil uygulamalar, Sokratik yapay zeka ders asistanı ve kurumsal yönetim panellerini kapsar. Platforma kaydolan veya içeriklerden faydalanan her gerçek ve tüzel kişi ("Kullanıcı"), işbu şartları peşinen kabul etmiş sayılır.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>2. Hesap Güvenliği ve Tekil Kullanım İlkesi</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>2. Hesap Güvenliği ve Tekil Kullanım İlkesi</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         Kullanıcı, oluşturduğu hesabın kullanıcı adı ve şifre güvenliğinden bizzat sorumludur. Hesabın üçüncü kişilere devredilmesi, satılması veya eşzamanlı olarak yetkisiz kişilerce paylaşılması yasaktır. OLTVIA, tek hesap üzerinden olağandışı çoklu IP erişimi veya şüpheli aktivite tespit etmesi halinde hesabı geçici veya kalıcı olarak askıya alma hakkını saklı tutar.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>3. Kabul Edilebilir Kullanım ve Yasak Faaliyetler</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>3. Kabul Edilebilir Kullanım ve Yasak Faaliyetler</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         Kullanıcılar; platform üzerindeki soru havuzlarını, yapay zeka yanıt modellerini, algoritmik gelişim eğrilerini veya arayüz tasarımlarını kazıma (scraping), tersine mühendislik (reverse engineering) veya bot yazılımlar vasıtasıyla kopyalayamaz. Ayrıca hileli yöntemlerle XP, puan veya seri (Streak) artışı üretmek kesinlikle yasaktır.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>4. Fikri Mülkiyet Hakları</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>4. Fikri Mülkiyet Hakları</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         Platformda yer alan tüm yazılımlar, Sokratik AI istem mühendisliği (prompt engineering) modelleri, logolar, grafikler ve özgün eğitim içerikleri OLTVIA'nın münhasır mülkiyetindedir ve 5846 sayılı Fikir ve Sanat Eserleri Kanunu ile korunmaktadır.
                       </p>
                     </div>
@@ -1396,39 +1397,39 @@ export default function OltivaLandingPage() {
 
               {legalTab === 'conditions' && (
                 <div className="space-y-6 animate-fade-in">
-                  <div className={"flex items-center justify-between pb-4 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-slate-200")}>
+                  <div className={"flex items-center justify-between pb-4 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-[#E3E6EB]")}>
                     <div>
-                      <h3 className={"text-xl md:text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Şartlar ve Koşullar (Abonelik Esasları)</h3>
-                      <p className={"text-xs mt-1 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500 font-medium")}>Yürürlük Tarihi: 13 Ekim 2026</p>
+                      <h3 className={"text-xl md:text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Şartlar ve Koşullar (Abonelik Esasları)</h3>
+                      <p className={"text-xs mt-1 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-medium")}>Yürürlük Tarihi: 13 Ekim 2026</p>
                     </div>
-                    <span className="text-xs font-mono text-[#8B6CFF] px-3 py-1 rounded bg-[#8B6CFF]/10">HİZMET POLİTİKASI</span>
+                    <span className="text-xs font-mono text-[#5B3FD9] px-3 py-1 rounded bg-[#5B3FD9]/10">HİZMET POLİTİKASI</span>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>1. Abonelik Paketleri ve Ödeme Koşulları</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>1. Abonelik Paketleri ve Ödeme Koşulları</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         OLTVIA, bireysel öğrencilere yönelik aylık/yıllık B2C abonelikler ile okullara ve kurs merkezlerine yönelik çoklu lisanslı B2B kurumsal paketler sunar. Abonelik bedelleri, kayıt esnasında belirtilen periyotlarla kredi kartı veya kurumsal faturalandırma kanalıyla peşin tahsil edilir. Fiyat değişiklikleri en az 30 gün önceden kullanıcılara bildirilir.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>2. Cayma Hakkı ve İade Politikası</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>2. Cayma Hakkı ve İade Politikası</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği uyarınca; anında ifa edilen dijital hizmetler ve elektronik ortamda teslim edilen yapay zeka eğitim yazılımlarında, kullanıcı hizmeti aktif olarak kullanmaya başladıktan sonra cayma hakkı istisna kapsamındadır. Bununla birlikte, teknik arızalardan kaynaklanan ve 72 saat içinde giderilemeyen aksaklıklarda orantılı iade süreci işletilir.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>3. Yapay Zeka Çıktıları ve Pedagojik Sorumluluk Sınırı</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>3. Yapay Zeka Çıktıları ve Pedagojik Sorumluluk Sınırı</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         OLTVIA'nın sunduğu Sokratik Yapay Zeka asistanı, öğrencinin zihinsel gelişimine rehberlik etmek üzere tasarlanmış ileri düzey bir pedagojik araçtır. Yapay zekanın sağladığı ipuçları ve yönlendirmeler resmi sınav başarısını doğrudan garanti eden bir taahhüt niteliğinde olmayıp, öğrencinin bireysel çalışma disiplinini destekleme amacı taşır.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>4. Uyuşmazlıkların Çözümü ve Yetkili Mahkeme</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>4. Uyuşmazlıkların Çözümü ve Yetkili Mahkeme</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         İşbu sözleşmeden doğabilecek her türlü ihtilafın çözümünde Türk Hukuku uygulanacak olup, İstanbul (Çağlayan) Mahkemeleri ve İcra Daireleri münhasıran yetkilidir.
                       </p>
                     </div>
@@ -1438,42 +1439,42 @@ export default function OltivaLandingPage() {
 
               {legalTab === 'privacy' && (
                 <div className="space-y-6 animate-fade-in">
-                  <div className={"flex items-center justify-between pb-4 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-slate-200")}>
+                  <div className={"flex items-center justify-between pb-4 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-[#E3E6EB]")}>
                     <div>
-                      <h3 className={"text-xl md:text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>Gizlilik Politikası ve KVKK Aydınlatma Metni</h3>
-                      <p className={"text-xs mt-1 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500 font-medium")}>6698 sayılı KVKK ve Uluslararası GDPR Uyumlu</p>
+                      <h3 className={"text-xl md:text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Gizlilik Politikası ve KVKK Aydınlatma Metni</h3>
+                      <p className={"text-xs mt-1 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-medium")}>6698 sayılı KVKK ve Uluslararası GDPR Uyumlu</p>
                     </div>
                     <span className="text-xs font-mono text-[#10B981] px-3 py-1 rounded bg-[#10B981]/10">VERİ GÜVENCESİ</span>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>1. Veri Sorumlusu ve Kapsam</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>1. Veri Sorumlusu ve Kapsam</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         6698 sayılı KVKK uyarınca, OLTVIA Eğitim Teknolojileri A.Ş. veri sorumlusu sıfatıyla hareket etmektedir. Kişisel verileriniz; hukuka ve dürüstlük kurallarına uygun, doğru ve güncel olarak, pedagojik analiz ve kişiselleştirilmiş öğrenme amacıyla sınırlı şekilde işlenmektedir.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>2. İşlenen Kişisel Veri Kategorileri</h4>
-                      <ul className={"list-disc pl-5 space-y-1.5 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
-                        <li><strong className={theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900"}>Kimlik ve İletişim Bilgileri:</strong> Ad, soyad, e-posta adresi, telefon numarası, sınıf düzeyi.</li>
-                        <li><strong className={theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900"}>Akademik ve Bilişsel Veriler:</strong> Çözülen deneme netleri, soru çözüm süreleri, yanlış yapılan konu haritaları, yapay zeka mentörlük diyalogları.</li>
-                        <li><strong className={theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900"}>İşlem ve Güvenlik Logları:</strong> IP adresi, cihaz bilgisi, oturum açma süreleri ve Streak serisi kayıtları.</li>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>2. İşlenen Kişisel Veri Kategorileri</h4>
+                      <ul className={"list-disc pl-5 space-y-1.5 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
+                        <li><strong className={theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]"}>Kimlik ve İletişim Bilgileri:</strong> Ad, soyad, e-posta adresi, telefon numarası, sınıf düzeyi.</li>
+                        <li><strong className={theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]"}>Akademik ve Bilişsel Veriler:</strong> Çözülen deneme netleri, soru çözüm süreleri, yanlış yapılan konu haritaları, yapay zeka mentörlük diyalogları.</li>
+                        <li><strong className={theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]"}>İşlem ve Güvenlik Logları:</strong> IP adresi, cihaz bilgisi, oturum açma süreleri ve Streak serisi kayıtları.</li>
                       </ul>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>3. Veri Güvenliği ve Şifreleme İlkeleri</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>3. Veri Güvenliği ve Şifreleme İlkeleri</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
                         Platformumuzda saklanan tüm hassas öğrenci verileri AES-256 standardıyla şifrelenir. Ağ üzerindeki tüm iletişim TLS 1.3 güvenlik protokolü ile korunur. OLTVIA, öğrenci verilerini reklam ağlarıyla asla paylaşmaz ve hiçbir ticari kuruluşa satmaz.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>4. KVKK Madde 11 Kapsamındaki Haklarınız</h4>
-                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600 font-normal"}>
-                        Veri sahibi olarak; verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, eksik veya yanlış işlenmişse düzeltilmesini isteme ve silinmesini talep etme hakkına sahipsiniz. Başvurularınızı <span className={"font-mono font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>kvkk@oltvia.com</span> adresine iletebilirsiniz.
+                      <h4 className={"font-bold text-base mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>4. KVKK Madde 11 Kapsamındaki Haklarınız</h4>
+                      <p className={theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D] font-normal"}>
+                        Veri sahibi olarak; verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, eksik veya yanlış işlenmişse düzeltilmesini isteme ve silinmesini talep etme hakkına sahipsiniz. Başvurularınızı <span className={"font-mono font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>kvkk@oltvia.com</span> adresine iletebilirsiniz.
                       </p>
                     </div>
                   </div>
@@ -1492,18 +1493,18 @@ export default function OltivaLandingPage() {
             <div className="lg:col-span-5 space-y-8">
               <div>
                 <div className={"inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[#FF5A4D] text-xs font-semibold tracking-[0.25em] uppercase mb-4 transition-colors " + (
-                  theme === 'dark' ? "bg-white/[0.04] border border-white/[0.08]" : "bg-red-50 border border-red-100"
+                  theme === 'dark' ? "bg-white/[0.04] border border-white/[0.08]" : "bg-[#FF5A4D]/10 border border-[#FF5A4D]/20"
                 )}>
                   <Building2 className="w-3.5 h-3.5 text-[#FF5A4D]" />
                   Kurumsal İş Birliği & Demo
                 </div>
                 <h2 className={"text-4xl md:text-5xl font-black tracking-tight mb-4 transition-colors duration-300 " + (
-                  theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]"
+                  theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]"
                 )}>
-                  Yeni Nesil Eğitim Serüvenine <span className="bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] bg-clip-text text-transparent">Birlikte Başlayalım</span>
+                  Yeni Nesil Eğitim Serüvenine <span className="bg-gradient-to-r from-[#FF5A4D] to-[#5B3FD9] bg-clip-text text-transparent">Birlikte Başlayalım</span>
                 </h2>
                 <p className={"text-base leading-relaxed transition-colors duration-300 " + (
-                  theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600"
+                  theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]"
                 )}>
                   K-12 Özel Okulları, kolejler ve eğitim kurumları için yapay zeka destekli, çok kiracılı (multi-tenant) Sokratik ekosistem. Okulunuza özel kurumsal sunum, pilot uygulama ve toplu lisanslama için eğitim teknolojileri danışmanlarımızla hemen irtibata geçin.
                 </p>
@@ -1511,39 +1512,39 @@ export default function OltivaLandingPage() {
 
               <div className="space-y-4">
                 <div className={"flex items-start gap-4 p-5 rounded-2xl border transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 )}>
-                  <div className="p-3 rounded-xl bg-[#8B6CFF]/10 text-[#8B6CFF]">
+                  <div className="p-3 rounded-xl bg-[#5B3FD9]/10 text-[#5B3FD9]">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className={"text-sm font-bold mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>Genel Merkez & Ar-Ge</h4>
-                    <p className={"text-xs leading-relaxed " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>Büyükdere Caddesi No: 195, Kanyon Ofis Kuleleri, Levent / İstanbul</p>
+                    <h4 className={"text-sm font-bold mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Genel Merkez & Ar-Ge</h4>
+                    <p className={"text-xs leading-relaxed " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>Büyükdere Caddesi No: 195, Kanyon Ofis Kuleleri, Levent / İstanbul</p>
                   </div>
                 </div>
 
                 <div className={"flex items-start gap-4 p-5 rounded-2xl border transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 )}>
                   <div className="p-3 rounded-xl bg-[#FF5A4D]/10 text-[#FF5A4D]">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className={"text-sm font-bold mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>Kurumsal E-Posta Masası</h4>
-                    <p className={"text-xs " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>Kurumsal Demo & Lisanslama: <span className={"font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>kurumsal@oltvia.com</span></p>
-                    <p className={"text-xs " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>Okul Entegrasyon Destek: <span className={"font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>okul@oltvia.com</span></p>
+                    <h4 className={"text-sm font-bold mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Kurumsal E-Posta Masası</h4>
+                    <p className={"text-xs " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>Kurumsal Demo & Lisanslama: <span className={"font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>kurumsal@oltvia.com</span></p>
+                    <p className={"text-xs " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>Okul Entegrasyon Destek: <span className={"font-semibold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>okul@oltvia.com</span></p>
                   </div>
                 </div>
 
                 <div className={"flex items-start gap-4 p-5 rounded-2xl border transition-colors duration-300 " + (
-                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-slate-200 shadow-sm"
+                  theme === 'dark' ? "bg-[#130B24]/70 border-white/[0.08] backdrop-blur-xl" : "bg-white border-[#E3E6EB] shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 )}>
                   <div className="p-3 rounded-xl bg-[#0EA5E9]/10 text-[#0EA5E9]">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className={"text-sm font-bold mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>Kurumsal Danışma & Destek Hattı</h4>
-                    <p className={"text-xs " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-500")}>+90 (212) 800 12 12 • Hafta içi 09:00 - 18:30</p>
+                    <h4 className={"text-sm font-bold mb-1 " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Kurumsal Danışma & Destek Hattı</h4>
+                    <p className={"text-xs " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>+90 (212) 800 12 12 • Hafta içi 09:00 - 18:30</p>
                   </div>
                 </div>
               </div>
@@ -1552,15 +1553,15 @@ export default function OltivaLandingPage() {
             {/* Right Corporate Contact Form Column */}
             <div className="lg:col-span-7">
               <div className={"p-8 md:p-12 rounded-3xl border relative shadow-2xl transition-colors duration-300 specular-top " + (
-                theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white/95 border-slate-200 backdrop-blur-xl shadow-xl"
+                theme === 'dark' ? "bg-[#130B24]/85 border-white/[0.08] backdrop-blur-2xl" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]"
               )}>
                 {contactSubmitted ? (
                   <div className="text-center py-12 space-y-4">
                     <div className="w-16 h-16 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 text-[#10B981] flex items-center justify-center mx-auto">
                       <Check className="w-8 h-8" />
                     </div>
-                    <h3 className={"text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#0F172A]")}>Kurumsal Talebiniz Başarıyla Alındı!</h3>
-                    <p className={"text-sm max-w-md mx-auto " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
+                    <h3 className={"text-2xl font-bold " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>Kurumsal Talebiniz Başarıyla Alındı!</h3>
+                    <p className={"text-sm max-w-md mx-auto " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
                       Kurumunuza özel demo takvimi ve teknik entegrasyon bilgilendirmesi için eğitim teknolojileri direktörümüz en geç 2 iş saati içinde yetkili e-posta adresinizden sizinle iletişime geçecektir.
                     </p>
                     <button
@@ -1569,7 +1570,7 @@ export default function OltivaLandingPage() {
                         setContactForm({ institution: '', name: '', email: '', phone: '', institutionType: 'K-12 Özel Okul', capacity: '500 - 1500 Öğrenci', message: '' });
                       }}
                       className={"mt-6 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors " + (
-                        theme === 'dark' ? "bg-white/10 hover:bg-white/20 text-[#E2E8F0]" : "bg-slate-200 hover:bg-slate-300 text-slate-900"
+                        theme === 'dark' ? "bg-white/10 hover:bg-white/20 text-[#E2E8F0]" : "bg-[#5B3FD9]/10 hover:bg-[#5B3FD9]/20 text-[#5B3FD9]"
                       )}
                     >
                       Yeni Talep Gönder
@@ -1585,7 +1586,7 @@ export default function OltivaLandingPage() {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                           Kurum Adı (Okul / Kolej)
                         </label>
                         <input
@@ -1597,12 +1598,12 @@ export default function OltivaLandingPage() {
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
                               ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
-                              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
+                              : "bg-[#E9E3DE]/30 border-[#E3E6EB] text-[#1A1D24] placeholder-[#68707D]/60 focus:border-[#FF5A4D]"
                           )}
                         />
                       </div>
                       <div>
-                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                           Yetkili Adı Soyadı
                         </label>
                         <input
@@ -1614,7 +1615,7 @@ export default function OltivaLandingPage() {
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
                               ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
-                              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
+                              : "bg-[#E9E3DE]/30 border-[#E3E6EB] text-[#1A1D24] placeholder-[#68707D]/60 focus:border-[#FF5A4D]"
                           )}
                         />
                       </div>
@@ -1622,7 +1623,7 @@ export default function OltivaLandingPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                           Kurumsal E-Posta Adresi
                         </label>
                         <input
@@ -1634,12 +1635,12 @@ export default function OltivaLandingPage() {
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
                               ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
-                              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
+                              : "bg-[#E9E3DE]/30 border-[#E3E6EB] text-[#1A1D24] placeholder-[#68707D]/60 focus:border-[#FF5A4D]"
                           )}
                         />
                       </div>
                       <div>
-                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                        <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                           İletişim / Telefon Numarası
                         </label>
                         <input
@@ -1651,14 +1652,14 @@ export default function OltivaLandingPage() {
                           className={"w-full px-4 py-3.5 rounded-xl border transition-colors text-sm focus:outline-none " + (
                             theme === 'dark' 
                               ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#FF5A4D] focus:ring-2 focus:ring-[#FF5A4D]/20" 
-                              : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#FF5A4D]"
+                              : "bg-[#E9E3DE]/30 border-[#E3E6EB] text-[#1A1D24] placeholder-[#68707D]/60 focus:border-[#FF5A4D]"
                           )}
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                      <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                         Kurum Türü
                       </label>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -1669,8 +1670,8 @@ export default function OltivaLandingPage() {
                             onClick={() => setContactForm({ ...contactForm, institutionType: type })}
                             className={"py-2.5 px-3 rounded-xl text-xs font-bold transition-all border text-center " + (
                               contactForm.institutionType === type 
-                                ? 'bg-gradient-to-r from-[#FF5A4D] to-[#8B6CFF] text-white border-transparent shadow-md' 
-                                : (theme === 'dark' ? 'bg-white/[0.02] text-[#9CA3AF] border-white/[0.08] hover:border-white/20' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-400')
+                                ? 'bg-gradient-to-r from-[#FF5A4D] to-[#5B3FD9] text-white border-transparent shadow-md' 
+                                : (theme === 'dark' ? 'bg-white/[0.02] text-[#9CA3AF] border-white/[0.08] hover:border-white/20' : 'bg-white text-[#68707D] border-[#E3E6EB] hover:border-[#5B3FD9]/40')
                             )}
                           >
                             {type}
@@ -1680,7 +1681,7 @@ export default function OltivaLandingPage() {
                     </div>
 
                     <div>
-                      <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                      <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                         Tahmini Öğrenci / Lisans Kapasitesi
                       </label>
                       <div className="grid grid-cols-3 gap-2.5">
@@ -1691,8 +1692,8 @@ export default function OltivaLandingPage() {
                             onClick={() => setContactForm({ ...contactForm, capacity: cap })}
                             className={"py-2 px-3 rounded-xl text-xs font-bold transition-all border text-center " + (
                               contactForm.capacity === cap 
-                                ? 'bg-gradient-to-r from-[#8B6CFF] to-[#FF5A4D] text-white border-transparent shadow-md' 
-                                : (theme === 'dark' ? 'bg-white/[0.02] text-[#9CA3AF] border-white/[0.08] hover:border-white/20' : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-400')
+                                ? 'bg-gradient-to-r from-[#5B3FD9] to-[#FF5A4D] text-white border-transparent shadow-md' 
+                                : (theme === 'dark' ? 'bg-white/[0.02] text-[#9CA3AF] border-white/[0.08] hover:border-white/20' : 'bg-white text-[#68707D] border-[#E3E6EB] hover:border-[#5B3FD9]/40')
                             )}
                           >
                             {cap}
@@ -1702,7 +1703,7 @@ export default function OltivaLandingPage() {
                     </div>
 
                     <div>
-                      <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-700")}>
+                      <label className={"block text-xs font-bold uppercase tracking-wider mb-2 " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#1A1D24]")}>
                         Kurumsal Talep / Mesajınız
                       </label>
                       <textarea
@@ -1714,14 +1715,14 @@ export default function OltivaLandingPage() {
                         className={"w-full px-4 py-3 rounded-xl border transition-colors text-sm focus:outline-none " + (
                           theme === 'dark' 
                             ? "bg-[#150C2C]/80 border-white/10 text-[#E2E8F0] placeholder-white/25 focus:border-[#8B6CFF] focus:ring-2 focus:ring-[#8B6CFF]/20" 
-                            : "bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-[#8B6CFF]"
+                            : "bg-[#E9E3DE]/30 border-[#E3E6EB] text-[#1A1D24] placeholder-[#68707D]/60 focus:border-[#5B3FD9]"
                         )}
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF5A43] via-[#FF7A50] to-[#8B6CFF] text-white font-bold text-sm uppercase tracking-widest shadow-[0_0_35px_rgba(255,90,67,0.5)] hover:shadow-[0_0_50px_rgba(255,90,67,0.8)] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+                      className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF5A43] via-[#FF7A50] to-[#5B3FD9] text-white font-bold text-sm uppercase tracking-widest shadow-[0_4px_24px_rgba(255,90,67,0.4)] hover:shadow-[0_6px_30px_rgba(255,90,67,0.6)] transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
                     >
                       <Building2 size={16} />
                       <span>Kurumsal Demo ve Bilgi Talebi Oluştur</span>
@@ -1737,34 +1738,34 @@ export default function OltivaLandingPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className={"border-t pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "border-white/[0.08] bg-[#0A0515]/95 backdrop-blur-2xl" : "border-slate-200 bg-slate-50")}>
+      <footer className={"border-t pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "border-white/[0.08] bg-[#0A0515]/95 backdrop-blur-2xl" : "border-[#E3E6EB] bg-white shadow-sm")}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-slate-200")}>
+          <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-[#E3E6EB]")}>
             
             {/* Col 1: Brand & Bio */}
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center gap-3">
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#0F172A"} strokeWidth="16" />
-                  <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} strokeWidth="16" />
+                  <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
                   <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-                  <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
-                  <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
+                  <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
+                  <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
                 </svg>
-                <span className={"text-2xl font-black tracking-widest font-sans " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-slate-900")}>OLTVIΛ</span>
+                <span className={"text-2xl font-black tracking-widest font-sans " + (theme === 'dark' ? "text-[#E2E8F0]" : "text-[#1A1D24]")}>OLTVIΛ</span>
               </div>
-              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600") + " text-sm max-w-sm leading-relaxed"}>
+              <p className={(theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]") + " text-sm max-w-sm leading-relaxed"}>
                 Yapay zekanın bilişsel gücüyle her öğrenciye özel Sokratik eğitim ekosistemi. Sıfır sapma, yüksek motivasyon ve hedefe tam odaklanma.
               </p>
-              <div className="pt-2 text-xs font-mono text-[#8B6CFF] tracking-widest uppercase">
+              <div className="pt-2 text-xs font-mono text-[#5B3FD9] tracking-widest uppercase">
                 BEYOND WHAT YOU KNOW
               </div>
             </div>
 
             {/* Col 2: Platform Links */}
             <div>
-              <h4 className={"text-xs font-bold uppercase tracking-[0.25em] mb-4 " + (theme === 'dark' ? "text-white" : "text-slate-900")}>Platform</h4>
-              <ul className={"space-y-3 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
+              <h4 className={"text-xs font-bold uppercase tracking-[0.25em] mb-4 " + (theme === 'dark' ? "text-white" : "text-[#1A1D24]")}>Platform</h4>
+              <ul className={"space-y-3 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
                 <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Sokratik Mentör</a></li>
                 <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Hedef Rotası Analizi</a></li>
                 <li><a href="#ozellikler" className="hover:text-[#FF5A4D] transition-colors">Performans Çarkı (Flywheel)</a></li>
@@ -1775,27 +1776,27 @@ export default function OltivaLandingPage() {
 
             {/* Col 3: Kurumsal Links */}
             <div>
-              <h4 className={"text-xs font-bold uppercase tracking-[0.25em] mb-4 " + (theme === 'dark' ? "text-white" : "text-slate-900")}>Kurumsal</h4>
-              <ul className={"space-y-3 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
-                <li><a href="#misyonumuz" className="hover:text-[#8B6CFF] transition-colors">Misyonumuz</a></li>
-                <li><a href="#sss" className="hover:text-[#8B6CFF] transition-colors">Sıkça Sorulan Sorular</a></li>
-                <li><a href="#yasal" className="hover:text-[#8B6CFF] transition-colors">Yasal İlkeler</a></li>
-                <li><a href="#iletisim" className="hover:text-[#8B6CFF] transition-colors">Bize Ulaşın</a></li>
-                <li><a href="#girisler" className="hover:text-[#8B6CFF] transition-colors">Kurumsal Yönetici Paneli</a></li>
+              <h4 className={"text-xs font-bold uppercase tracking-[0.25em] mb-4 " + (theme === 'dark' ? "text-white" : "text-[#1A1D24]")}>Kurumsal</h4>
+              <ul className={"space-y-3 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
+                <li><a href="#misyonumuz" className="hover:text-[#5B3FD9] transition-colors">Misyonumuz</a></li>
+                <li><a href="#sss" className="hover:text-[#5B3FD9] transition-colors">Sıkça Sorulan Sorular</a></li>
+                <li><a href="#yasal" className="hover:text-[#5B3FD9] transition-colors">Yasal İlkeler</a></li>
+                <li><a href="#iletisim" className="hover:text-[#5B3FD9] transition-colors">Bize Ulaşın</a></li>
+                <li><a href="#girisler" className="hover:text-[#5B3FD9] transition-colors">Kurumsal Yönetici Paneli</a></li>
               </ul>
             </div>
 
             {/* Col 4: Yasal & Güvenlik Links */}
             <div>
-              <h4 className={"text-xs font-bold uppercase tracking-[0.25em] mb-4 " + (theme === 'dark' ? "text-white" : "text-slate-900")}>Yasal & Güvenlik</h4>
-              <ul className={"space-y-3 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-slate-600")}>
+              <h4 className={"text-xs font-bold uppercase tracking-[0.25em] mb-4 " + (theme === 'dark' ? "text-white" : "text-[#1A1D24]")}>Yasal & Güvenlik</h4>
+              <ul className={"space-y-3 text-sm " + (theme === 'dark' ? "text-[#9CA3AF]" : "text-[#68707D]")}>
                 <li>
                   <button 
                     onClick={() => {
                       setLegalTab('terms');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-slate-900") + " transition-colors text-left"}
+                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-[#1A1D24]") + " transition-colors text-left"}
                   >
                     Kullanım Şartları
                   </button>
@@ -1806,7 +1807,7 @@ export default function OltivaLandingPage() {
                       setLegalTab('conditions');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-slate-900") + " transition-colors text-left"}
+                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-[#1A1D24]") + " transition-colors text-left"}
                   >
                     Şartlar ve Koşullar
                   </button>
@@ -1817,7 +1818,7 @@ export default function OltivaLandingPage() {
                       setLegalTab('privacy');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-slate-900") + " transition-colors text-left"}
+                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-[#1A1D24]") + " transition-colors text-left"}
                   >
                     Gizlilik Politikası
                   </button>
@@ -1828,7 +1829,7 @@ export default function OltivaLandingPage() {
                       setLegalTab('privacy');
                       document.getElementById('yasal')?.scrollIntoView({ behavior: 'smooth' });
                     }} 
-                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-slate-900") + " transition-colors text-left"}
+                    className={(theme === 'dark' ? "hover:text-[#E2E8F0]" : "hover:text-[#1A1D24]") + " transition-colors text-left"}
                   >
                     KVKK Aydınlatma Metni
                   </button>

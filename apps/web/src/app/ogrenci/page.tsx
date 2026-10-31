@@ -64,7 +64,7 @@ export default function OgrenciDashboardPage() {
   }, [isMenuOpen]);
 
   return (
-    <div className={"min-h-screen font-sans selection:bg-[#FF5A4D]/30 overflow-hidden transition-colors duration-300 relative " + (theme === 'dark' ? "bg-[#07040F] text-[#E2E8F0]" : "bg-[#F8FAFC] text-[#0F172A]")}>
+    <div className={"min-h-screen font-sans selection:bg-[#FF5A4D]/30 overflow-hidden transition-colors duration-300 relative " + (theme === 'dark' ? "bg-[#07040F] text-[#E2E8F0]" : "bg-[#E9E3DE] text-[#1A1D24]")}>
       
       {/* Atmosferik OLTVIA Kozmik Işıklandırma */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
@@ -83,18 +83,18 @@ export default function OgrenciDashboardPage() {
       <header className={"fixed top-0 left-0 right-0 h-20 z-40 px-6 sm:px-10 flex items-center justify-between border-b backdrop-blur-2xl transition-colors duration-300 " + (
         theme === 'dark' 
           ? "bg-[#090514]/80 border-white/[0.08]" 
-          : "bg-white/85 border-slate-200/80 shadow-sm"
+          : "bg-white/90 border-[#E3E6EB] shadow-xs"
       )}>
         
         {/* 1. SOL ÜST: OLTVIΛ Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-8 h-8 flex items-center justify-center">
             <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#0F172A"} strokeWidth="16" />
-              <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+              <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} strokeWidth="16" />
+              <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
               <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
-              <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
-              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#0F172A"} />
+              <circle cx="45" cy="40" r="10" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
+              <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={theme === 'dark' ? "#E2E8F0" : "#1A1D24"} />
             </svg>
           </div>
           <span className="text-xl font-black tracking-widest font-sans">
@@ -119,18 +119,18 @@ export default function OgrenciDashboardPage() {
             <div className={"absolute inset-0 rounded-full border transition-all duration-500 " + (
               theme === 'dark'
                 ? "border-white/25 group-hover:border-[#FF5A4D]"
-                : "border-slate-300 group-hover:border-[#FF5A4D]"
+                : "border-[#E3E6EB] group-hover:border-[#FF5A4D]"
             )} />
 
             {/* İç Dairesel Amblem */}
             <div className={"w-9 h-9 rounded-full flex items-center justify-center p-1.5 transition-transform duration-500 group-hover:rotate-45 " + (
               theme === 'dark' 
                 ? "bg-gradient-to-tr from-[#1B0E33] to-[#2D1654] border border-white/25 shadow-inner" 
-                : "bg-gradient-to-tr from-slate-900 to-slate-800 text-white"
+                : "bg-gradient-to-tr from-[#1A1D24] to-[#2A2E39] text-white"
             )}>
               <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
                 <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#FFFFFF" strokeWidth="16" />
-                <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+                <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
                 <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
                 <circle cx="45" cy="40" r="10" fill="#FFFFFF" />
                 <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#FFFFFF" />
@@ -143,7 +143,7 @@ export default function OgrenciDashboardPage() {
           
           {/* Ortadaki logonun altına küçük menü yazısı */}
           <span className={"text-[10px] font-bold tracking-widest uppercase mt-1 select-none pointer-events-none transition-colors " + (
-            theme === 'dark' ? "text-white/45" : "text-slate-500"
+            theme === 'dark' ? "text-white/45" : "text-[#68707D]"
           )}>
             Menü
           </span>
@@ -161,7 +161,7 @@ export default function OgrenciDashboardPage() {
             className={"w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 hover:scale-105 " + (
               theme === 'dark' 
                 ? "bg-white/[0.04] border-white/10 text-amber-300 hover:border-amber-400/40 shadow-[0_0_15px_rgba(245,158,11,0.15)]" 
-                : "bg-slate-100 border-slate-300 text-slate-800 hover:border-slate-400"
+                : "bg-white border-[#E3E6EB] text-[#1A1D24] hover:border-[#5B3FD9]/40 shadow-xs"
             )}
           >
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
@@ -169,11 +169,11 @@ export default function OgrenciDashboardPage() {
 
           {/* Profil Kısmı (Avatar) */}
           <div 
-            className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FF5A4D] to-[#8B6CFF] p-[1.5px] cursor-pointer hover:scale-105 active:scale-95 transition-transform" 
+            className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FF5A4D] to-[#5B3FD9] p-[1.5px] cursor-pointer hover:scale-105 active:scale-95 transition-transform" 
             title="Öğrenci Profili"
           >
             <div className={"w-full h-full rounded-full flex items-center justify-center font-bold text-xs " + (
-              theme === 'dark' ? "bg-[#090514] text-white" : "bg-white text-slate-900"
+              theme === 'dark' ? "bg-[#090514] text-white" : "bg-white text-[#1A1D24]"
             )}>
               AK
             </div>
@@ -190,7 +190,7 @@ export default function OgrenciDashboardPage() {
         <div 
           className="fixed inset-0 w-screen h-screen z-50 overflow-hidden animate-overlay-in flex flex-col justify-between"
           style={{
-            backgroundColor: theme === 'dark' ? 'rgba(7, 4, 15, 0.97)' : 'rgba(248, 250, 252, 0.98)',
+            backgroundColor: theme === 'dark' ? 'rgba(7, 4, 15, 0.97)' : 'rgba(233, 227, 222, 0.98)',
             backdropFilter: 'blur(32px)',
             WebkitBackdropFilter: 'blur(32px)',
           }}
@@ -209,12 +209,12 @@ export default function OgrenciDashboardPage() {
             <div className="flex items-center gap-2.5 opacity-80">
               <div className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1">
                 <svg width="18" height="18" viewBox="0 0 100 100" fill="none">
-                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#FFFFFF" strokeWidth="16" />
-                  <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+                  <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={theme === 'dark' ? "#FFFFFF" : "#1A1D24"} strokeWidth="16" />
+                  <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
                   <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
                 </svg>
               </div>
-              <span className="text-sm font-black tracking-widest font-sans">
+              <span className={"text-sm font-black tracking-widest font-sans " + (theme === 'dark' ? "text-white" : "text-[#1A1D24]")}>
                 OLTVIΛ
               </span>
             </div>
@@ -228,7 +228,7 @@ export default function OgrenciDashboardPage() {
               className={"group w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-300 hover:rotate-90 hover:scale-110 active:scale-95 shadow-[0_0_25px_rgba(0,0,0,0.5)] " + (
                 theme === 'dark'
                   ? "bg-white/[0.05] border-white/15 text-white/80 hover:text-white hover:border-[#FF5A4D] hover:bg-white/[0.1]"
-                  : "bg-slate-200/70 border-slate-300 text-slate-700 hover:text-slate-950 hover:border-[#FF5A4D]"
+                  : "bg-white border-[#E3E6EB] text-[#1A1D24] hover:text-[#FF5A4D] hover:border-[#FF5A4D] shadow-sm"
               )}
             >
               <X size={20} className="group-hover:text-[#FF5A4D] transition-colors" />
@@ -255,7 +255,7 @@ export default function OgrenciDashboardPage() {
                     className={"group block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif tracking-wide transition-all duration-300 hover:scale-105 active:scale-98 select-none " + (
                       theme === 'dark' 
                         ? "text-[#E2E8F0]/90 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#FF7A50] hover:via-[#FF5A4D] hover:to-[#C084FC]" 
-                        : "text-slate-800 hover:text-[#FF5A4D]"
+                        : "text-[#1A1D24] hover:text-[#5B3FD9]"
                     )}
                   >
                     <span className="relative inline-block transition-transform duration-300 group-hover:translate-x-1">
@@ -270,7 +270,9 @@ export default function OgrenciDashboardPage() {
                 Ana linklerin hemen altında, daha küçük puntolu (Body text), yatay dizilmiş
             */}
             <div 
-              className="mt-10 sm:mt-12 pt-6 border-t border-white/[0.08] flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs sm:text-sm font-sans animate-sub-item"
+              className={"mt-10 sm:mt-12 pt-6 border-t flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs sm:text-sm font-sans animate-sub-item " + (
+                theme === 'dark' ? "border-white/[0.08]" : "border-[#E3E6EB]"
+              )}
               style={{ animationDelay: `${mainNavLinks.length * 60 + 150}ms` }}
             >
               {subNavLinks.map((sub, idx) => (
@@ -280,7 +282,9 @@ export default function OgrenciDashboardPage() {
                       href={sub.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white/45 hover:text-white transition-colors duration-200 flex items-center gap-1 hover:scale-105"
+                      className={"transition-colors duration-200 flex items-center gap-1 hover:scale-105 " + (
+                        theme === 'dark' ? "text-white/45 hover:text-white" : "text-[#68707D] hover:text-[#1A1D24]"
+                      )}
                     >
                       <span>{sub.title}</span>
                       <ArrowUpRight size={13} className="opacity-60" />
@@ -291,8 +295,8 @@ export default function OgrenciDashboardPage() {
                       onClick={() => setIsMenuOpen(false)}
                       className={"transition-colors duration-200 hover:scale-105 flex items-center gap-1.5 " + (
                         sub.isLogout 
-                          ? "text-red-400/80 hover:text-red-400 font-semibold" 
-                          : "text-white/45 hover:text-white"
+                          ? "text-[#FF5A4D] hover:text-[#FF5A4D]/80 font-semibold" 
+                          : (theme === 'dark' ? "text-white/45 hover:text-white" : "text-[#68707D] hover:text-[#1A1D24]")
                       )}
                     >
                       {sub.isLogout && <LogOut size={13} />}
@@ -300,7 +304,7 @@ export default function OgrenciDashboardPage() {
                     </Link>
                   )}
                   {idx < subNavLinks.length - 1 && (
-                    <span className="text-white/20 select-none hidden sm:inline">•</span>
+                    <span className={(theme === 'dark' ? "text-white/20" : "text-[#68707D]/30") + " select-none hidden sm:inline"}>•</span>
                   )}
                 </div>
               ))}
@@ -314,7 +318,7 @@ export default function OgrenciDashboardPage() {
           <footer className={"w-full h-16 sm:h-20 px-6 sm:px-12 flex items-center justify-between border-t transition-colors z-20 " + (
             theme === 'dark' 
               ? "border-white/[0.08] bg-[#06030E]/85 backdrop-blur-md text-white/50" 
-              : "border-slate-200 bg-white/85 backdrop-blur-md text-slate-500"
+              : "border-[#E3E6EB] bg-white/95 backdrop-blur-md text-[#68707D]"
           )}>
             
             {/* Sol: Logo ve İsim */}
@@ -322,24 +326,24 @@ export default function OgrenciDashboardPage() {
               <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center">
                 <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
                   <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="currentColor" strokeWidth="16" />
-                  <circle cx="78" cy="28" r="8" fill="#8B6CFF" />
+                  <circle cx="78" cy="28" r="8" fill="#5B3FD9" />
                   <circle cx="78" cy="72" r="8" fill="#FF5A4D" />
                 </svg>
               </div>
-              <span className="text-sm font-black tracking-widest font-sans text-white/80">
+              <span className={"text-sm font-black tracking-widest font-sans " + (theme === 'dark' ? "text-white/80" : "text-[#1A1D24]")}>
                 OLTVIΛ
               </span>
-              <span className="hidden md:inline text-xs font-serif italic text-white/30 pl-2 border-l border-white/10">
+              <span className={"hidden md:inline text-xs font-serif italic pl-2 border-l " + (theme === 'dark' ? "text-white/30 border-white/10" : "text-[#68707D]/60 border-[#E3E6EB]")}>
                 Beyond What You Know
               </span>
             </div>
 
             {/* Sağ: Telif ve Güvenlik Göstergesi */}
             <div className="flex items-center gap-6 text-[11px] sm:text-xs">
-              <span className="flex items-center gap-1.5 text-emerald-400/90 font-medium hidden sm:inline-flex">
+              <span className="flex items-center gap-1.5 text-emerald-500 font-medium hidden sm:inline-flex">
                 <ShieldCheck size={14} /> KVKK & GDPR Uyumlu
               </span>
-              <span className="text-white/40">
+              <span className={theme === 'dark' ? "text-white/40" : "text-[#68707D]"}>
                 © {new Date().getFullYear()} OLTVIA Inc.
               </span>
             </div>

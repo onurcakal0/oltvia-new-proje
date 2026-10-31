@@ -6,25 +6,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --background: 27 18% 89%; /* #E9E3DE */
+    --foreground: 221 16% 12%; /* #1A1D24 */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 221 16% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 221 16% 12%;
+    --primary: 6 100% 65%; /* #FF5A4D */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 251 68% 55%; /* #5B3FD9 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 218 10% 45%; /* #68707D */
+    --muted-foreground: 218 10% 45%;
+    --accent: 251 68% 55%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --border: 217 14% 91%; /* #E3E6EB */
+    --input: 217 14% 91%;
+    --ring: 251 68% 55%;
     --radius: 0.625rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -75,7 +75,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-[#080411] text-foreground antialiased;
+    @apply bg-[#E9E3DE] dark:bg-[#080411] text-foreground antialiased;
     font-family: 'Cormorant Garamond', 'Cinzel', serif;
   }
   ::selection {
@@ -134,6 +134,28 @@
 }
 
 
+@keyframes swap-i-dark {
+  0%, 30% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
+  45%, 85% { transform: translateX(0.65em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); z-index: 10; }
+  100% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
+}
+@keyframes swap-a-dark {
+  0%, 30% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
+  45%, 85% { transform: translateX(-0.32em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); }
+  100% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
+}
+
+@keyframes swap-i-light {
+  0%, 30% { transform: translateX(0); color: #1A1D24; text-shadow: none; }
+  45%, 85% { transform: translateX(0.65em); color: #5B3FD9; text-shadow: 0 0 16px rgba(91, 63, 217, 0.35); z-index: 10; }
+  100% { transform: translateX(0); color: #1A1D24; text-shadow: none; }
+}
+@keyframes swap-a-light {
+  0%, 30% { transform: translateX(0); color: #1A1D24; text-shadow: none; }
+  45%, 85% { transform: translateX(-0.32em); color: #5B3FD9; text-shadow: 0 0 16px rgba(91, 63, 217, 0.35); }
+  100% { transform: translateX(0); color: #1A1D24; text-shadow: none; }
+}
+
 @keyframes swap-i {
   0%, 30% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
   45%, 85% { transform: translateX(0.65em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); z-index: 10; }
@@ -141,7 +163,7 @@
 }
 @keyframes swap-a {
   0%, 30% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
-  45%, 85% { transform: translateX(-0.3em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); }
+  45%, 85% { transform: translateX(-0.32em); color: #8B6CFF; text-shadow: 0 0 20px rgba(139,92,246,0.8); }
   100% { transform: translateX(0); color: #E2E8F0; text-shadow: none; }
 }
 
