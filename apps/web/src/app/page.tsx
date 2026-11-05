@@ -297,17 +297,21 @@ export default function OltivaLandingPage() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.remove('opacity-0', 'translate-y-20');
-          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.setAttribute('data-revealed', 'true');
+          entry.target.classList.add('revealed');
           observer.unobserve(entry.target);
         }
       });
     }, { 
-      threshold: 0.1, 
-      rootMargin: '0px 0px -50px 0px' 
+      threshold: 0.05, 
+      rootMargin: '0px 0px -40px 0px' 
     });
 
     document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+      if (el.getAttribute('data-revealed') === 'true') {
+        el.classList.add('revealed');
+        return;
+      }
       observer.observe(el);
     });
 
@@ -536,7 +540,7 @@ export default function OltivaLandingPage() {
       <main className="relative z-10">
         
         {/* HERO SECTION - Only Beyond Learning Title shown on initial screen */}
-        <section className="min-h-screen max-w-7xl mx-auto px-6 pt-20 pb-12 text-center flex flex-col items-center justify-center relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section className="min-h-screen max-w-7xl mx-auto px-6 pt-20 pb-12 text-center flex flex-col items-center justify-center relative reveal-on-scroll">
           
           {/* Brand Beyond Learning Title & Hover Reveal */}
           <div className="grid w-full max-w-5xl place-items-center group cursor-default">
@@ -561,7 +565,7 @@ export default function OltivaLandingPage() {
         </section>
 
         {/* 4 ENTRY PORTALS (Revealed upon scroll) */}
-        <section id="girisler" className="scroll-mt-24 max-w-7xl mx-auto px-6 mb-40 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section id="girisler" className="scroll-mt-24 max-w-7xl mx-auto px-6 mb-40 relative reveal-on-scroll">
           <div id="portal-cards" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { title: "Öğrenci", role: "ogrenci", icon: Rocket },
@@ -601,7 +605,7 @@ export default function OltivaLandingPage() {
         <section id="ozellikler" className="scroll-mt-28 max-w-7xl mx-auto px-6 space-y-40 mb-40">
           
           {/* Feature 1 */}
-          <div className="flex flex-col lg:flex-row items-center gap-20 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="flex flex-col lg:flex-row items-center gap-20 reveal-on-scroll">
             <div className="flex-1 space-y-8">
               <div className="w-16 h-16 rounded-2xl bg-[#8B6CFF]/10 border border-[#8B6CFF]/20 flex items-center justify-center text-[#8B6CFF] mb-6 shadow-[0_0_20px_rgba(139,92,246,0.2)]">
                 <Brain size={32} />
@@ -678,7 +682,7 @@ export default function OltivaLandingPage() {
           </div>
 
           {/* Feature 2: Başarı Eğrisi */}
-          <div className="flex flex-col lg:flex-row-reverse items-center gap-20 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="flex flex-col lg:flex-row-reverse items-center gap-20 reveal-on-scroll">
             <div className="flex-1 space-y-8">
               <div className="w-16 h-16 rounded-2xl bg-[#FF5A4D]/10 border border-[#FF5A4D]/20 flex items-center justify-center text-[#FF5A4D] mb-6 shadow-[0_0_20px_rgba(255,90,95,0.2)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
@@ -781,7 +785,7 @@ export default function OltivaLandingPage() {
         
         
           {/* Feature 3: OLTVIA 360° Performans Çarkı (System Flywheel) */}
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 reveal-on-scroll">
             
             {/* Sol: Açıklama ve Stratejik Vizyon Metni */}
             <div className="flex-1 space-y-8">
@@ -1077,7 +1081,7 @@ export default function OltivaLandingPage() {
           </div>
 
           {/* Feature 4: Oyunlaştırma & Streak */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] mt-40">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center reveal-on-scroll mt-40">
             
             {/* Left: Streak Animation */}
             <div className="col-span-1">
@@ -1199,7 +1203,7 @@ export default function OltivaLandingPage() {
 
         </section>
               {/* 1. MISYONUMUZ SECTION */}
-        <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section id="misyonumuz" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-44 relative reveal-on-scroll">
           <div className={"relative rounded-3xl border p-8 md:p-16 overflow-hidden shadow-2xl transition-colors duration-300 specular-top " + (theme === 'dark' ? "bg-gradient-to-b from-[#130B24] via-[#0E061B] to-[#130B24] border-white/[0.08] backdrop-blur-2xl" : "bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] border-[#E3E6EB]")}>
             <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF5A4D]/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#8B6CFF]/10 rounded-full blur-[120px] pointer-events-none" />
@@ -1284,7 +1288,7 @@ export default function OltivaLandingPage() {
         </section>
 
         {/* 2. S.S.S (FAQ) SECTION */}
-        <section id="sss" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section id="sss" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll">
           <div className="text-center mb-16">
             <div className={"group/badge inline-flex items-center gap-3 px-4 py-2 rounded-xl border backdrop-blur-xl relative overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:scale-[1.02] shadow-sm mb-4 " + (
               theme === 'dark' 
@@ -1365,7 +1369,7 @@ export default function OltivaLandingPage() {
         </section>
 
         {/* 3. YASAL VE GUVENLIK ILKELERI (SARTLAR, KOSULLAR, GIZLILIK) */}
-        <section id="yasal" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section id="yasal" className="scroll-mt-28 max-w-5xl mx-auto px-6 mb-44 relative reveal-on-scroll">
           <div className="text-center mb-12">
             <div className={"group/badge inline-flex items-center gap-3 px-4 py-2 rounded-xl border backdrop-blur-xl relative overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:scale-[1.02] shadow-sm mb-4 " + (
               theme === 'dark' 
@@ -1565,7 +1569,7 @@ export default function OltivaLandingPage() {
         </section>
 
         {/* 4. BIZE ULASIN (KURUMSAL ILETISIM) SECTION */}
-        <section id="iletisim" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-32 relative reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <section id="iletisim" className="scroll-mt-28 max-w-7xl mx-auto px-6 mb-32 relative reveal-on-scroll">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             
             {/* Left Info Column */}
@@ -1839,7 +1843,7 @@ export default function OltivaLandingPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className={"border-t pt-20 pb-12 relative z-10 reveal-on-scroll opacity-0 translate-y-20 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] " + (theme === 'dark' ? "border-white/[0.08] bg-[#0A0515]/95 backdrop-blur-2xl" : "border-[#E3E6EB] bg-white shadow-sm")}>
+      <footer className={"border-t pt-20 pb-12 relative z-10 reveal-on-scroll " + (theme === 'dark' ? "border-white/[0.08] bg-[#0A0515]/95 backdrop-blur-2xl" : "border-[#E3E6EB] bg-white shadow-sm")}>
         <div className="max-w-7xl mx-auto px-6">
           <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b " + (theme === 'dark' ? "border-white/[0.06]" : "border-[#E3E6EB]")}>
             
@@ -1940,7 +1944,7 @@ export default function OltivaLandingPage() {
 
           </div>
 
-          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#9CA3AF]/60">
+          <div className={"pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs " + (theme === 'dark' ? "text-[#9CA3AF]/60" : "text-[#68707D] font-medium")}>
             <div>
               © {new Date().getFullYear()} OLTVIA INC. TÜM HAKLARI SAKLIDIR.
             </div>
@@ -1948,7 +1952,7 @@ export default function OltivaLandingPage() {
               <span className="flex items-center gap-1.5 text-[#10B981]">
                 <Shield className="w-3.5 h-3.5" /> KVKK & GDPR Uyumlu
               </span>
-              <span>256-Bit Uçtan Uca Şifreleme</span>
+              <span className={theme === 'dark' ? "text-[#9CA3AF]/60" : "text-[#68707D]"}>256-Bit Uçtan Uca Şifreleme</span>
             </div>
           </div>
         </div>

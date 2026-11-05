@@ -1,5 +1,41 @@
 # OLTVIA - Proje İlerleme Raporu
 
+## ▶️ Projeyi Çalıştırma (Yeni bilgisayarda kurulum)
+
+Giriş yapabilmek için **backend ve frontend birlikte çalışmalıdır.** Frontend, giriş isteklerini
+`http://localhost:8001` adresine gönderir; backend kapalıysa girişte "sunucuya ulaşılamıyor" hatası alınır.
+
+**1) Backend (FastAPI) - port 8001**
+```bash
+cd apps/backend
+python -m venv venv
+# Mac/Linux:  source venv/bin/activate      |  Windows:  venv\Scripts\activate
+pip install -r requirements.txt
+python run.py
+```
+Veritabanı (`oltvia.db`, SQLite) ve demo kullanıcılar ilk açılışta **otomatik** oluşur. `oltvia.db` Git'e dahil
+değildir, bu yüzden her bilgisayarda kendi veritabanı üretilir.
+
+**2) Frontend (Next.js) - port 3005**
+```bash
+cd apps/web
+npm install
+npm run dev
+```
+Backend farklı bir adreste çalışıyorsa `apps/web/.env.example` dosyasını `.env.local` olarak kopyalayıp
+`NEXT_PUBLIC_API_URL` değerini düzenleyin.
+
+**Demo giriş bilgileri** (Kurum Kodu: `IST-1094`, Şifre: `oltvia2026`)
+
+| Rol | Kimlik |
+|---|---|
+| Öğrenci | Öğrenci No: `20261048` |
+| Öğretmen | `ogretmen@fenlisesi.k12.tr` |
+| Okul İdaresi | `idare@fenlisesi.k12.tr` |
+| Veli | Telefon: `05321234567` (kurum kodu gerekmez) |
+
+---
+
 Bu doküman, OLTVIA platformunun geliştirme sürecindeki kilometre taşlarını ve tamamlanan mimari yapıları içerir.
 
 ## 🚀 Gün 1: Temel Mimari, Veritabanı ve Full-Stack İletişimi

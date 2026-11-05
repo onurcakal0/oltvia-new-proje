@@ -358,3 +358,31 @@
   animation: border-beam-spin var(--beam-duration, 8s) linear infinite;
 }
 
+/* Scroll Reveal System */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1), transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.revealed,
+.reveal-on-scroll[data-revealed="true"] {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Tema geçişi: View Transitions API ile dairesel clip-path dalgası.
+   Animasyon JS tarafında (OltviaStudentSidebar) başlatılır. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2147483646;
+}
+

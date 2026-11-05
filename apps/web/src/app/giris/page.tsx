@@ -460,7 +460,22 @@ function GirisContent() {
     otpRefs.current[nextIdx]?.focus();
   };
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1/auth';
+  // Backend adresi: .env.local'deki NEXT_PUBLIC_API_URL öncelikli. Yoksa sayfanın açıldığı
+  // host'u (localhost, 127.0.0.1 veya ağ IP'si) kullanıp 8001 portuna bağlanır.
+  const API_BASE_URL =
+    process.env.NEXT_PUBLIC_API_URL ||
+    `http://${typeof window !== 'undefined' ? window.location.hostname : 'localhost'}:8001/api/v1/auth`;
+
+  // Ağ hatalarını (backend kapalı / yanlış port) anlaşılır bir mesaja çevirir.
+  const explainError = (err: any, fallback: string) => {
+    const msg = String(err?.message || '');
+    const isNetworkError =
+      err instanceof TypeError || /failed to fetch|networkerror|load failed|fetch/i.test(msg);
+    if (isNetworkError) {
+      return `Sunucuya ulaşılamıyor. Backend'in çalıştığından emin olun (${API_BASE_URL.replace('/api/v1/auth', '')}). Başlatmak için: apps/backend klasöründe "python run.py"`;
+    }
+    return msg || fallback;
+  };
 
   // Forgot password flow submit handlers
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -505,7 +520,7 @@ function GirisContent() {
       setIsTimerRunning(true);
       setSuccessMsg(data.message || `${resetContact} adresinize 6 haneli doğrulama kodu gönderildi.`);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Sunucuya bağlanırken bir sorun oluştu.');
+      setErrorMsg(explainError(err, 'Sunucuya bağlanırken bir sorun oluştu.'));
     } finally {
       setIsLoading(false);
     }
@@ -544,7 +559,7 @@ function GirisContent() {
       setForgotStep(3);
       setSuccessMsg(data.message || 'Kimliğiniz başarıyla doğrulandı. Lütfen yeni şifrenizi belirleyin.');
     } catch (err: any) {
-      setErrorMsg(err.message || 'Kod doğrulanamadı.');
+      setErrorMsg(explainError(err, 'Kod doğrulanamadı.'));
     } finally {
       setIsLoading(false);
     }
@@ -580,7 +595,7 @@ function GirisContent() {
       setOtpDigits(['', '', '', '', '', '']);
       otpRefs.current[0]?.focus();
     } catch (err: any) {
-      setErrorMsg(err.message || 'Yeni kod gönderilirken hata oluştu.');
+      setErrorMsg(explainError(err, 'Yeni kod gönderilirken hata oluştu.'));
     }
   };
 
@@ -623,7 +638,7 @@ function GirisContent() {
       setForgotStep(4);
       setSuccessMsg(data.message || 'Şifreniz başarıyla güncellendi!');
     } catch (err: any) {
-      setErrorMsg(err.message || 'Şifre sıfırlanırken hata oluştu.');
+      setErrorMsg(explainError(err, 'Şifre sıfırlanırken hata oluştu.'));
     } finally {
       setIsLoading(false);
     }
@@ -720,7 +735,7 @@ function GirisContent() {
         }
       }, 1200);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyiniz.');
+      setErrorMsg(explainError(err, 'Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyiniz.'));
     } finally {
       setIsLoading(false);
     }
