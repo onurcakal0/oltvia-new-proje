@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Allison&family=Birthstone+Bounce:wght@400;500&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=WindSong:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allison&family=Birthstone+Bounce:wght@400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900&family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=WindSong:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -116,6 +116,15 @@
   .font-serif-luxury {
     font-family: 'Cormorant Garamond', 'Cinzel', serif;
   }
+  .font-numeral {
+    font-family: 'Playfair Display', 'Bodoni Moda', 'Bodoni 72', 'Didot', Georgia, serif !important;
+    font-variant-numeric: lining-nums tabular-nums !important;
+    font-feature-settings: "lnum" 1, "tnum" 1 !important;
+  }
+  input, textarea {
+    font-variant-numeric: lining-nums tabular-nums;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+  }
   .tnum {
     font-variant-numeric: tabular-nums;
   }
@@ -131,6 +140,16 @@
 .animate-slogan-flow {
   animation: textFlowLeftToRight 4s linear infinite;
   background-size: 200% auto;
+}
+
+@keyframes badge-shimmer {
+  0% { transform: translateX(-160%); opacity: 0; }
+  15% { opacity: 0.95; }
+  50% { opacity: 0.95; }
+  80%, 100% { transform: translateX(200%); opacity: 0; }
+}
+.animate-badge-shimmer {
+  animation: badge-shimmer 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 
@@ -307,3 +326,35 @@
 .animate-sub-item {
   animation: menuSlideUp 450ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
+
+
+@keyframes glass-pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.25); filter: blur(6px); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
+}
+.animate-glass-pop {
+  animation: glass-pop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes card-rise {
+  0% { opacity: 0; transform: scale(0.88); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-card-rise {
+  animation: card-rise 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Animated Traveling Border Beam Light */
+@keyframes border-beam-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam-spin var(--beam-duration, 8s) linear infinite;
+}
+

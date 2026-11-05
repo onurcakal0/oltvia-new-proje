@@ -976,26 +976,31 @@ function GirisContent() {
                     </button>
                   </div>
 
-                  {/* Payoneer-Style Gradient Pill Sign-In Button */}
+                  {/* Cosmic Deep Galaxy Nebula Sign-In Button */}
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2.5 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
-                    style={{
-                      boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
-                    }}
+                    className="relative group/btn overflow-hidden w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2.5 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r from-[#120826] via-[#2D1254] to-[#140828] border border-[#8B5CF6]/50 hover:border-[#C084FC] shadow-[0_8px_30px_rgba(139,92,246,0.35)] hover:shadow-[0_12px_40px_rgba(168,85,247,0.65)]"
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader2 size={18} className="animate-spin" />
-                        <span>Giriş Yapılıyor...</span>
-                      </>
-                    ) : (
-                      <>
-                        <ArrowRight size={18} />
-                        <span>{config.buttonText}</span>
-                      </>
-                    )}
+                    {/* Deep Cosmic Starfield & Shimmer Effect */}
+                    <div className="absolute inset-0 bg-radial-gradient from-[#8B5CF6]/20 via-transparent to-transparent opacity-70 group-hover/btn:opacity-100 transition-opacity pointer-events-none" />
+                    <div className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-[250%] transition-transform duration-1000 ease-out pointer-events-none" />
+                    <span className="absolute top-2.5 left-7 w-1 h-1 rounded-full bg-white/80 animate-pulse pointer-events-none" />
+                    <span className="absolute bottom-2.5 right-9 w-1 h-1 rounded-full bg-purple-300/80 pointer-events-none" />
+
+                    <div className="relative z-10 flex items-center justify-center gap-2.5 text-[#E2E8F0] group-hover/btn:text-white">
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin text-purple-300" />
+                          <span className="tracking-wide">Giriş Yapılıyor...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ArrowRight size={18} className="transition-transform duration-300 group-hover/btn:translate-x-1 text-purple-300" />
+                          <span className="tracking-wide font-bold">{config.buttonText}</span>
+                        </>
+                      )}
+                    </div>
                   </button>
 
                   {/* Subtle Demo Quick Fill Link */}
@@ -1147,22 +1152,24 @@ function GirisContent() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
-                      style={{
-                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
-                      }}
+                      className="relative group/btn overflow-hidden w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r from-[#120826] via-[#2D1254] to-[#140828] border border-[#8B5CF6]/50 hover:border-[#C084FC] shadow-[0_8px_30px_rgba(139,92,246,0.35)] hover:shadow-[0_12px_40px_rgba(168,85,247,0.65)]"
                     >
-                      {isLoading ? (
-                        <>
-                          <Loader2 size={18} className="animate-spin" />
-                          <span>Kod Gönderiliyor...</span>
-                        </>
-                      ) : (
-                        <>
-                          <ArrowRight size={18} />
-                          <span>Doğrulama Kodu Gönder</span>
-                        </>
-                      )}
+                      <div className="absolute inset-0 bg-radial-gradient from-[#8B5CF6]/20 via-transparent to-transparent opacity-70 group-hover/btn:opacity-100 transition-opacity pointer-events-none" />
+                      <div className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-[250%] transition-transform duration-1000 ease-out pointer-events-none" />
+                      
+                      <div className="relative z-10 flex items-center justify-center gap-2 text-[#E2E8F0] group-hover/btn:text-white">
+                        {isLoading ? (
+                          <>
+                            <Loader2 size={18} className="animate-spin text-purple-300" />
+                            <span>Kod Gönderiliyor...</span>
+                          </>
+                        ) : (
+                          <>
+                            <ArrowRight size={18} className="text-purple-300" />
+                            <span className="font-bold">Doğrulama Kodu Gönder</span>
+                          </>
+                        )}
+                      </div>
                     </button>
 
                     <div className="text-center pt-1">
@@ -1234,22 +1241,24 @@ function GirisContent() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
-                      style={{
-                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
-                      }}
+                      className="relative group/btn overflow-hidden w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r from-[#120826] via-[#2D1254] to-[#140828] border border-[#8B5CF6]/50 hover:border-[#C084FC] shadow-[0_8px_30px_rgba(139,92,246,0.35)] hover:shadow-[0_12px_40px_rgba(168,85,247,0.65)]"
                     >
-                      {isLoading ? (
-                        <>
-                          <Loader2 size={18} className="animate-spin" />
-                          <span>Doğrulanıyor...</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShieldCheck size={18} />
-                          <span>Kodu Doğrula ve Devam Et</span>
-                        </>
-                      )}
+                      <div className="absolute inset-0 bg-radial-gradient from-[#8B5CF6]/20 via-transparent to-transparent opacity-70 group-hover/btn:opacity-100 transition-opacity pointer-events-none" />
+                      <div className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-[250%] transition-transform duration-1000 ease-out pointer-events-none" />
+                      
+                      <div className="relative z-10 flex items-center justify-center gap-2 text-[#E2E8F0] group-hover/btn:text-white">
+                        {isLoading ? (
+                          <>
+                            <Loader2 size={18} className="animate-spin text-purple-300" />
+                            <span>Doğrulanıyor...</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShieldCheck size={18} className="text-purple-300" />
+                            <span className="font-bold">Kodu Doğrula ve Devam Et</span>
+                          </>
+                        )}
+                      </div>
                     </button>
 
                     <div className="text-center pt-1">
@@ -1337,22 +1346,24 @@ function GirisContent() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r ${config.gradient}`}
-                      style={{
-                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
-                      }}
+                      className="relative group/btn overflow-hidden w-full py-4 mt-2 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 bg-gradient-to-r from-[#120826] via-[#2D1254] to-[#140828] border border-[#8B5CF6]/50 hover:border-[#C084FC] shadow-[0_8px_30px_rgba(139,92,246,0.35)] hover:shadow-[0_12px_40px_rgba(168,85,247,0.65)]"
                     >
-                      {isLoading ? (
-                        <>
-                          <Loader2 size={18} className="animate-spin" />
-                          <span>Güncelleniyor...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Check size={18} />
-                          <span>Şifreyi Güncelle</span>
-                        </>
-                      )}
+                      <div className="absolute inset-0 bg-radial-gradient from-[#8B5CF6]/20 via-transparent to-transparent opacity-70 group-hover/btn:opacity-100 transition-opacity pointer-events-none" />
+                      <div className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-[250%] transition-transform duration-1000 ease-out pointer-events-none" />
+                      
+                      <div className="relative z-10 flex items-center justify-center gap-2 text-[#E2E8F0] group-hover/btn:text-white">
+                        {isLoading ? (
+                          <>
+                            <Loader2 size={18} className="animate-spin text-purple-300" />
+                            <span>Güncelleniyor...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Check size={18} className="text-purple-300" />
+                            <span className="font-bold">Şifreyi Güncelle</span>
+                          </>
+                        )}
+                      </div>
                     </button>
 
                     <div className="text-center pt-1">
@@ -1387,13 +1398,15 @@ function GirisContent() {
                     <button
                       type="button"
                       onClick={handleFinishReset}
-                      className={`w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:opacity-95 active:scale-[0.99] bg-gradient-to-r ${config.gradient}`}
-                      style={{
-                        boxShadow: `0 12px 25px -5px ${config.accentColor}50`,
-                      }}
+                      className="relative group/btn overflow-hidden w-full py-4 rounded-full text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r from-[#120826] via-[#2D1254] to-[#140828] border border-[#8B5CF6]/50 hover:border-[#C084FC] shadow-[0_8px_30px_rgba(139,92,246,0.35)] hover:shadow-[0_12px_40px_rgba(168,85,247,0.65)]"
                     >
-                      <span>Giriş Ekranına Dön</span>
-                      <ArrowRight size={18} />
+                      <div className="absolute inset-0 bg-radial-gradient from-[#8B5CF6]/20 via-transparent to-transparent opacity-70 group-hover/btn:opacity-100 transition-opacity pointer-events-none" />
+                      <div className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-[250%] transition-transform duration-1000 ease-out pointer-events-none" />
+                      
+                      <div className="relative z-10 flex items-center justify-center gap-2 text-[#E2E8F0] group-hover/btn:text-white">
+                        <span className="font-bold">Giriş Ekranına Dön</span>
+                        <ArrowRight size={18} className="text-purple-300" />
+                      </div>
                     </button>
                   </div>
                 )}
