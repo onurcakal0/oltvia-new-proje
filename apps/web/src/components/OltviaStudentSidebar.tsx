@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { flushSync } from 'react-dom';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import {
   Award,
@@ -10,36 +9,34 @@ import {
   ChevronRight,
   FileSearch,
   Megaphone,
-  Moon,
   Plus,
   ShieldCheck,
-  Sun,
 } from 'lucide-react';
 
 export type SidebarTheme = 'light' | 'dark';
 
 interface OltviaStudentSidebarProps {
   theme: SidebarTheme;
-  onThemeChange: (theme: SidebarTheme) => void;
+  onThemeChange?: (theme: SidebarTheme) => void;
 }
 
 const PURPLE = '#5B3FD9';
 const CORAL = '#FF5A4D';
 
 const NAV_ITEMS = [
-  { id: 'derslerim', label: 'Derslerim', icon: BookOpen, accent: PURPLE, badge: null },
-  { id: 'gorevler', label: 'Görevler', icon: CheckSquare, accent: PURPLE, badge: null },
-  { id: 'kampanyalar', label: 'Kampanyalar', icon: Megaphone, accent: CORAL, badge: '2' },
-  { id: 'vaka', label: 'Vaka Analizi', icon: FileSearch, accent: PURPLE, badge: null },
-  { id: 'guvenlik', label: 'Güvenlik', icon: ShieldCheck, accent: PURPLE, badge: null },
-  { id: 'yeteneklerim', label: 'Yeteneklerim', icon: Award, accent: CORAL, badge: null },
+  { id: 'derslerim', label: 'Derslerim', icon: BookOpen, badge: null },
+  { id: 'gorevler', label: 'Görevler', icon: CheckSquare, badge: null },
+  { id: 'kampanyalar', label: 'Kampanyalar', icon: Megaphone, badge: '2' },
+  { id: 'vaka', label: 'Vaka Analizi', icon: FileSearch, badge: null },
+  { id: 'guvenlik', label: 'Güvenlik', icon: ShieldCheck, badge: null },
+  { id: 'yeteneklerim', label: 'Yeteneklerim', icon: Award, badge: null },
 ];
 
 const CONTACTS = [
-  { id: 1, name: 'Selin Yılmaz', initials: 'SY', color: PURPLE, online: true, unread: 0 },
-  { id: 2, name: 'Burak Hoca', initials: 'BH', color: CORAL, online: true, unread: 1 },
-  { id: 3, name: 'Zeynep Kaya', initials: 'ZK', color: '#F5A623', online: false, unread: 0 },
-  { id: 4, name: 'Dr. Ahmet D.', initials: 'AD', color: '#2ECC71', online: true, unread: 2 },
+  { id: 1, name: 'Selin Yılmaz', initials: 'SY', online: true, unread: 0 },
+  { id: 2, name: 'Burak Hoca', initials: 'BH', online: true, unread: 1 },
+  { id: 3, name: 'Zeynep Kaya', initials: 'ZK', online: false, unread: 0 },
+  { id: 4, name: 'Dr. Ahmet D.', initials: 'AD', online: true, unread: 2 },
 ];
 
 /** OLTVIA yuvarlak amblem (koyu daire içinde beyaz O/C + mercan nokta) */
@@ -55,7 +52,7 @@ function OltviaEmblem({ size = 22 }: { size?: number }) {
   );
 }
 
-export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStudentSidebarProps) {
+export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProps) {
   const isDark = theme === 'dark';
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -75,120 +72,56 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
   const compact = viewportH < 720;
   const rowH = compact ? 34 : 42;
 
+  // Liquid glass: yarı saydam, tek renk yok; vurgu yalnızca beyaz/mürekkep tonları
   const t = isDark
     ? {
-        surface: 'rgba(20, 23, 31, 0.72)',
-        edge: '1px solid rgba(255, 255, 255, 0.08)',
+        surface: 'linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.09) 100%)',
+        edge: '1px solid rgba(255,255,255,0.18)',
         text: '#F3F5F8',
-        sub: '#8A93A2',
-        divider: 'rgba(255, 255, 255, 0.08)',
-        card: 'rgba(255, 255, 255, 0.04)',
-        cardBorder: 'rgba(255, 255, 255, 0.06)',
-        cardShadow: '0 8px 24px rgba(0,0,0,0.30)',
-        ring: '#171A22',
+        sub: 'rgba(243,245,248,0.62)',
+        divider: 'rgba(255,255,255,0.10)',
+        card: 'rgba(255,255,255,0.06)',
+        cardBorder: 'rgba(255,255,255,0.12)',
+        pill: 'rgba(255,255,255,0.12)',
+        pillBorder: 'rgba(255,255,255,0.22)',
+        chip: 'rgba(255,255,255,0.14)',
+        chipText: '#F3F5F8',
+        ink: 'rgba(255,255,255,0.92)',
+        inkText: '#14171F',
+        ring: 'rgba(255,255,255,0.25)',
         shadow:
-          '0 28px 70px -14px rgba(0,0,0,0.65), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.10)',
-        btn: 'rgba(255,255,255,0.07)',
-        btnBorder: 'rgba(255,255,255,0.12)',
+          '0 30px 80px -16px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.30), inset 0 -1px 0 rgba(255,255,255,0.06), inset 0 0 24px rgba(255,255,255,0.04)',
       }
     : {
-        surface: 'rgba(255, 255, 255, 0.78)',
-        edge: '1px solid rgba(255, 255, 255, 0.9)',
+        surface: 'linear-gradient(145deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.28) 55%, rgba(255,255,255,0.46) 100%)',
+        edge: '1px solid rgba(255,255,255,0.75)',
         text: '#1A1D24',
-        sub: '#68707D',
-        divider: '#E3E6EB',
-        card: '#FFFFFF',
-        cardBorder: '#E3E6EB',
-        cardShadow: '0 8px 30px rgba(0,0,0,0.06)',
-        ring: '#FFFFFF',
+        sub: 'rgba(26,29,36,0.58)',
+        divider: 'rgba(26,29,36,0.08)',
+        card: 'rgba(255,255,255,0.40)',
+        cardBorder: 'rgba(255,255,255,0.7)',
+        pill: 'rgba(255,255,255,0.62)',
+        pillBorder: 'rgba(255,255,255,0.9)',
+        chip: 'rgba(26,29,36,0.08)',
+        chipText: '#1A1D24',
+        ink: '#1A1D24',
+        inkText: '#FFFFFF',
+        ring: 'rgba(255,255,255,0.9)',
         shadow:
-          '0 28px 70px -16px rgba(26,29,36,0.18), 0 2px 8px rgba(26,29,36,0.05), inset 0 1px 0 rgba(255,255,255,1)',
-        btn: '#FFFFFF',
-        btnBorder: '#E3E6EB',
+          '0 30px 70px -18px rgba(26,29,36,0.22), 0 2px 8px rgba(26,29,36,0.06), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 0 24px rgba(255,255,255,0.35)',
       };
-
-  const pillBg = (accent: string) =>
-    accent === CORAL
-      ? isDark ? 'rgba(255, 90, 77, 0.15)' : 'rgba(255, 90, 77, 0.10)'
-      : isDark ? 'rgba(91, 63, 217, 0.15)' : 'rgba(91, 63, 217, 0.10)';
-
-  /** Gece/Gündüz geçişi: butonun merkezinden büyüyen dairesel clip-path dalgası */
-  const handleThemeToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    const next: SidebarTheme = isDark ? 'light' : 'dark';
-
-    const doc = document as any;
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!doc.startViewTransition || reduceMotion) {
-      onThemeChange(next);
-      return;
-    }
-
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
-
-    const transition = doc.startViewTransition(() => {
-      flushSync(() => onThemeChange(next));
-    });
-
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`],
-        },
-        {
-          duration: 600,
-          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-          pseudoElement: '::view-transition-new(root)',
-        }
-      );
-    });
-  };
-
-  const ThemeToggle = (
-    <button
-      type="button"
-      onClick={handleThemeToggle}
-      aria-label={isDark ? 'Aydınlık moda geç' : 'Gece moduna geç'}
-      title={isDark ? 'Aydınlık moda geç' : 'Gece moduna geç'}
-      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform hover:scale-110 active:scale-95 focus:outline-none"
-      style={{
-        backgroundColor: t.btn,
-        border: `1px solid ${t.btnBorder}`,
-        color: isDark ? '#F5A623' : t.text,
-      }}
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={theme}
-          initial={{ rotate: -90, scale: 0.4, opacity: 0 }}
-          animate={{ rotate: 0, scale: 1, opacity: 1 }}
-          exit={{ rotate: 90, scale: 0.4, opacity: 0 }}
-          transition={{ duration: 0.18 }}
-          className="flex"
-        >
-          {isDark ? <Sun size={15} /> : <Moon size={15} />}
-        </motion.span>
-      </AnimatePresence>
-    </button>
-  );
 
   const UserAvatar = (
     <div className="relative shrink-0">
       <div
-        className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-white"
-        style={{ backgroundColor: '#1A1D24', boxShadow: `0 0 0 2px ${t.ring}, 0 4px 10px rgba(0,0,0,0.18)` }}
+        className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold"
+        style={{ backgroundColor: t.ink, color: t.inkText, boxShadow: `0 0 0 2px ${t.ring}` }}
       >
         AK
       </div>
       <span
         className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full"
-        style={{ backgroundColor: '#2ECC71', boxShadow: `0 0 0 2px ${t.ring}` }}
+        style={{ backgroundColor: t.text, boxShadow: `0 0 0 2px ${t.ring}` }}
       />
     </div>
   );
@@ -198,9 +131,9 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
     <div
       style={{
         position: 'fixed',
-        top: 0,
-        bottom: 0,
-        left: 16,
+        top: 12,
+        bottom: 12,
+        left: 12,
         zIndex: 40,
         display: 'flex',
         alignItems: 'center',
@@ -216,35 +149,38 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: 'calc(100vh - 24px)',
+          height: '100%',
           borderRadius: 24,
           pointerEvents: 'auto',
-          backgroundColor: t.surface,
+          background: t.surface,
           border: t.edge,
           boxShadow: t.shadow,
-          backdropFilter: 'blur(24px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          backdropFilter: 'blur(32px) saturate(190%) brightness(1.04)',
+          WebkitBackdropFilter: 'blur(32px) saturate(190%) brightness(1.04)',
         }}
       >
+        {/* Liquid glass speküler parlama */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            borderRadius: 24,
+            background: `radial-gradient(120% 60% at 0% 0%, rgba(255,255,255,${isDark ? '0.16' : '0.55'}) 0%, transparent 55%), radial-gradient(90% 45% at 100% 100%, rgba(255,255,255,${isDark ? '0.08' : '0.30'}) 0%, transparent 60%)`,
+          }}
+        />
         {/* Kenar oku: sınırın üstüne gelince belirir */}
         <button
           type="button"
           onClick={() => setIsExpanded((v) => !v)}
           aria-label={isExpanded ? 'Menüyü daralt' : 'Menüyü genişlet'}
-          className="absolute top-1/2 -right-3 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 focus:outline-none"
-          style={{ backgroundColor: PURPLE, boxShadow: '0 4px 12px rgba(91,63,217,0.45)' }}
+          className="absolute top-1/2 -right-3 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 focus:outline-none"
+          style={{ backgroundColor: t.ink, color: t.inkText, boxShadow: '0 4px 12px rgba(0,0,0,0.25)' }}
         >
           {isExpanded ? <ChevronLeft size={14} strokeWidth={2.6} /> : <ChevronRight size={14} strokeWidth={2.6} />}
         </button>
 
         {/* ───────── 1. HEADER: macOS noktaları + OLTVIA logosu ───────── */}
-        <div className="shrink-0 px-2 pt-3">
-          <div className="flex items-center justify-center gap-1.5 pb-2">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: CORAL }} />
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#F5A623' }} />
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#2ECC71' }} />
-          </div>
-
+        <div className="shrink-0 px-2 pt-4 pb-1">
           <button
             type="button"
             onClick={() => setIsExpanded((v) => !v)}
@@ -257,10 +193,10 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
               whileTap={{ scale: 0.94 }}
               className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 relative z-10"
               style={{
-                backgroundColor: isDark ? '#0E1016' : '#1A1D24',
+                backgroundColor: isDark ? 'rgba(14,16,22,0.85)' : '#1A1D24',
                 boxShadow: isDark
-                  ? '0 0 0 1px rgba(255,255,255,0.14), 0 6px 16px rgba(0,0,0,0.4)'
-                  : '0 6px 16px rgba(26,29,36,0.28)',
+                  ? '0 0 0 1px rgba(255,255,255,0.18), 0 6px 16px rgba(0,0,0,0.4)'
+                  : '0 6px 16px rgba(26,29,36,0.25)',
               }}
             >
               <OltviaEmblem size={21} />
@@ -283,7 +219,7 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                   </span>
                   <span
                     className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: 'rgba(91,63,217,0.12)', color: PURPLE }}
+                    style={{ backgroundColor: t.chip, color: t.chipText }}
                   >
                     Student
                   </span>
@@ -336,15 +272,18 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                         type="button"
                         onClick={() => setActiveTab(item.id)}
                         className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-colors duration-200"
-                        style={{ height: rowH, color: highlighted ? item.accent : t.sub }}
+                        style={{ height: rowH, color: highlighted ? t.text : t.sub }}
                       >
                         {highlighted && (
                           <motion.span
                             layoutId="activeNav"
                             className="absolute inset-0 rounded-xl"
                             style={{
-                              backgroundColor: pillBg(item.accent),
-                              boxShadow: isDark ? `0 0 18px ${item.accent}26` : 'none',
+                              backgroundColor: t.pill,
+                              border: `1px solid ${t.pillBorder}`,
+                              boxShadow: isDark
+                                ? 'inset 0 1px 0 rgba(255,255,255,0.18)'
+                                : '0 4px 14px rgba(26,29,36,0.06), inset 0 1px 0 rgba(255,255,255,1)',
                             }}
                             transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                           />
@@ -365,14 +304,14 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                             >
                               <span
                                 className="text-[13px] font-semibold tracking-tight truncate"
-                                style={{ color: highlighted ? item.accent : t.text }}
+                                style={{ color: t.text }}
                               >
                                 {item.label}
                               </span>
                               {item.badge && (
                                 <span
-                                  className="ml-2 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0"
-                                  style={{ backgroundColor: PURPLE, boxShadow: '0 2px 8px rgba(91,63,217,0.4)' }}
+                                  className="ml-2 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+                                  style={{ backgroundColor: t.ink, color: t.inkText }}
                                 >
                                   {item.badge}
                                 </span>
@@ -401,24 +340,22 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                               zIndex: 60,
                             }}
                           >
-                            <svg width="14" height="24" viewBox="0 0 14 24" style={{ marginRight: -1 }} aria-hidden="true">
-                              <path
-                                d="M14 0 C14 7 5 8 2.6 10.4 Q0 12 2.6 13.6 C5 16 14 17 14 24 Z"
-                                fill={item.accent}
-                              />
-                            </svg>
                             <div
-                              className="px-3.5 h-8 rounded-full flex items-center gap-2 text-xs font-bold text-white whitespace-nowrap"
+                              className="px-3.5 h-8 rounded-full flex items-center gap-2 text-xs font-semibold whitespace-nowrap"
                               style={{
-                                backgroundColor: item.accent,
-                                boxShadow: `0 8px 22px ${item.accent}55`,
+                                background: t.surface,
+                                border: t.edge,
+                                color: t.text,
+                                boxShadow: t.shadow,
+                                backdropFilter: 'blur(24px) saturate(180%)',
+                                WebkitBackdropFilter: 'blur(24px) saturate(180%)',
                               }}
                             >
                               {item.label}
                               {item.badge && (
                                 <span
-                                  className="w-4 h-4 rounded-full bg-white text-[10px] font-black flex items-center justify-center"
-                                  style={{ color: item.accent }}
+                                  className="w-4 h-4 rounded-full text-[10px] font-black flex items-center justify-center"
+                                  style={{ backgroundColor: t.ink, color: t.inkText }}
                                 >
                                   {item.badge}
                                 </span>
@@ -441,8 +378,8 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
               <div
                 className="mx-auto w-[44px] py-2 rounded-full flex flex-col items-center gap-1.5"
                 style={{
-                  backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(26,29,36,0.04)',
-                  border: `1px solid ${t.divider}`,
+                  backgroundColor: t.card,
+                  border: `1px solid ${t.cardBorder}`,
                   borderRadius: 999,
                 }}
               >
@@ -454,8 +391,8 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                     onMouseLeave={() => setHoveredAvatar(null)}
                   >
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold text-white cursor-pointer transition-transform hover:scale-110"
-                      style={{ backgroundColor: c.color, boxShadow: `0 0 0 2px ${t.ring}` }}
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold cursor-pointer transition-transform hover:scale-110"
+                      style={{ backgroundColor: t.chip, color: t.chipText, boxShadow: `0 0 0 1px ${t.cardBorder}` }}
                     >
                       {c.initials}
                     </div>
@@ -478,16 +415,18 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                             zIndex: 60,
                           }}
                         >
-                          <svg width="10" height="18" viewBox="0 0 10 18" style={{ marginRight: -1 }} aria-hidden="true">
-                            <path d="M10 0 C10 5 4 6.5 2 8 Q0 9 2 10 C4 11.5 10 13 10 18 Z" fill={PURPLE} />
-                          </svg>
                           <div
                             className="px-3 h-6 rounded-full flex items-center gap-[3px]"
-                            style={{ backgroundColor: PURPLE, boxShadow: '0 6px 16px rgba(91,63,217,0.5)' }}
+                            style={{
+                              background: t.surface,
+                              border: t.edge,
+                              backdropFilter: 'blur(24px) saturate(180%)',
+                              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                            }}
                           >
-                            <span className="w-1 h-1 rounded-full bg-white" />
-                            <span className="w-1 h-1 rounded-full bg-white" />
-                            <span className="w-1 h-1 rounded-full bg-white" />
+                            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: t.text }} />
+                            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: t.text }} />
+                            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: t.text }} />
                           </div>
                         </motion.div>
                       )}
@@ -500,8 +439,8 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                   onClick={() => setIsExpanded(true)}
                   aria-label="Tüm mesajlar"
                   title="Tüm mesajlar"
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-white transition-transform hover:scale-110 active:scale-95 focus:outline-none"
-                  style={{ backgroundColor: PURPLE, boxShadow: '0 4px 12px rgba(91,63,217,0.45)' }}
+                  className="w-7 h-7 rounded-full flex items-center justify-center transition-transform hover:scale-110 active:scale-95 focus:outline-none"
+                  style={{ backgroundColor: t.ink, color: t.inkText }}
                 >
                   <Plus size={14} strokeWidth={2.6} />
                 </button>
@@ -532,7 +471,7 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                   style={{
                     backgroundColor: t.card,
                     border: `1px solid ${t.cardBorder}`,
-                    boxShadow: t.cardShadow,
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
                   }}
                 >
                   <div className="flex flex-col gap-1">
@@ -545,8 +484,8 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="relative shrink-0">
                             <div
-                              className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold text-white"
-                              style={{ backgroundColor: c.color }}
+                              className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold"
+                              style={{ backgroundColor: t.chip, color: t.chipText }}
                             >
                               {c.initials}
                             </div>
@@ -556,15 +495,15 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
 
                         {c.unread > 0 ? (
                           <span
-                            className="ml-2 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-                            style={{ backgroundColor: PURPLE }}
+                            className="ml-2 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
+                            style={{ backgroundColor: t.ink, color: t.inkText }}
                           >
                             {c.unread}
                           </span>
                         ) : (
                           <span
                             className="ml-2 w-2 h-2 rounded-full shrink-0"
-                            style={{ backgroundColor: c.online ? '#2ECC71' : t.divider }}
+                            style={{ backgroundColor: c.online ? t.text : t.divider }}
                           />
                         )}
                       </div>
@@ -573,8 +512,8 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
 
                   <button
                     type="button"
-                    className="w-full mt-2.5 h-8 rounded-full flex items-center justify-center gap-1.5 text-xs font-bold text-white transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none"
-                    style={{ backgroundColor: PURPLE, boxShadow: '0 8px 20px rgba(91,63,217,0.38)' }}
+                    className="w-full mt-2.5 h-8 rounded-full flex items-center justify-center gap-1.5 text-xs font-bold transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none"
+                    style={{ backgroundColor: t.pill, color: t.text, border: `1px solid ${t.pillBorder}` }}
                   >
                     <Plus size={14} strokeWidth={2.6} />
                     All messages
@@ -590,7 +529,6 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
           {!isExpanded ? (
             <div className="flex flex-col items-center gap-2">
               {UserAvatar}
-              {ThemeToggle}
             </div>
           ) : (
             <div className="flex items-center justify-between gap-2 pl-1">
@@ -605,7 +543,6 @@ export default function OltviaStudentSidebar({ theme, onThemeChange }: OltviaStu
                   </span>
                 </div>
               </div>
-              {ThemeToggle}
             </div>
           )}
         </div>

@@ -321,90 +321,138 @@ export default function OltivaLandingPage() {
   return (
     <div className={"min-h-screen font-serif selection:bg-[#FF5A4D]/30 overflow-x-hidden transition-colors duration-300 " + (theme === 'dark' ? "bg-[#080411] text-[#E2E8F0]" : "bg-[#E9E3DE] text-[#1A1D24]")}>
 
-      {/* Animated Mesh / Glowing Orbs & Cyber Geometric Line Grid (Matching Reference Screenshot) */}
-      {theme === 'dark' ? (
-        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-          {/* 1. Deep Ambient Lighting Orbs */}
-          {/* Top-Left Deep Plum / Violet Spotlight */}
-          <div className="absolute top-[-5%] left-[-5%] w-[55vw] h-[55vw] max-w-[850px] max-h-[850px] rounded-full bg-gradient-to-br from-[#7C3AED]/24 via-[#581C87]/16 to-transparent blur-[140px] pointer-events-none" />
-          
-          {/* Top-Right Warm Coral Flare behind CTA */}
-          <div className="absolute top-[6%] right-[-5%] w-[40vw] h-[40vw] max-w-[650px] max-h-[650px] rounded-full bg-gradient-to-bl from-[#FF5A4D]/18 via-[#FF7A50]/10 to-transparent blur-[130px] pointer-events-none" />
+      {/* Arka plan: referans görseldeki derin minimalist ışıklandırma ve kenardan ortaya süzülen geometrik çizgiler */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+        {theme === 'dark' ? (
+          <>
+            {/* 1. Atmosferik Işıklandırma (Referans fotoğraftaki gibi derin viyole & yumuşak parıltılar) */}
+            {/* Sol alt köşedeki belirgin viyole/erik ışıltısı */}
+            <div 
+              className="absolute -bottom-[15%] -left-[10%] w-[58vw] h-[58vw] max-w-[900px] max-h-[900px] rounded-full blur-[150px]" 
+              style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.30) 0%, rgba(91,63,217,0.18) 42%, transparent 72%)' }} 
+            />
 
-          {/* Center-Hero Indigo Nebula Ambiance */}
-          <div className="absolute top-[30%] left-[12%] w-[55vw] h-[42vw] max-w-[800px] rounded-full bg-[#6366F1]/12 blur-[160px] pointer-events-none" />
+            {/* Sağ üst köşedeki derin mor nebula ışıltısı */}
+            <div 
+              className="absolute -top-[15%] -right-[8%] w-[55vw] h-[55vw] max-w-[850px] max-h-[850px] rounded-full blur-[160px]" 
+              style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.24) 0%, rgba(76,29,149,0.12) 48%, transparent 72%)' }} 
+            />
 
-          {/* Bottom Ambient Glow */}
-          <div className="absolute bottom-[-10%] right-[12%] w-[48vw] h-[48vw] max-w-[720px] rounded-full bg-[#8B5CF6]/15 blur-[160px] pointer-events-none" />
+            {/* Orta-sol eksende süzülen hafif indigo aurası */}
+            <div className="absolute top-[26%] left-[6%] w-[42vw] h-[36vw] max-w-[650px] rounded-full blur-[160px] bg-[#6366F1]/[0.10]" />
 
-          {/* 2. Geometric Tech Lines Matching the Reference Screenshot */}
-          <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 900">
-            <defs>
-              {/* Violet to Coral Line Gradient */}
-              <linearGradient id="refCyberGrad" x1="0%" y1="0%" x2="100%" y2="80%">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.03)" />
-                <stop offset="20%" stopColor="rgba(192,132,252,0.25)" />
-                <stop offset="50%" stopColor="rgba(139,108,255,0.2)" />
-                <stop offset="80%" stopColor="rgba(255,90,77,0.2)" />
-                <stop offset="100%" stopColor="rgba(255,255,255,0.02)" />
-              </linearGradient>
+            {/* Sağ eksendeki sıcak mercan/altın tonlu mikro parıltı */}
+            <div className="absolute top-[42%] right-[4%] w-[28vw] h-[28vw] max-w-[420px] rounded-full blur-[140px] bg-[#FF5A4D]/[0.08]" />
 
-              {/* Faint Horizontal Guide Gradient */}
-              <linearGradient id="horizonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-                <stop offset="30%" stopColor="rgba(168,85,247,0.18)" />
-                <stop offset="70%" stopColor="rgba(255,90,77,0.14)" />
-                <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-              </linearGradient>
+            {/* Üst kenardan yumuşak kristal aydınlatma gradyanı */}
+            <div className="absolute inset-x-0 top-0 h-[45vh]" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.03), transparent)' }} />
 
-              {/* Filter for glowing nodes */}
-              <filter id="glowPurple" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="3" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
+            {/* 2. Kenarlardan başlayıp ortaya doğru kaybolan mimari çizgiler (SVG) */}
+            <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900">
+              <defs>
+                {/* Sol kenardan ortaya doğru süzülen gradyan */}
+                <linearGradient id="cyberFadeLeft" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="680" y2="0">
+                  <stop offset="0%" stopColor="rgba(216,180,254,0.36)" />
+                  <stop offset="35%" stopColor="rgba(167,139,250,0.24)" />
+                  <stop offset="70%" stopColor="rgba(139,92,246,0.08)" />
+                  <stop offset="100%" stopColor="rgba(139,92,246,0)" />
+                </linearGradient>
 
-            {/* Left Side Architectural Facet Paths (Exact to screenshot) */}
-            <path d="M -30 360 L 120 360 L 240 210 L 420 210 L 490 110" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1.2" />
-            <path d="M 120 360 L 190 530 L 320 600" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1" />
-            <path d="M 240 210 L 290 80 L 180 10" fill="none" stroke="url(#refCyberGrad)" strokeWidth="0.9" opacity="0.7" />
+                {/* Sağ kenardan ortaya doğru süzülen gradyan */}
+                <linearGradient id="cyberFadeRight" gradientUnits="userSpaceOnUse" x1="1440" y1="0" x2="760" y2="0">
+                  <stop offset="0%" stopColor="rgba(216,180,254,0.36)" />
+                  <stop offset="35%" stopColor="rgba(167,139,250,0.24)" />
+                  <stop offset="70%" stopColor="rgba(139,92,246,0.08)" />
+                  <stop offset="100%" stopColor="rgba(139,92,246,0)" />
+                </linearGradient>
 
-            {/* Right Side Horizon & Sweeping Tangent Curve (Exact to screenshot) */}
-            <path d="M 1470 310 L 1220 310 L 1080 190 L 960 190" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1.2" />
-            <path d="M 1220 310 L 1140 480 L 1050 550" fill="none" stroke="url(#refCyberGrad)" strokeWidth="1" />
-            
-            {/* Center Faint Horizon Line behind Hero */}
-            <line x1="0" y1="310" x2="1440" y2="310" stroke="url(#horizonGrad)" strokeWidth="0.8" />
+                {/* Dikey süzülen hafif çizgiler için gradyan */}
+                <linearGradient id="cyberFadeVert" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="500">
+                  <stop offset="0%" stopColor="rgba(216,180,254,0.28)" />
+                  <stop offset="60%" stopColor="rgba(139,92,246,0.10)" />
+                  <stop offset="100%" stopColor="rgba(139,92,246,0)" />
+                </linearGradient>
+              </defs>
 
-            {/* Sweeping Elliptical Arc behind Title (From right-hand curve in screenshot) */}
-            <path d="M 320 460 Q 720 180 1280 440" fill="none" stroke="url(#refCyberGrad)" strokeWidth="0.8" opacity="0.6" />
+              {/* SOL TARAF ÇİZGİLERİ (Kenardan başlayıp ortaya doğru akıcı şekilde kaybolur) */}
+              {/* Üst yatay ve 45 derece kırılan hat (Logo altından süzülen hat) */}
+              <path d="M -20 140 L 160 140 L 280 260 L 460 260 L 560 160" fill="none" stroke="url(#cyberFadeLeft)" strokeWidth="1.2" />
+              
+              {/* Çapraz kesen ana faset çizgisi */}
+              <path d="M -20 380 L 120 280 L 320 160 L 520 80" fill="none" stroke="url(#cyberFadeLeft)" strokeWidth="1.2" />
+              
+              {/* Kesişimden aşağı uzanan faset rotası */}
+              <path d="M 280 260 L 340 380 L 260 520 L 140 640 L -20 740" fill="none" stroke="url(#cyberFadeLeft)" strokeWidth="1.1" />
+              
+              {/* Orta-alt geometrik elmas faset (Kartların üstünde kaybolan hat) */}
+              <path d="M -20 520 L 90 520 L 220 410 L 360 520 L 500 520" fill="none" stroke="url(#cyberFadeLeft)" strokeWidth="1.2" />
+              
+              {/* Üst sol köşegen destek hattı */}
+              <path d="M 40 40 L 180 180 L 280 260" fill="none" stroke="url(#cyberFadeLeft)" strokeWidth="1.0" opacity="0.8" />
+              
+              {/* Sol alt yatay tamamlayıcı çizgi */}
+              <path d="M -20 680 L 120 680 L 220 780" fill="none" stroke="url(#cyberFadeLeft)" strokeWidth="1.0" opacity="0.7" />
 
-            {/* Glowing Accent Intersection Nodes */}
-            <circle cx="240" cy="210" r="2.5" fill="#C084FC" filter="url(#glowPurple)" />
-            <circle cx="420" cy="210" r="2" fill="#FF7A50" opacity="0.85" />
-            <circle cx="120" cy="360" r="2" fill="#818CF8" opacity="0.85" />
-            <circle cx="1080" cy="190" r="2.5" fill="#C084FC" filter="url(#glowPurple)" />
-            <circle cx="1220" cy="310" r="2" fill="#FF7A50" opacity="0.85" />
-          </svg>
+              {/* SAĞ TARAF ÇİZGİLERİ (Kenardan başlayıp ortaya doğru simetrik ve dengeli kaybolur) */}
+              {/* Sağ üst yatay ve 45 derece kırılan hat */}
+              <path d="M 1460 150 L 1280 150 L 1160 270 L 980 270 L 880 170" fill="none" stroke="url(#cyberFadeRight)" strokeWidth="1.2" />
+              
+              {/* Sağ çapraz ana hat */}
+              <path d="M 1460 390 L 1320 290 L 1120 170 L 920 90" fill="none" stroke="url(#cyberFadeRight)" strokeWidth="1.2" />
+              
+              {/* Sağ kesişimden aşağı uzanan hat */}
+              <path d="M 1160 270 L 1100 390 L 1180 530 L 1300 650 L 1460 750" fill="none" stroke="url(#cyberFadeRight)" strokeWidth="1.1" />
+              
+              {/* Sağ orta-alt geometrik faset */}
+              <path d="M 1460 530 L 1350 530 L 1220 420 L 1080 530 L 940 530" fill="none" stroke="url(#cyberFadeRight)" strokeWidth="1.2" />
+              
+              {/* Sağ üst köşegen destek hattı */}
+              <path d="M 1400 50 L 1260 190 L 1160 270" fill="none" stroke="url(#cyberFadeRight)" strokeWidth="1.0" opacity="0.8" />
+            </svg>
 
-          {/* 3. Deep Cinematic Vignette (Softening Canvas Edges) */}
-          <div 
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(ellipse at center, transparent 35%, rgba(8, 4, 17, 0.75) 85%, #080411 100%)'
-            }}
-          />
-        </div>
-      ) : (
-        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-          <div className="absolute top-[-10%] left-[-5%] w-[45vw] h-[45vw] max-w-[650px] max-h-[650px] rounded-full blur-[140px] bg-[#5B3FD9]/8 opacity-80" />
-          <div className="absolute bottom-[-10%] right-[-5%] w-[45vw] h-[45vw] max-w-[650px] max-h-[650px] rounded-full blur-[140px] bg-[#FF5A4D]/8 opacity-80" />
-          <div className="absolute top-[35%] right-[15%] w-[35vw] h-[35vw] max-w-[500px] rounded-full blur-[130px] bg-[#5B3FD9]/5 opacity-60" />
-        </div>
-      )}
+            {/* Köşeleri ve tabanı doğal olarak eriten sinematik vinyet */}
+            <div 
+              className="absolute inset-0 pointer-events-none" 
+              style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(8,4,17,0.45) 85%, #080411 100%)' }} 
+            />
+          </>
+        ) : (
+          <>
+            {/* Açık mod için uyarlanmış zemin ışıkları ve çizgiler */}
+            <div className="absolute -top-[16%] -right-[8%] w-[56vw] h-[56vw] max-w-[900px] max-h-[900px] rounded-full blur-[170px]" style={{ background: 'radial-gradient(circle, rgba(91,63,217,0.14) 0%, transparent 70%)' }} />
+            <div className="absolute -bottom-[20%] -left-[10%] w-[52vw] h-[52vw] max-w-[820px] max-h-[820px] rounded-full blur-[170px]" style={{ background: 'radial-gradient(circle, rgba(255,90,77,0.12) 0%, transparent 70%)' }} />
+            <div className="absolute top-[34%] right-[2%] w-[20vw] h-[20vw] max-w-[320px] rounded-full blur-[150px] bg-[#5B3FD9]/[0.08]" />
+            <div className="absolute inset-x-0 top-0 h-[40vh]" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.4), transparent)' }} />
+
+            <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900">
+              <defs>
+                <linearGradient id="cyberFadeLeftL" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="680" y2="0">
+                  <stop offset="0%" stopColor="rgba(91,63,217,0.28)" />
+                  <stop offset="35%" stopColor="rgba(91,63,217,0.18)" />
+                  <stop offset="70%" stopColor="rgba(91,63,217,0.06)" />
+                  <stop offset="100%" stopColor="rgba(91,63,217,0)" />
+                </linearGradient>
+                <linearGradient id="cyberFadeRightL" gradientUnits="userSpaceOnUse" x1="1440" y1="0" x2="760" y2="0">
+                  <stop offset="0%" stopColor="rgba(91,63,217,0.28)" />
+                  <stop offset="35%" stopColor="rgba(91,63,217,0.18)" />
+                  <stop offset="70%" stopColor="rgba(91,63,217,0.06)" />
+                  <stop offset="100%" stopColor="rgba(91,63,217,0)" />
+                </linearGradient>
+              </defs>
+
+              <path d="M -20 140 L 160 140 L 280 260 L 460 260 L 560 160" fill="none" stroke="url(#cyberFadeLeftL)" strokeWidth="1.2" />
+              <path d="M -20 380 L 120 280 L 320 160 L 520 80" fill="none" stroke="url(#cyberFadeLeftL)" strokeWidth="1.2" />
+              <path d="M 280 260 L 340 380 L 260 520 L 140 640 L -20 740" fill="none" stroke="url(#cyberFadeLeftL)" strokeWidth="1.1" />
+              <path d="M -20 520 L 90 520 L 220 410 L 360 520 L 500 520" fill="none" stroke="url(#cyberFadeLeftL)" strokeWidth="1.2" />
+
+              <path d="M 1460 150 L 1280 150 L 1160 270 L 980 270 L 880 170" fill="none" stroke="url(#cyberFadeRightL)" strokeWidth="1.2" />
+              <path d="M 1460 390 L 1320 290 L 1120 170 L 920 90" fill="none" stroke="url(#cyberFadeRightL)" strokeWidth="1.2" />
+              <path d="M 1160 270 L 1100 390 L 1180 530 L 1300 650 L 1460 750" fill="none" stroke="url(#cyberFadeRightL)" strokeWidth="1.1" />
+              <path d="M 1460 530 L 1350 530 L 1220 420 L 1080 530 L 940 530" fill="none" stroke="url(#cyberFadeRightL)" strokeWidth="1.2" />
+            </svg>
+          </>
+        )}
+      </div>
 
       {/* FLOATING CAPSULE NAVBAR (Adapted from Reference Screenshot) */}
       <header className="fixed top-5 inset-x-0 z-50 px-4 sm:px-6 max-w-7xl mx-auto flex items-center justify-between pointer-events-none">
