@@ -1,18 +1,55 @@
 "use client";
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import OltviaStudentSidebar, { SidebarTheme } from '../../components/OltviaStudentSidebar';
+import { clearSession, getAuthApiUrl, getToken } from '../../lib/api';
+
+type AuthState = 'checking' | 'ok';
 
 /**
  * Öğrenci paneli: şimdilik yalnızca yüzen Liquid Glass menüye odaklanıyor.
  * Sayfanın geri kalanı bilinçli olarak boş bırakıldı.
+ *
+ * Erişim kontrolü: token yoksa veya backend (/auth/me) token'ı reddederse giriş sayfasına
+ * yönlendirilir. Bu istemci tarafı bir kolaylıktır; asıl yetkilendirme her API çağrısında backend'dedir.
  */
 export default function OgrenciPage() {
+  const router = useRouter();
   const [theme, setTheme] = useState<SidebarTheme>('light');
+  const [authState, setAuthState] = useState<AuthState>('checking');
 
   useEffect(() => {
     const saved = localStorage.getItem('oltvia-theme');
     if (saved === 'light' || saved === 'dark') setTheme(saved);
   }, []);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      router.replace('/giris?rol=ogrenci');
+      return;
+    }
+
+    const controller = new AbortController();
+    fetch(`${getAuthApiUrl()}/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+      signal: controller.signal,
+    })
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          clearSession();
+          router.replace('/giris?rol=ogrenci');
+          return;
+        }
+        // Backend'e ulaşılamıyorsa veya geçici bir hata varsa oturum silinmez.
+        setAuthState('ok');
+      })
+      .catch((err) => {
+        if (err?.name !== 'AbortError') setAuthState('ok');
+      });
+
+    return () => controller.abort();
+  }, [router]);
 
   const handleThemeChange = (next: SidebarTheme) => {
     setTheme(next);
@@ -40,7 +77,7 @@ export default function OgrenciPage() {
         />
       </div>
 
-      <OltviaStudentSidebar theme={theme} onThemeChange={handleThemeChange} />
+      {authState === 'ok' && <OltviaStudentSidebar theme={theme} onThemeChange={handleThemeChange} />}
     </div>
   );
 }

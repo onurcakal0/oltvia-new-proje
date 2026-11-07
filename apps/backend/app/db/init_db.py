@@ -1,17 +1,31 @@
+import logging
 import uuid
-from sqlalchemy.future import select
-from sqlalchemy.ext.asyncio import AsyncSession
+
+from sqlalchemy import select
+
 from app.db.base import Base
 from app.db.session import engine, AsyncSessionLocal
 from app.models.tenant import Tenant
 from app.models.user import User
 from app.core.security import get_password_hash
 
-async def init_db():
+logger = logging.getLogger("oltvia.init_db")
+
+# Demo hesapların ortak şifresi (README'de açıkça yazılıdır). Bu yüzden demo veriler yalnızca
+# SEED_DEMO_DATA açıkken (varsayılan: sadece development) oluşturulur; production'da asla.
+DEMO_PASSWORD = "oltvia2026"
+
+
+async def init_db(seed_demo: bool = False):
     # 1. Tabloları oluştur (varsa korur, yoksa oluşturur)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    
+
+    if seed_demo:
+        await seed_demo_data()
+
+
+async def seed_demo_data():
     # 2. Demo Seed Verilerini ekle
     async with AsyncSessionLocal() as session:
         # Kurum kontrolü
@@ -30,9 +44,9 @@ async def init_db():
             session.add(tenant)
             await session.commit()
             await session.refresh(tenant)
-            print(f"✅ Demo Kurum Oluşturuldu: {tenant.name} ({tenant.code})")
+            logger.info(f"Demo Kurum Oluşturuldu: {tenant.name} ({tenant.code})")
         
-        hashed_pwd = get_password_hash("oltvia2026")
+        hashed_pwd = get_password_hash(DEMO_PASSWORD)
         
         # 1. Öğrenci Hesabı
         res_student = await session.execute(
@@ -51,7 +65,7 @@ async def init_db():
                 is_active=True
             )
             session.add(student)
-            print("✅ Demo Öğrenci Eklendi: Arda Yılmaz (No: 20261048)")
+            logger.info("Demo Öğrenci Eklendi: Arda Yılmaz (No: 20261048)")
 
         # 2. Öğretmen Hesabı
         res_teacher = await session.execute(
@@ -69,7 +83,7 @@ async def init_db():
                 is_active=True
             )
             session.add(teacher)
-            print("✅ Demo Öğretmen Eklendi: Zeynep Kaya (ogretmen@fenlisesi.k12.tr)")
+            logger.info("Demo Öğretmen Eklendi: Zeynep Kaya (ogretmen@fenlisesi.k12.tr)")
 
         # 3. İdare Hesabı
         res_admin = await session.execute(
@@ -87,7 +101,7 @@ async def init_db():
                 is_active=True
             )
             session.add(admin_user)
-            print("✅ Demo İdare Eklendi: Mehmet Demir (idare@fenlisesi.k12.tr)")
+            logger.info("Demo İdare Eklendi: Mehmet Demir (idare@fenlisesi.k12.tr)")
 
         # 4. Veli Hesabı (Veli doğrudan öğrenciyle ilişkili ya da bağımsız veli kimliğiyle)
         res_parent = await session.execute(
@@ -105,11 +119,11 @@ async def init_db():
                 is_active=True
             )
             session.add(parent)
-            print("✅ Demo Veli Eklendi: Selim Yılmaz (05321234567)")
+            logger.info("Demo Veli Eklendi: Selim Yılmaz (05321234567)")
 
         await session.commit()
-        print("🚀 Veritabanı ve Demo Kullanıcıları Hazır!")
+        logger.info("Veritabanı ve Demo Kullanıcıları Hazır!")
 
 if __name__ == "__main__":
     import asyncio
-    asyncio.run(init_db())
+    asyncio.run(init_db(seed_demo=True))

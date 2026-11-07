@@ -1,18 +1,21 @@
+# Yerel geliştirme servisleri. Portlar yalnızca bu makineye (127.0.0.1) açılır.
+# Şifreleri değiştirmek için proje kökünde bir .env dosyasına POSTGRES_PASSWORD / REDIS_PASSWORD yazın
+# (.env Git'e eklenmez). Varsayılan değerler YALNIZCA yerel geliştirme içindir.
 services:
   db:
     image: postgres:15-alpine
     container_name: edux_postgres
-    restart: always
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: edux_user
-      POSTGRES_PASSWORD: edux_password
-      POSTGRES_DB: edux_db
+      POSTGRES_USER: ${POSTGRES_USER:-edux_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-edux_password}
+      POSTGRES_DB: ${POSTGRES_DB:-edux_db}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U edux_user -d edux_db"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -20,9 +23,10 @@ services:
   redis:
     image: redis:7-alpine
     container_name: edux_redis
-    restart: always
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-edux_redis_dev_password}"]
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
 
 volumes:
   postgres_data:

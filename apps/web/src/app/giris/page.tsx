@@ -8,6 +8,10 @@ import {
   Mail, Smartphone, ShieldCheck, KeyRound, Lock, RefreshCw, Check
 } from 'lucide-react';
 import OltviaLandingPage from '../page';
+import { getAuthApiUrl, saveSession } from '../../lib/api';
+
+// Backend ile aynı kural (apps/backend/app/schemas/user.py: PASSWORD_MIN_LENGTH)
+const PASSWORD_MIN_LENGTH = 8;
 
 type RoleType = 'ogrenci' | 'ogretmen' | 'veli' | 'idare';
 
@@ -461,10 +465,8 @@ function GirisContent() {
   };
 
   // Backend adresi: .env.local'deki NEXT_PUBLIC_API_URL öncelikli. Yoksa sayfanın açıldığı
-  // host'u (localhost, 127.0.0.1 veya ağ IP'si) kullanıp 8001 portuna bağlanır.
-  const API_BASE_URL =
-    process.env.NEXT_PUBLIC_API_URL ||
-    `http://${typeof window !== 'undefined' ? window.location.hostname : 'localhost'}:8001/api/v1/auth`;
+  // host'u (localhost, 127.0.0.1 veya ağ IP'si) ve protokolü kullanıp 8001 portuna bağlanır.
+  const API_BASE_URL = getAuthApiUrl();
 
   // Ağ hatalarını (backend kapalı / yanlış port) anlaşılır bir mesaja çevirir.
   const explainError = (err: any, fallback: string) => {
@@ -475,6 +477,17 @@ function GirisContent() {
       return `Sunucuya ulaşılamıyor. Backend'in çalıştığından emin olun (${API_BASE_URL.replace('/api/v1/auth', '')}). Başlatmak için: apps/backend klasöründe "python run.py"`;
     }
     return msg || fallback;
+  };
+
+  // FastAPI hata gövdesini okunabilir mesaja çevirir (422 doğrulama hatalarında detail bir dizidir).
+  const apiErrorMessage = (data: any, fallback: string) => {
+    if (typeof data?.detail === 'string') return data.detail;
+    if (Array.isArray(data?.detail) && data.detail.length > 0) {
+      const first = data.detail[0];
+      const msg = typeof first?.msg === 'string' ? first.msg.replace(/^Value error, /, '') : '';
+      return msg || fallback;
+    }
+    return fallback;
   };
 
   // Forgot password flow submit handlers
@@ -505,15 +518,14 @@ function GirisContent() {
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data.detail || 'Doğrulama kodu gönderilemedi. Lütfen bilgilerinizi kontrol ediniz.');
+        throw new Error(apiErrorMessage(data, 'Doğrulama kodu gönderilemedi. Lütfen bilgilerinizi kontrol ediniz.'));
       }
 
-      if (data.demo_code) {
-        setDemoOtpCode(data.demo_code);
-      }
+      // Yalnızca yerel geliştirmede backend demo kodu döndürür
+      setDemoOtpCode(typeof data.demo_code === 'string' ? data.demo_code : '');
 
       setForgotStep(2);
       setTimer(data.expires_in_seconds || 120);
@@ -549,10 +561,10 @@ function GirisContent() {
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data.detail || 'Doğrulama kodu geçersiz veya süresi dolmuş.');
+        throw new Error(apiErrorMessage(data, 'Doğrulama kodu geçersiz veya süresi dolmuş.'));
       }
 
       setResetToken(data.reset_token);
@@ -579,15 +591,14 @@ function GirisContent() {
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data.detail || 'Yeni kod gönderilemedi.');
+        throw new Error(apiErrorMessage(data, 'Yeni kod gönderilemedi.'));
       }
 
-      if (data.demo_code) {
-        setDemoOtpCode(data.demo_code);
-      }
+      // Yalnızca yerel geliştirmede backend demo kodu döndürür
+      setDemoOtpCode(typeof data.demo_code === 'string' ? data.demo_code : '');
 
       setSuccessMsg(data.message || 'Yeni doğrulama kodu başarıyla iletildi.');
       setTimer(data.expires_in_seconds || 120);
@@ -604,8 +615,12 @@ function GirisContent() {
     setErrorMsg(null);
     setSuccessMsg(null);
 
-    if (newPassword.length < 6) {
-      setErrorMsg('Şifreniz en az 6 karakter uzunluğunda olmalıdır.');
+    if (newPassword.length < PASSWORD_MIN_LENGTH) {
+      setErrorMsg(`Şifreniz en az ${PASSWORD_MIN_LENGTH} karakter uzunluğunda olmalıdır.`);
+      return;
+    }
+    if (newPassword !== newPassword.trim()) {
+      setErrorMsg('Şifre başında veya sonunda boşluk içeremez.');
       return;
     }
     if (newPassword !== confirmPassword) {
@@ -629,10 +644,10 @@ function GirisContent() {
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data.detail || 'Şifre güncellenemedi.');
+        throw new Error(apiErrorMessage(data, 'Şifre güncellenemedi.'));
       }
 
       setForgotStep(4);
@@ -691,32 +706,44 @@ function GirisContent() {
     setIsLoading(true);
 
     try {
-      // GEÇİCİ LOCAL BYPASS: Backend bağlantı hatasını aşmak ve arayüzü test etmek için sahte oturum açma
-      const fakeToken = `fake_jwt_token_${activeRole}_${Date.now()}`;
-      const fakeUser = {
-        id: `usr_${Date.now()}`,
+      const payload: Record<string, string> = {
         role: activeRole,
-        full_name: activeRole === 'ogrenci' ? 'Deniz Kaya' : (identity.trim() || 'Test Kullanıcısı'),
-        identity: identity.trim(),
-        school_code: schoolCode.trim().toUpperCase() || 'IST-1094',
-        created_at: new Date().toISOString(),
+        // Şifre olduğu gibi gönderilir (trim edilmez); kimlik doğrulama yalnızca backend'de yapılır.
+        password,
       };
 
-      // Token ve sahte kullanıcı profilini localStorage'a yaz
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('oltvia_token', fakeToken);
-        localStorage.setItem('oltvia_user', JSON.stringify(fakeUser));
+      if (config.hasSchoolCode) {
+        payload.school_code = schoolCode.trim().toUpperCase();
       }
 
-      setSuccessMsg(`Hoş geldiniz, ${fakeUser.full_name}! Giriş başarılı. Yönlendiriliyorsunuz...`);
+      if (activeRole === 'ogrenci') {
+        payload.student_number = identity.trim();
+      } else if (activeRole === 'ogretmen' || activeRole === 'idare') {
+        payload.email = identity.trim();
+      } else if (activeRole === 'veli') {
+        payload.phone = identity.trim();
+      }
 
-      // Doğrudan ilgili panele yönlendir (öğrenci için /ogrenci)
+      const res = await fetch(`${API_BASE_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(apiErrorMessage(data, 'Giriş yapılamadı. Bilgilerinizi kontrol ediniz.'));
+      }
+
+      // Token ve kullanıcı profilini sakla
+      saveSession(data.access_token, data.user);
+
+      setSuccessMsg(`Hoş geldiniz, ${data.user?.full_name || 'Kullanıcı'}! Giriş başarılı. Yönlendiriliyorsunuz...`);
+
+      // Şimdilik tüm roller için hazır olan tek panel öğrenci paneli
       setTimeout(() => {
-        if (activeRole === 'ogrenci') {
-          router.push('/ogrenci');
-        } else {
-          router.push('/ogrenci');
-        }
+        router.push('/ogrenci');
       }, 600);
     } catch (err: any) {
       setErrorMsg(explainError(err, 'Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyiniz.'));

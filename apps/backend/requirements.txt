@@ -1,14 +1,18 @@
-fastapi>=0.100.0
-uvicorn[standard]>=0.23.0
-sqlalchemy>=2.0.0
-greenlet>=3.0.0
-asyncpg>=0.28.0
-pydantic-settings>=2.0.0
-pydantic>=2.0.0
-redis>=5.0.0
-alembic>=1.11.0
-passlib[bcrypt]>=1.7.4
-bcrypt<4.0.0
-PyJWT>=2.8.0
-email-validator>=2.0.0
-aiosqlite>=0.20.0
+# Pinned versions (tested with Python 3.14). When upgrading, run
+# `pip-audit -r requirements.txt` and `python -m pytest`.
+# Keep this file ASCII-only: pip on Windows reads it with the locale codepage.
+fastapi==0.162.0
+starlette==1.10.0
+uvicorn[standard]==0.54.0
+sqlalchemy==2.1.8
+greenlet==3.5.6
+asyncpg==0.32.0
+aiosqlite==0.22.1
+pydantic==2.14.3
+pydantic-settings==2.16.2
+alembic==1.20.1
+bcrypt==5.0.0
+PyJWT==2.15.1
+email-validator==2.3.0
+# Not used by the code yet; kept for the planned Redis-based rate limiting / cache.
+redis==8.1.0

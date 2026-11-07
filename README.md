@@ -13,8 +13,23 @@ python -m venv venv
 pip install -r requirements.txt
 python run.py
 ```
-Veritabanı (`oltvia.db`, SQLite) ve demo kullanıcılar ilk açılışta **otomatik** oluşur. `oltvia.db` Git'e dahil
-değildir, bu yüzden her bilgisayarda kendi veritabanı üretilir.
+`python run.py` yerel geliştirme modunda (`ENVIRONMENT=development`) çalışır: veritabanı (`oltvia.db`, SQLite)
+ve demo kullanıcılar ilk açılışta **otomatik** oluşur, `/docs` açıktır ve "şifremi unuttum" ekranında demo
+doğrulama kodu gösterilir. `oltvia.db` Git'e dahil değildir. Ayarlar için `apps/backend/.env.example`
+dosyasını `.env` olarak kopyalayabilirsiniz.
+
+> **Production:** Uygulamayı `ENVIRONMENT=production` ve en az 32 karakterlik rastgele bir `SECRET_KEY` ile
+> başlatın (yoksa uygulama bilerek açılmaz). Production'da demo hesaplar oluşturulmaz, `/docs` kapalıdır,
+> OTP kodu API yanıtında asla dönmez ve `CORS_ORIGINS` yalnızca gerçek frontend adresini içermelidir.
+> Gerçek SMS/e-posta sağlayıcısı entegre edilmeden şifre sıfırlama kodları kullanıcıya ulaşmaz.
+
+**Backend testleri**
+```bash
+cd apps/backend
+pip install -r requirements-dev.txt
+python -m pytest -q
+pip-audit -r requirements.txt
+```
 
 **2) Frontend (Next.js) - port 3005**
 ```bash
@@ -23,9 +38,9 @@ npm install
 npm run dev
 ```
 Backend farklı bir adreste çalışıyorsa `apps/web/.env.example` dosyasını `.env.local` olarak kopyalayıp
-`NEXT_PUBLIC_API_URL` değerini düzenleyin.
+`NEXT_PUBLIC_API_URL` değerini (örn. `http://localhost:8001/api/v1`) düzenleyin.
 
-**Demo giriş bilgileri** (Kurum Kodu: `IST-1094`, Şifre: `oltvia2026`)
+**Demo giriş bilgileri — yalnızca geliştirme ortamında** (Kurum Kodu: `IST-1094`, Şifre: `oltvia2026`)
 
 | Rol | Kimlik |
 |---|---|
@@ -33,6 +48,9 @@ Backend farklı bir adreste çalışıyorsa `apps/web/.env.example` dosyasını 
 | Öğretmen | `ogretmen@fenlisesi.k12.tr` |
 | Okul İdaresi | `idare@fenlisesi.k12.tr` |
 | Veli | Telefon: `05321234567` (kurum kodu gerekmez) |
+
+Güvenlik denetimi ve kalan riskler için: [`CODE_SECURITY_AUDIT_REPORT.md`](CODE_SECURITY_AUDIT_REPORT.md).
+Kökteki eski tek seferlik scriptler `scripts/legacy/` altına taşındı; çalıştırmayın.
 
 ---
 

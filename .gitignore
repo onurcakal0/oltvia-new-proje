@@ -13,3 +13,4 @@ venv/
 *.sqlite
 *.tsbuildinfo
 oltvia-new-proje/
+.pytest_cache/
