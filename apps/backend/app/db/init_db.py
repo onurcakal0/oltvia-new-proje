@@ -15,22 +15,22 @@ async def init_db():
     # 2. Demo Seed Verilerini ekle
     async with AsyncSessionLocal() as session:
         # Kurum kontrolü
-        result = await session.execute(select(Tenant).where(Tenant.code == "IST-1094"))
+        result = await session.execute(select(Tenant).where(Tenant.school_code == "ist-1094"))
         tenant = result.scalars().first()
         
         if not tenant:
             tenant = Tenant(
                 id=uuid.uuid4(),
-                code="IST-1094",
-                name="İstanbul Atatürk Fen Lisesi",
+                school_code="ist-1094",
+                school_name="İstanbul Atatürk Fen Lisesi",
+                schema_name="schema_ist_1094",
                 domain="ataturkfen.oltvia.com",
-                city="İstanbul",
                 is_active=True
             )
             session.add(tenant)
             await session.commit()
             await session.refresh(tenant)
-            print(f"✅ Demo Kurum Oluşturuldu: {tenant.name} ({tenant.code})")
+            print(f"✅ Demo Kurum Oluşturuldu: {tenant.school_name} ({tenant.school_code})")
         
         hashed_pwd = get_password_hash("oltvia2026")
         

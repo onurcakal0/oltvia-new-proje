@@ -8,7 +8,7 @@ class Token(BaseModel):
 
 # Kullanıcı profili detayı (Giriş sonrası frontend için)
 class UserProfile(BaseModel):
-    id: int
+    id: str | int
     full_name: Optional[str] = None
     role: str
     email: Optional[str] = None
@@ -16,6 +16,7 @@ class UserProfile(BaseModel):
     phone_number: Optional[str] = None
     tenant_name: Optional[str] = None
     tenant_code: Optional[str] = None
+    schema_name: Optional[str] = None
 
     class Config:
         from_attributes = True

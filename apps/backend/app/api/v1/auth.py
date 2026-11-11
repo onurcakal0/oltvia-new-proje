@@ -7,6 +7,7 @@ from typing import Optional
 import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy import func, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
@@ -78,13 +79,13 @@ async def get_current_user(
 
 
 # ==========================================================
-# 1. B2B ÇOKLU ROL GİRİŞİ (LOGIN)
+# 1. B2B ÇOKLU ROL GİRİŞİ (LOGIN) - SCHEMA-PER-TENANT DESTEKLİ
 # ==========================================================
 @router.post("/login", response_model=TokenResponse)
 async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db)):
     role = login_in.role.lower().strip()
     identifier = login_in.target_identifier
-    school_code = (login_in.school_code or "").strip().upper()
+    school_code = (login_in.school_code or "").strip()
     password = login_in.password
 
     if not identifier:
@@ -101,7 +102,13 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Bu rol için Kurum Kodu zorunludur."
             )
-        tenant_res = await db.execute(select(Tenant).where(Tenant.code == school_code))
+        # Kurumu school_code (büyük/küçük harf duyarsız) ile bul
+        tenant_res = await db.execute(
+            select(Tenant).where(
+                (func.lower(Tenant.school_code) == school_code.lower()) |
+                (func.lower(Tenant.schema_name) == f"schema_{school_code.lower()}")
+            )
+        )
         tenant = tenant_res.scalars().first()
         if not tenant:
             raise HTTPException(
@@ -111,13 +118,90 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
         if not tenant.is_active:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"'{tenant.name}' kurumunun erişimi geçici olarak askıya alınmıştır. Lütfen kurum idaresiyle görüşün."
+                detail=f"'{tenant.school_name}' kurumunun erişimi geçici olarak askıya alınmıştır. Lütfen kurum idaresiyle görüşün."
             )
 
+    # ------------------------------------------------------------------
+    # A) SCHEMA-PER-TENANT KONTROLÜ (SuperAdmin'de oluşturulan izole şema)
+    # ------------------------------------------------------------------
+    if tenant and tenant.schema_name:
+        try:
+            is_sqlite = bool(settings.DATABASE_URL and "sqlite" in settings.DATABASE_URL)
+            target_users_tbl = f'"{tenant.schema_name}__users"' if is_sqlite else f'"{tenant.schema_name}".users'
+
+            # İzole şemanın users tablosunu sorgula
+            schema_user_query = text(f"""
+                SELECT id, email, full_name, role, hashed_password, is_active
+                FROM {target_users_tbl}
+                WHERE (
+                    LOWER(email) = LOWER(:identifier)
+                    OR (
+                        LOWER(role) IN ('school_admin', 'idare', 'admin')
+                        AND (:id_clean IN ('admin', 'idare', LOWER(:school_code), LOWER(email)))
+                    )
+                )
+                LIMIT 1
+            """)
+            schema_user_res = await db.execute(
+                schema_user_query,
+                {
+                    "identifier": identifier.strip(),
+                    "id_clean": identifier.strip().lower(),
+                    "school_code": school_code.lower(),
+                }
+            )
+            row = schema_user_res.mappings().first()
+
+            if row:
+                # Kullanıcı şemada bulundu! Şifreyi doğrula:
+                if not verify_password(password, row["hashed_password"]):
+                    raise HTTPException(
+                        status_code=status.HTTP_401_UNAUTHORIZED,
+                        detail="Girdiğiniz kullanıcı bilgileri veya şifre hatalı. Lütfen kontrol ediniz."
+                    )
+                if not row["is_active"]:
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Kullanıcı hesabınız pasif durumdadır. Lütfen kurum idaresine başvurunuz."
+                    )
+
+                effective_role = "idare" if row["role"].upper() == "SCHOOL_ADMIN" else row["role"]
+                access_token = create_access_token(
+                    data={
+                        "sub": str(row["id"]),
+                        "role": effective_role,
+                        "tenant_id": str(tenant.id),
+                        "school_code": tenant.school_code,
+                        "schema_name": tenant.schema_name,
+                        "email": row["email"],
+                    }
+                )
+
+                return TokenResponse(
+                    access_token=access_token,
+                    token_type="bearer",
+                    user=UserProfile(
+                        id=str(row["id"]),
+                        full_name=row["full_name"],
+                        role=effective_role,
+                        email=row["email"],
+                        tenant_name=tenant.school_name,
+                        tenant_code=tenant.school_code,
+                        schema_name=tenant.schema_name,
+                    )
+                )
+        except HTTPException:
+            raise
+        except Exception:
+            # Şema tablosu yoksa veya hata olursa public users aramasına devam et
+            pass
+
+    # ------------------------------------------------------------------
+    # B) STANDART PUBLIC USERS ARAMASI (Geriye dönük uyumluluk / Demo veriler)
+    # ------------------------------------------------------------------
     user = None
 
     if role == "ogrenci":
-        # Öğrenci: Kurum kodu + Öğrenci No veya T.C. Kimlik No
         query = (
             select(User)
             .options(selectinload(User.tenant))
@@ -131,21 +215,19 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
         user = res.scalars().first()
 
     elif role in ["ogretmen", "idare"]:
-        # Öğretmen veya İdare: Kurum kodu + Kurumsal E-posta
         query = (
             select(User)
             .options(selectinload(User.tenant))
             .where(
                 User.tenant_id == tenant.id,
                 User.role == role,
-                User.email == identifier.lower()
+                (User.email == identifier.lower()) | (identifier.lower() == "admin")
             )
         )
         res = await db.execute(query)
         user = res.scalars().first()
 
     elif role == "veli":
-        # Veli: Telefon Numarası veya T.C. Kimlik No (Kurum kodu opsiyonel)
         clean_phone = normalize_phone(identifier)
         query = (
             select(User)
