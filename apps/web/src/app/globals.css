@@ -386,3 +386,19 @@
   z-index: 2147483646;
 }
 
+/* OLTVIA Shimmering Text Light Sweep - Soldan Sağa, Yavaş ve Akıcı */
+@keyframes text-light-sweep {
+  0% {
+    background-position: -260px 0;
+  }
+  100% {
+    background-position: 260px 0;
+  }
+}
+
+.animate-text-shimmer {
+  background-size: 380px 100%;
+  animation: text-light-sweep 6.5s ease-in-out infinite;
+}
+
+

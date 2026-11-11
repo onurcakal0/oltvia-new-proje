@@ -2,15 +2,21 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import {
-  Award,
-  BookOpen,
+  BarChart3,
+  CalendarDays,
   CheckSquare,
   ChevronLeft,
   ChevronRight,
-  FileSearch,
-  Megaphone,
-  Plus,
-  ShieldCheck,
+  FileText,
+  GraduationCap,
+  HeartHandshake,
+  Home,
+  LucideIcon,
+  School,
+  Settings,
+  Sparkles,
+  TrendingUp,
+  Users,
 } from 'lucide-react';
 
 export type SidebarTheme = 'light' | 'dark';
@@ -18,48 +24,92 @@ export type SidebarTheme = 'light' | 'dark';
 interface OltviaStudentSidebarProps {
   theme: SidebarTheme;
   onThemeChange?: (theme: SidebarTheme) => void;
+  isExpanded?: boolean;
+  onExpandChange?: (expanded: boolean) => void;
 }
 
 const PURPLE = '#5B3FD9';
 const CORAL = '#FF5A4D';
 
-const NAV_ITEMS = [
-  { id: 'derslerim', label: 'Derslerim', icon: BookOpen, badge: null },
-  { id: 'gorevler', label: 'Görevler', icon: CheckSquare, badge: null },
-  { id: 'kampanyalar', label: 'Kampanyalar', icon: Megaphone, badge: '2' },
-  { id: 'vaka', label: 'Vaka Analizi', icon: FileSearch, badge: null },
-  { id: 'guvenlik', label: 'Güvenlik', icon: ShieldCheck, badge: null },
-  { id: 'yeteneklerim', label: 'Yeteneklerim', icon: Award, badge: null },
+interface NavItem {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  badge: string | null;
+  isOltvia?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { id: 'ana-sayfa', label: 'Ana Sayfa', icon: Home, badge: null },
+  { id: 'ders-programi', label: 'Ders Programı', icon: CalendarDays, badge: null },
+  { id: 'gunluk-ilerleme', label: 'Günlük İlerleme Durumu', icon: TrendingUp, badge: null },
+  { id: 'gorevler-odevler', label: 'Görevler & Ödevler', icon: CheckSquare, badge: null },
+  { id: 'oltvia', label: 'OLTVIA', icon: Sparkles, badge: null, isOltvia: true },
+  { id: 'sinav-sonuclari', label: 'Sınav Sonuçları', icon: GraduationCap, badge: null },
+  { id: 'yks-not-analizi', label: 'YKS Not Analizi', icon: BarChart3, badge: null },
+  { id: 'detayli-rapor', label: 'Detaylı Rapor', icon: FileText, badge: null },
+  { id: 'okulum', label: 'Okulum', icon: School, badge: null },
+  { id: 'ogretmenler', label: 'Öğretmenler', icon: Users, badge: null },
+  { id: 'rehberlik-pdr', label: 'Rehberlik & PDR', icon: HeartHandshake, badge: null },
 ];
 
-const CONTACTS = [
-  { id: 1, name: 'Selin Yılmaz', initials: 'SY', online: true, unread: 0 },
-  { id: 2, name: 'Burak Hoca', initials: 'BH', online: true, unread: 1 },
-  { id: 3, name: 'Zeynep Kaya', initials: 'ZK', online: false, unread: 0 },
-  { id: 4, name: 'Dr. Ahmet D.', initials: 'AD', online: true, unread: 2 },
-];
-
-/** OLTVIA yuvarlak amblem (koyu daire içinde beyaz O/C + mercan nokta) */
-function OltviaEmblem({ size = 22 }: { size?: number }) {
+/** OLTVIA yuvarlak amblem (koyu daire veya cam üzerinde O/C + mor & mercan noktalar) */
+function OltviaEmblem({
+  size = 22,
+  isDark = true,
+}: {
+  size?: number;
+  isDark?: boolean;
+}) {
+  const ink = isDark ? '#FFFFFF' : '#1A1D24';
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <path d="M 78 28 A 36 36 0 1 0 78 72" stroke="#FFFFFF" strokeWidth="15" />
+      <path d="M 78 28 A 36 36 0 1 0 78 72" stroke={ink} strokeWidth="15" />
       <circle cx="78" cy="28" r="8.5" fill={PURPLE} />
       <circle cx="78" cy="72" r="8.5" fill={CORAL} />
-      <circle cx="45" cy="40" r="10" fill="#FFFFFF" />
-      <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill="#FFFFFF" />
+      <circle cx="45" cy="40" r="10" fill={ink} />
+      <path d="M 25 68 A 20 20 0 0 1 65 68 Z" fill={ink} />
     </svg>
   );
 }
 
-export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProps) {
+export default function OltviaStudentSidebar({
+  theme,
+  isExpanded: controlledExpanded,
+  onExpandChange,
+}: OltviaStudentSidebarProps) {
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isExpanded = controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
+  const toggleExpanded = () => {
+    const next = !isExpanded;
+    if (onExpandChange) onExpandChange(next);
+    else setInternalExpanded(next);
+  };
   const isDark = theme === 'dark';
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState('derslerim');
+  const [activeTab, setActiveTab] = useState('ana-sayfa');
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
-  const [hoveredAvatar, setHoveredAvatar] = useState<number | null>(null);
   const [viewportH, setViewportH] = useState(900);
+  const [isAiMode, setIsAiMode] = useState(false);
+
+  // OLTVIΛ <-> OLTVΛI geçişi: sakin, acele etmeyen ve akıcı bir döngü
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    const runCycle = () => {
+      // 5.5 saniye boyunca OLTVIΛ olarak kalır
+      timeoutId = setTimeout(() => {
+        setIsAiMode(true);
+        // 3.6 saniye boyunca OLTVΛI olarak kalır, sonra geri döner
+        timeoutId = setTimeout(() => {
+          setIsAiMode(false);
+          runCycle();
+        }, 3600);
+      }, 5500);
+    };
+
+    runCycle();
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     const update = () => setViewportH(window.innerHeight);
@@ -68,9 +118,9 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Kısa ekranlarda (MacBook Air + Safari gibi) ölçüleri sıkılaştır
-  const compact = viewportH < 720;
-  const rowH = compact ? 34 : 42;
+  // 12 öğeli menünün ekrana rahatça sığması için dikey boyuta göre satır yüksekliği
+  const compact = viewportH < 860;
+  const rowH = compact ? 33 : 37;
 
   // Liquid glass: yarı saydam, tek renk yok; vurgu yalnızca beyaz/mürekkep tonları
   const t = isDark
@@ -110,21 +160,6 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
         shadow:
           '0 30px 70px -18px rgba(26,29,36,0.22), 0 2px 8px rgba(26,29,36,0.06), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 0 24px rgba(255,255,255,0.35)',
       };
-
-  const UserAvatar = (
-    <div className="relative shrink-0">
-      <div
-        className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold"
-        style={{ backgroundColor: t.ink, color: t.inkText, boxShadow: `0 0 0 2px ${t.ring}` }}
-      >
-        AK
-      </div>
-      <span
-        className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full"
-        style={{ backgroundColor: t.text, boxShadow: `0 0 0 2px ${t.ring}` }}
-      />
-    </div>
-  );
 
   return (
     // Sabit kapsayıcı: dikeyde ortalar, menü asla ekran dışına taşmaz
@@ -168,10 +203,11 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
             background: `radial-gradient(120% 60% at 0% 0%, rgba(255,255,255,${isDark ? '0.16' : '0.55'}) 0%, transparent 55%), radial-gradient(90% 45% at 100% 100%, rgba(255,255,255,${isDark ? '0.08' : '0.30'}) 0%, transparent 60%)`,
           }}
         />
+
         {/* Kenar oku: sınırın üstüne gelince belirir */}
         <button
           type="button"
-          onClick={() => setIsExpanded((v) => !v)}
+          onClick={toggleExpanded}
           aria-label={isExpanded ? 'Menüyü daralt' : 'Menüyü genişlet'}
           className="absolute top-1/2 -right-3 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 focus:outline-none"
           style={{ backgroundColor: t.ink, color: t.inkText, boxShadow: '0 4px 12px rgba(0,0,0,0.25)' }}
@@ -179,19 +215,19 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
           {isExpanded ? <ChevronLeft size={14} strokeWidth={2.6} /> : <ChevronRight size={14} strokeWidth={2.6} />}
         </button>
 
-        {/* ───────── 1. HEADER: macOS noktaları + OLTVIA logosu ───────── */}
-        <div className="shrink-0 px-2 pt-4 pb-1">
+        {/* ───────── 1. HEADER: OLTVIA logosu + Sabit OLTVIΛ Yazısı ───────── */}
+        <div className="shrink-0 px-2 pt-[18px] pb-1">
           <button
             type="button"
-            onClick={() => setIsExpanded((v) => !v)}
+            onClick={toggleExpanded}
             aria-label="OLTVIA - menüyü aç / kapat"
             title="OLTVIA"
-            className="w-full flex items-center rounded-2xl py-1 pl-[6px] focus:outline-none"
+            className="flex items-center rounded-2xl py-0 pl-[5px] focus:outline-none select-none"
           >
             <motion.div
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.94 }}
-              className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 relative z-10"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 relative z-10"
               style={{
                 backgroundColor: isDark ? 'rgba(14,16,22,0.85)' : '#1A1D24',
                 boxShadow: isDark
@@ -199,47 +235,66 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
                   : '0 6px 16px rgba(26,29,36,0.25)',
               }}
             >
-              <OltviaEmblem size={21} />
+              <OltviaEmblem size={23} />
             </motion.div>
 
-            <AnimatePresence initial={false}>
-              {isExpanded && (
-                <motion.div
-                  initial={{ x: -12, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -12, opacity: 0 }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex items-center gap-2 ml-3 whitespace-nowrap"
-                >
-                  <span
-                    className="text-[17px] font-black tracking-[0.18em] font-sans"
-                    style={{ color: t.text }}
+            {/* Logonun yanına kilitlenmiş, açılıp kapanırken mesafesini koruyan OLTVIΛ yazısı ve STUDENT rozeti */}
+            <motion.div
+              initial={false}
+              animate={{ marginLeft: isExpanded ? 12 : 24 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 26 }}
+              className="flex items-center gap-2.5 whitespace-nowrap"
+            >
+              <span
+                className="animate-text-shimmer font-black text-[21px] tracking-[0.20em] font-sans inline-block cursor-default leading-none"
+                style={{
+                  backgroundImage: isDark
+                    ? 'linear-gradient(90deg, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.40) 35%, rgba(255,255,255,1) 50%, rgba(196,181,253,0.95) 53%, rgba(255,255,255,1) 56%, rgba(255,255,255,0.40) 70%, rgba(255,255,255,0.40) 100%)'
+                    : 'linear-gradient(90deg, rgba(26,29,36,0.42) 0%, rgba(26,29,36,0.42) 35%, rgba(26,29,36,1) 50%, rgba(91,63,217,0.95) 53%, rgba(26,29,36,1) 56%, rgba(26,29,36,0.42) 70%, rgba(26,29,36,0.42) 100%)',
+                  backgroundSize: '380px 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  filter: isDark
+                    ? 'drop-shadow(0 0 16px rgba(255,255,255,0.18))'
+                    : 'drop-shadow(0 1px 2px rgba(0,0,0,0.06))',
+                }}
+              >
+                OLTVIΛ
+              </span>
+
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.85, x: -6 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.85, x: -6 }}
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-[9.5px] font-extrabold uppercase tracking-[0.14em] px-2.5 py-0.5 rounded-full select-none"
+                    style={{
+                      backgroundColor: t.chip,
+                      color: t.chipText,
+                      border: isDark
+                        ? '1px solid rgba(255,255,255,0.14)'
+                        : '1px solid rgba(26,29,36,0.12)',
+                    }}
                   >
-                    OLTVIΛ
-                  </span>
-                  <span
-                    className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: t.chip, color: t.chipText }}
-                  >
-                    Student
-                  </span>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    STUDENT
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </button>
         </div>
 
-        {/* ───────── ORTA: menü + mesajlar (sadece açıkken kaydırılabilir) ───────── */}
+        {/* ───────── ORTA: Menü Öğeleri Listesi (Kaydırılabilir) ───────── */}
         <div
-          className="flex flex-col flex-1 min-h-0"
+          className="flex flex-col flex-1 min-h-0 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
           style={{
-            overflowY: isExpanded ? 'auto' : 'visible',
-            overflowX: isExpanded ? 'hidden' : 'visible',
             scrollbarWidth: 'none',
           }}
         >
-          {/* MENU */}
-          <div className="px-2 pt-1 shrink-0">
+          {/* MENU Kategori Başlığı */}
+          <div className="px-2 pt-1 pb-2 shrink-0">
             <AnimatePresence initial={false}>
               {isExpanded && (
                 <motion.div
@@ -268,60 +323,227 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
                       onMouseEnter={() => setHoveredTab(item.id)}
                       onMouseLeave={() => setHoveredTab(null)}
                     >
-                      <button
-                        type="button"
-                        onClick={() => setActiveTab(item.id)}
-                        className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-colors duration-200"
-                        style={{ height: rowH, color: highlighted ? t.text : t.sub }}
-                      >
-                        {highlighted && (
-                          <motion.span
-                            layoutId="activeNav"
-                            className="absolute inset-0 rounded-xl"
+                      {/* 1. ÖZEL OLTVIA BUTONU: Minimal & Profesyonel Liquid Glass + OLTVIΛ <-> OLTVΛI Animasyonu */}
+                      {item.isOltvia ? (
+                        <button
+                          type="button"
+                          onClick={() => setActiveTab(item.id)}
+                          className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-all duration-200 hover:scale-[1.01] active:scale-[0.98] group/oltvia"
+                          style={{ height: rowH }}
+                        >
+                          {/* Minimal ve Profesyonel Nötr Sıvı Cam Arka Plan */}
+                          <div
+                            className="pointer-events-none absolute inset-0 rounded-xl transition-all duration-300"
                             style={{
-                              backgroundColor: t.pill,
-                              border: `1px solid ${t.pillBorder}`,
+                              background: isDark
+                                ? highlighted
+                                  ? 'linear-gradient(135deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.04) 100%)'
+                                  : 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)'
+                                : highlighted
+                                  ? 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(246,247,250,0.90) 100%)'
+                                  : 'linear-gradient(135deg, rgba(255,255,255,0.80) 0%, rgba(248,249,252,0.70) 100%)',
+                              border: isDark
+                                ? highlighted
+                                  ? '1px solid rgba(255,255,255,0.22)'
+                                  : '1px solid rgba(255,255,255,0.12)'
+                                : highlighted
+                                  ? '1px solid rgba(255,255,255,1)'
+                                  : '1px solid rgba(255,255,255,0.85)',
                               boxShadow: isDark
-                                ? 'inset 0 1px 0 rgba(255,255,255,0.18)'
-                                : '0 4px 14px rgba(26,29,36,0.06), inset 0 1px 0 rgba(255,255,255,1)',
+                                ? highlighted
+                                  ? '0 4px 18px -4px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.20)'
+                                  : '0 2px 10px -2px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.12)'
+                                : highlighted
+                                  ? '0 4px 16px -2px rgba(26,29,36,0.08), inset 0 1px 0 rgba(255,255,255,1)'
+                                  : '0 2px 8px -2px rgba(26,29,36,0.05), inset 0 1px 0 rgba(255,255,255,0.8)',
+                              backdropFilter: 'blur(20px)',
+                              WebkitBackdropFilter: 'blur(20px)',
                             }}
-                            transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                           />
-                        )}
 
-                        <span className="relative z-10 w-9 flex items-center justify-center shrink-0">
-                          <Icon size={19} strokeWidth={highlighted ? 2.3 : 1.9} />
-                        </span>
+                          {/* Üst kenar boyunca zarif nötr sıvı cam parlaması */}
+                          <div
+                            className="pointer-events-none absolute inset-x-2 top-0 h-[1px]"
+                            style={{
+                              background: isDark
+                                ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.30) 50%, transparent 100%)'
+                                : 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.95) 50%, transparent 100%)',
+                            }}
+                          />
 
-                        <AnimatePresence initial={false}>
-                          {isExpanded && (
-                            <motion.span
-                              initial={{ opacity: 0, x: -8 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: -8 }}
-                              transition={{ duration: 0.22, delay: 0.06 + index * 0.025 }}
-                              className="relative z-10 flex-1 min-w-0 flex items-center justify-between ml-1"
-                            >
-                              <span
-                                className="text-[13px] font-semibold tracking-tight truncate"
-                                style={{ color: t.text }}
+                          {/* İkon: Oltvia Amblemi */}
+                          <span className="relative z-10 w-9 flex items-center justify-center shrink-0">
+                            <div className="relative flex items-center justify-center">
+                              <OltviaEmblem size={20} isDark={isDark} />
+                            </div>
+                          </span>
+
+                          {/* Başlık: OLTVIΛ <-> OLTVΛI (Sadece AI modunda ΛI harfleri mordur) */}
+                          <AnimatePresence initial={false}>
+                            {isExpanded && (
+                              <motion.span
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -8 }}
+                                transition={{ duration: 0.22, delay: 0.04 + index * 0.015 }}
+                                className="relative z-10 flex-1 min-w-0 flex items-center ml-1"
                               >
-                                {item.label}
-                              </span>
-                              {item.badge && (
-                                <span
-                                  className="ml-2 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
-                                  style={{ backgroundColor: t.ink, color: t.inkText }}
-                                >
-                                  {item.badge}
-                                </span>
-                              )}
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </button>
+                                <div className="flex items-center text-[13px] font-black tracking-[0.14em] font-sans select-none truncate">
+                                  {/* Sabit OLTV kısmı: her zaman nötr */}
+                                  <span
+                                    className="animate-text-shimmer"
+                                    style={{
+                                      backgroundImage: isDark
+                                        ? 'linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 35%, rgba(255,255,255,0.6) 50%, #FFFFFF 65%, #FFFFFF 100%)'
+                                        : 'linear-gradient(90deg, #1A1D24 0%, #1A1D24 35%, #4B5563 50%, #1A1D24 65%, #1A1D24 100%)',
+                                      backgroundSize: '250% 100%',
+                                      WebkitBackgroundClip: 'text',
+                                      WebkitTextFillColor: 'transparent',
+                                    }}
+                                  >
+                                    OLTV
+                                  </span>
 
-                      {/* Sıvı damla tooltip (daraltılmış durumda hover) */}
+                                  {/* I ve Λ harfleri yavaşça yer değiştirir: OLTVIΛ <-> OLTVΛI */}
+                                  <span className="inline-flex items-center ml-[0.08em]">
+                                    <LayoutGroup id="oltvia-swap-letters">
+                                      {isAiMode ? (
+                                        /* SADECE AI (ΛI) MODUNDA MOR OLAN HARFLER */
+                                        <>
+                                          <motion.span
+                                            key="swap-a"
+                                            layoutId="letter-a-swap"
+                                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                                            className="animate-text-shimmer inline-block"
+                                            style={{
+                                              backgroundImage: isDark
+                                                ? 'linear-gradient(90deg, #C4B5FD 0%, #A78BFA 50%, #8B5CF6 100%)'
+                                                : 'linear-gradient(90deg, #5B3FD9 0%, #7C5DFA 50%, #5B3FD9 100%)',
+                                              backgroundSize: '200% 100%',
+                                              WebkitBackgroundClip: 'text',
+                                              WebkitTextFillColor: 'transparent',
+                                            }}
+                                          >
+                                            Λ
+                                          </motion.span>
+                                          <motion.span
+                                            key="swap-i"
+                                            layoutId="letter-i-swap"
+                                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                                            className="animate-text-shimmer inline-block ml-[0.12em]"
+                                            style={{
+                                              backgroundImage: isDark
+                                                ? 'linear-gradient(90deg, #C4B5FD 0%, #A78BFA 50%, #8B5CF6 100%)'
+                                                : 'linear-gradient(90deg, #5B3FD9 0%, #7C5DFA 50%, #5B3FD9 100%)',
+                                              backgroundSize: '200% 100%',
+                                              WebkitBackgroundClip: 'text',
+                                              WebkitTextFillColor: 'transparent',
+                                            }}
+                                          >
+                                            I
+                                          </motion.span>
+                                        </>
+                                      ) : (
+                                        /* NORMAL MODDA HARFLER NÖTRDÜR (MOR DEĞİL) */
+                                        <>
+                                          <motion.span
+                                            key="swap-i"
+                                            layoutId="letter-i-swap"
+                                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                                            className="animate-text-shimmer inline-block"
+                                            style={{
+                                              backgroundImage: isDark
+                                                ? 'linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 35%, rgba(255,255,255,0.6) 50%, #FFFFFF 65%, #FFFFFF 100%)'
+                                                : 'linear-gradient(90deg, #1A1D24 0%, #1A1D24 35%, #4B5563 50%, #1A1D24 65%, #1A1D24 100%)',
+                                              backgroundSize: '250% 100%',
+                                              WebkitBackgroundClip: 'text',
+                                              WebkitTextFillColor: 'transparent',
+                                            }}
+                                          >
+                                            I
+                                          </motion.span>
+                                          <motion.span
+                                            key="swap-a"
+                                            layoutId="letter-a-swap"
+                                            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                                            className="animate-text-shimmer inline-block ml-[0.12em]"
+                                            style={{
+                                              backgroundImage: isDark
+                                                ? 'linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 35%, rgba(255,255,255,0.6) 50%, #FFFFFF 65%, #FFFFFF 100%)'
+                                                : 'linear-gradient(90deg, #1A1D24 0%, #1A1D24 35%, #4B5563 50%, #1A1D24 65%, #1A1D24 100%)',
+                                              backgroundSize: '250% 100%',
+                                              WebkitBackgroundClip: 'text',
+                                              WebkitTextFillColor: 'transparent',
+                                            }}
+                                          >
+                                            Λ
+                                          </motion.span>
+                                        </>
+                                      )}
+                                    </LayoutGroup>
+                                  </span>
+                                </div>
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                        </button>
+                      ) : (
+                        /* 2. STANDART MENÜ BUTONU (Liquid Glass) */
+                        <button
+                          type="button"
+                          onClick={() => setActiveTab(item.id)}
+                          className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-colors duration-200"
+                          style={{ height: rowH, color: highlighted ? t.text : t.sub }}
+                        >
+                          {highlighted && (
+                            <motion.span
+                              layoutId="activeNav"
+                              className="absolute inset-0 rounded-xl"
+                              style={{
+                                backgroundColor: t.pill,
+                                border: `1px solid ${t.pillBorder}`,
+                                boxShadow: isDark
+                                  ? 'inset 0 1px 0 rgba(255,255,255,0.18)'
+                                  : '0 4px 14px rgba(26,29,36,0.06), inset 0 1px 0 rgba(255,255,255,1)',
+                              }}
+                              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                            />
+                          )}
+
+                          <span className="relative z-10 w-9 flex items-center justify-center shrink-0">
+                            <Icon size={18} strokeWidth={highlighted ? 2.3 : 1.9} />
+                          </span>
+
+                          <AnimatePresence initial={false}>
+                            {isExpanded && (
+                              <motion.span
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -8 }}
+                                transition={{ duration: 0.22, delay: 0.04 + index * 0.015 }}
+                                className="relative z-10 flex-1 min-w-0 flex items-center justify-between ml-1"
+                              >
+                                <span
+                                  className="text-[13px] font-semibold tracking-tight truncate"
+                                  style={{ color: t.text }}
+                                >
+                                  {item.label}
+                                </span>
+                                {item.badge && (
+                                  <span
+                                    className="ml-2 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
+                                    style={{ backgroundColor: t.ink, color: t.inkText }}
+                                  >
+                                    {item.badge}
+                                  </span>
+                                )}
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                        </button>
+                      )}
+
+                      {/* Sıvı damla tooltip (daraltılmış menü hover durumu) */}
                       <AnimatePresence>
                         {!isExpanded && isHovered && (
                           <motion.div
@@ -351,10 +573,21 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
                                 WebkitBackdropFilter: 'blur(24px) saturate(180%)',
                               }}
                             >
-                              {item.label}
+                              {item.isOltvia ? (
+                                <span className="font-black tracking-[0.14em]">
+                                  <span>OLTV</span>
+                                  {isAiMode ? (
+                                    <span style={{ color: isDark ? '#A78BFA' : '#5B3FD9' }}>ΛI</span>
+                                  ) : (
+                                    <span>IΛ</span>
+                                  )}
+                                </span>
+                              ) : (
+                                <span>{item.label}</span>
+                              )}
                               {item.badge && (
                                 <span
-                                  className="w-4 h-4 rounded-full text-[10px] font-black flex items-center justify-center"
+                                  className="px-2 py-0.5 rounded-full text-[9px] font-black flex items-center justify-center"
                                   style={{ backgroundColor: t.ink, color: t.inkText }}
                                 >
                                   {item.badge}
@@ -370,181 +603,100 @@ export default function OltviaStudentSidebar({ theme }: OltviaStudentSidebarProp
               </nav>
             </LayoutGroup>
           </div>
-
-          {/* ───────── MESSAGES ───────── */}
-          <div className="px-2 pb-2 mt-auto pt-2 shrink-0">
-            {!isExpanded ? (
-              // Daraltılmış: dikey kapsül içinde üst üste avatarlar + mor "+"
-              <div
-                className="mx-auto w-[44px] py-2 rounded-full flex flex-col items-center gap-1.5"
-                style={{
-                  backgroundColor: t.card,
-                  border: `1px solid ${t.cardBorder}`,
-                  borderRadius: 999,
-                }}
-              >
-                {CONTACTS.slice(0, 3).map((c) => (
-                  <div
-                    key={c.id}
-                    className="relative"
-                    onMouseEnter={() => setHoveredAvatar(c.id)}
-                    onMouseLeave={() => setHoveredAvatar(null)}
-                  >
-                    <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold cursor-pointer transition-transform hover:scale-110"
-                      style={{ backgroundColor: t.chip, color: t.chipText, boxShadow: `0 0 0 1px ${t.cardBorder}` }}
-                    >
-                      {c.initials}
-                    </div>
-
-                    <AnimatePresence>
-                      {hoveredAvatar === c.id && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.4, x: -8 }}
-                          animate={{ opacity: 1, scale: 1, x: 0 }}
-                          exit={{ opacity: 0, scale: 0.4, x: -8 }}
-                          transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-                          className="flex items-center"
-                          style={{
-                            position: 'absolute',
-                            left: 'calc(100% + 14px)',
-                            top: '50%',
-                            y: '-50%',
-                            transformOrigin: 'left center',
-                            pointerEvents: 'none',
-                            zIndex: 60,
-                          }}
-                        >
-                          <div
-                            className="px-3 h-6 rounded-full flex items-center gap-[3px]"
-                            style={{
-                              background: t.surface,
-                              border: t.edge,
-                              backdropFilter: 'blur(24px) saturate(180%)',
-                              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-                            }}
-                          >
-                            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: t.text }} />
-                            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: t.text }} />
-                            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: t.text }} />
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-
-                <button
-                  type="button"
-                  onClick={() => setIsExpanded(true)}
-                  aria-label="Tüm mesajlar"
-                  title="Tüm mesajlar"
-                  className="w-7 h-7 rounded-full flex items-center justify-center transition-transform hover:scale-110 active:scale-95 focus:outline-none"
-                  style={{ backgroundColor: t.ink, color: t.inkText }}
-                >
-                  <Plus size={14} strokeWidth={2.6} />
-                </button>
-              </div>
-            ) : (
-              // Genişletilmiş: başlık + sayfalama + yükseltilmiş kart
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.28, delay: 0.1 }}
-              >
-                <div className="flex items-center justify-between px-3 pb-1.5">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: t.sub }}>
-                    Messages
-                  </span>
-                  <div className="flex items-center gap-0.5" style={{ color: t.sub }}>
-                    <button type="button" aria-label="Önceki" className="p-0.5 rounded hover:opacity-70 focus:outline-none">
-                      <ChevronLeft size={14} />
-                    </button>
-                    <button type="button" aria-label="Sonraki" className="p-0.5 rounded hover:opacity-70 focus:outline-none">
-                      <ChevronRight size={14} />
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  className="rounded-[18px] p-3"
-                  style={{
-                    backgroundColor: t.card,
-                    border: `1px solid ${t.cardBorder}`,
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
-                  }}
-                >
-                  <div className="flex flex-col gap-1">
-                    {CONTACTS.map((c) => (
-                      <div
-                        key={c.id}
-                        className="flex items-center justify-between rounded-lg px-1 py-[3px] cursor-pointer transition-colors"
-                        style={{ color: t.text }}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          <div className="relative shrink-0">
-                            <div
-                              className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold"
-                              style={{ backgroundColor: t.chip, color: t.chipText }}
-                            >
-                              {c.initials}
-                            </div>
-                          </div>
-                          <span className="text-xs font-semibold truncate">{c.name}</span>
-                        </div>
-
-                        {c.unread > 0 ? (
-                          <span
-                            className="ml-2 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
-                            style={{ backgroundColor: t.ink, color: t.inkText }}
-                          >
-                            {c.unread}
-                          </span>
-                        ) : (
-                          <span
-                            className="ml-2 w-2 h-2 rounded-full shrink-0"
-                            style={{ backgroundColor: c.online ? t.text : t.divider }}
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    className="w-full mt-2.5 h-8 rounded-full flex items-center justify-center gap-1.5 text-xs font-bold transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none"
-                    style={{ backgroundColor: t.pill, color: t.text, border: `1px solid ${t.pillBorder}` }}
-                  >
-                    <Plus size={14} strokeWidth={2.6} />
-                    All messages
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </div>
         </div>
 
-        {/* ───────── ALT: profil + tema butonu ───────── */}
-        <div className="shrink-0 px-2 py-2.5" style={{ borderTop: `1px solid ${t.divider}` }}>
-          {!isExpanded ? (
-            <div className="flex flex-col items-center gap-2">
-              {UserAvatar}
-            </div>
-          ) : (
-            <div className="flex items-center justify-between gap-2 pl-1">
-              <div className="flex items-center gap-2.5 min-w-0">
-                {UserAvatar}
-                <div className="flex flex-col min-w-0">
-                  <span className="text-[13px] font-bold leading-tight truncate" style={{ color: t.text }}>
-                    Arda Kılıç
-                  </span>
-                  <span className="text-[10px] font-medium" style={{ color: t.sub }}>
-                    OLTVIA Student
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
+        {/* ───────── ALT: Ayarlar Butonu (Menünün En Altında Sabit) ───────── */}
+        <div className="shrink-0 px-2 pb-3 pt-1">
+          <div className="mx-2 mb-2 h-[1px]" style={{ background: t.divider }} />
+          <div
+            className="relative"
+            onMouseEnter={() => setHoveredTab('ayarlar')}
+            onMouseLeave={() => setHoveredTab(null)}
+          >
+            <button
+              type="button"
+              onClick={() => setActiveTab('ayarlar')}
+              className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-colors duration-200"
+              style={{
+                height: rowH,
+                color: (hoveredTab ?? activeTab) === 'ayarlar' ? t.text : t.sub,
+              }}
+            >
+              {(hoveredTab ?? activeTab) === 'ayarlar' && (
+                <motion.span
+                  layoutId="activeNav"
+                  className="absolute inset-0 rounded-xl"
+                  style={{
+                    backgroundColor: t.pill,
+                    border: `1px solid ${t.pillBorder}`,
+                    boxShadow: isDark
+                      ? 'inset 0 1px 0 rgba(255,255,255,0.18)'
+                      : '0 4px 14px rgba(26,29,36,0.06), inset 0 1px 0 rgba(255,255,255,1)',
+                  }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                />
+              )}
+
+              <span className="relative z-10 w-9 flex items-center justify-center shrink-0">
+                <Settings size={18} strokeWidth={(hoveredTab ?? activeTab) === 'ayarlar' ? 2.3 : 1.9} />
+              </span>
+
+              <AnimatePresence initial={false}>
+                {isExpanded && (
+                  <motion.span
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -8 }}
+                    transition={{ duration: 0.22 }}
+                    className="relative z-10 flex-1 min-w-0 flex items-center justify-between ml-1"
+                  >
+                    <span
+                      className="text-[13px] font-semibold tracking-tight truncate"
+                      style={{ color: t.text }}
+                    >
+                      Ayarlar
+                    </span>
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+
+            {/* Sıvı damla tooltip (daraltılmış menüde Ayarlar) */}
+            <AnimatePresence>
+              {!isExpanded && hoveredTab === 'ayarlar' && (
+                <motion.div
+                  initial={{ opacity: 0, scaleX: 0.15, scaleY: 0.6, x: -12 }}
+                  animate={{ opacity: 1, scaleX: 1, scaleY: 1, x: 0 }}
+                  exit={{ opacity: 0, scaleX: 0.15, scaleY: 0.6, x: -12 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                  className="flex items-center"
+                  style={{
+                    position: 'absolute',
+                    left: 'calc(100% + 18px)',
+                    top: '50%',
+                    y: '-50%',
+                    transformOrigin: 'left center',
+                    pointerEvents: 'none',
+                    zIndex: 60,
+                  }}
+                >
+                  <div
+                    className="px-3.5 h-8 rounded-full flex items-center gap-2 text-xs font-semibold whitespace-nowrap"
+                    style={{
+                      background: t.surface,
+                      border: t.edge,
+                      color: t.text,
+                      boxShadow: t.shadow,
+                      backdropFilter: 'blur(24px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                    }}
+                  >
+                    Ayarlar
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </motion.aside>
     </div>
