@@ -710,12 +710,16 @@ function GirisContent() {
 
       setSuccessMsg(`Hoş geldiniz, ${fakeUser.full_name}! Giriş başarılı. Yönlendiriliyorsunuz...`);
 
-      // Doğrudan ilgili panele yönlendir (öğrenci için /ogrenci)
+      // Doğrudan ilgili panele yönlendir
       setTimeout(() => {
         if (activeRole === 'ogrenci') {
           router.push('/ogrenci');
+        } else if (activeRole === 'ogretmen') {
+          router.push('/ogretmen');
+        } else if (activeRole === 'veli') {
+          router.push('/veli');
         } else {
-          router.push('/ogrenci');
+          router.push('/yonetim');
         }
       }, 600);
     } catch (err: any) {

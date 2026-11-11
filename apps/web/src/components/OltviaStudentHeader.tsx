@@ -2,23 +2,56 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Bell, ChevronDown, Search } from 'lucide-react';
-import { SidebarTheme } from './OltviaStudentSidebar';
+import { PortalRole, ROLE_CONFIGS, SidebarTheme } from './OltviaStudentSidebar';
 
 interface OltviaStudentHeaderProps {
   theme: SidebarTheme;
   onThemeChange?: (theme: SidebarTheme) => void;
   isExpanded?: boolean;
+  role?: PortalRole;
 }
 
 export default function OltviaStudentHeader({
   theme,
   onThemeChange,
   isExpanded = false,
+  role = 'ogrenci',
 }: OltviaStudentHeaderProps) {
   const isDark = theme === 'dark';
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState('');
   const [hasNotifications, setHasNotifications] = useState(true);
+
+  const roleKey: 'ogrenci' | 'ogretmen' | 'veli' | 'yonetim' =
+    role === 'idare' ? 'yonetim' : (role || 'ogrenci');
+  const roleConfig = ROLE_CONFIGS[roleKey] || ROLE_CONFIGS.ogrenci;
+
+  const [userName, setUserName] = useState(roleConfig.userName);
+  const [userSubtitle, setUserSubtitle] = useState(roleConfig.userSubtitle);
+  const [userInitials, setUserInitials] = useState(roleConfig.userInitials);
+
+  useEffect(() => {
+    setUserName(roleConfig.userName);
+    setUserSubtitle(roleConfig.userSubtitle);
+    setUserInitials(roleConfig.userInitials);
+
+    try {
+      const raw = localStorage.getItem('oltvia_user');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.full_name && (parsed.role === role || (!parsed.role && role === 'ogrenci'))) {
+          setUserName(parsed.full_name);
+          const parts = parsed.full_name.trim().split(/\s+/);
+          const initials = parts.length >= 2
+            ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+            : parsed.full_name.slice(0, 2).toUpperCase();
+          setUserInitials(initials);
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, [role, roleConfig]);
 
   // ⌘K veya Ctrl+K kısayolu ile arama çubuğuna odaklanma
   useEffect(() => {
@@ -76,7 +109,7 @@ export default function OltviaStudentHeader({
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Ders, konu, ödev veya soru ara..."
+            placeholder={roleConfig.searchPlaceholder}
             className="w-full bg-transparent border-none outline-none text-xs sm:text-sm font-medium tracking-tight placeholder:transition-opacity"
             style={{
               color: isDark ? '#F3F5F8' : '#1A1D24',
@@ -224,7 +257,7 @@ export default function OltviaStudentHeader({
                   : '0 2px 6px rgba(26,29,36,0.25)',
               }}
             >
-              AK
+              {userInitials}
             </div>
             {/* Çevrimiçi yeşil nokta */}
             <span
@@ -235,19 +268,19 @@ export default function OltviaStudentHeader({
             />
           </div>
 
-          {/* İsim ve Sınıf Bilgisi */}
+          {/* İsim ve Ünvan/Sınıf Bilgisi */}
           <div className="hidden sm:flex flex-col text-left leading-tight">
             <span
               className="text-[13px] font-bold tracking-tight"
               style={{ color: isDark ? '#F3F5F8' : '#1A1D24' }}
             >
-              Arda Kılıç
+              {userName}
             </span>
             <span
               className="text-[10.5px] font-medium"
               style={{ color: isDark ? 'rgba(243,245,248,0.55)' : 'rgba(26,29,36,0.55)' }}
             >
-              12-A • Sayısal
+              {userSubtitle}
             </span>
           </div>
 

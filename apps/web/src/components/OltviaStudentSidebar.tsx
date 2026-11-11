@@ -20,18 +20,9 @@ import {
 } from 'lucide-react';
 
 export type SidebarTheme = 'light' | 'dark';
+export type PortalRole = 'ogrenci' | 'ogretmen' | 'veli' | 'yonetim' | 'idare';
 
-interface OltviaStudentSidebarProps {
-  theme: SidebarTheme;
-  onThemeChange?: (theme: SidebarTheme) => void;
-  isExpanded?: boolean;
-  onExpandChange?: (expanded: boolean) => void;
-}
-
-const PURPLE = '#5B3FD9';
-const CORAL = '#FF5A4D';
-
-interface NavItem {
+export interface NavItem {
   id: string;
   label: string;
   icon: LucideIcon;
@@ -39,19 +30,108 @@ interface NavItem {
   isOltvia?: boolean;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'ana-sayfa', label: 'Ana Sayfa', icon: Home, badge: null },
-  { id: 'ders-programi', label: 'Ders Programı', icon: CalendarDays, badge: null },
-  { id: 'gunluk-ilerleme', label: 'Günlük İlerleme Durumu', icon: TrendingUp, badge: null },
-  { id: 'gorevler-odevler', label: 'Görevler & Ödevler', icon: CheckSquare, badge: null },
-  { id: 'oltvia', label: 'OLTVIA', icon: Sparkles, badge: null, isOltvia: true },
-  { id: 'sinav-sonuclari', label: 'Sınav Sonuçları', icon: GraduationCap, badge: null },
-  { id: 'yks-not-analizi', label: 'YKS Not Analizi', icon: BarChart3, badge: null },
-  { id: 'detayli-rapor', label: 'Detaylı Rapor', icon: FileText, badge: null },
-  { id: 'okulum', label: 'Okulum', icon: School, badge: null },
-  { id: 'ogretmenler', label: 'Öğretmenler', icon: Users, badge: null },
-  { id: 'rehberlik-pdr', label: 'Rehberlik & PDR', icon: HeartHandshake, badge: null },
-];
+export interface RoleConfig {
+  badge: string;
+  userName: string;
+  userSubtitle: string;
+  userInitials: string;
+  searchPlaceholder: string;
+  navItems: NavItem[];
+}
+
+export const ROLE_CONFIGS: Record<'ogrenci' | 'ogretmen' | 'veli' | 'yonetim', RoleConfig> = {
+  ogrenci: {
+    badge: 'STUDENT',
+    userName: 'Arda Kılıç',
+    userSubtitle: '12-A • Sayısal',
+    userInitials: 'AK',
+    searchPlaceholder: 'Ders, konu, ödev veya soru ara...',
+    navItems: [
+      { id: 'ana-sayfa', label: 'Ana Sayfa', icon: Home, badge: null },
+      { id: 'ders-programi', label: 'Ders Programı', icon: CalendarDays, badge: null },
+      { id: 'gunluk-ilerleme', label: 'Günlük İlerleme Durumu', icon: TrendingUp, badge: null },
+      { id: 'gorevler-odevler', label: 'Görevler & Ödevler', icon: CheckSquare, badge: null },
+      { id: 'oltvia', label: 'OLTVIA', icon: Sparkles, badge: null, isOltvia: true },
+      { id: 'sinav-sonuclari', label: 'Sınav Sonuçları', icon: GraduationCap, badge: null },
+      { id: 'yks-not-analizi', label: 'YKS Not Analizi', icon: BarChart3, badge: null },
+      { id: 'detayli-rapor', label: 'Detaylı Rapor', icon: FileText, badge: null },
+      { id: 'okulum', label: 'Okulum', icon: School, badge: null },
+      { id: 'ogretmenler', label: 'Öğretmenler', icon: Users, badge: null },
+      { id: 'rehberlik-pdr', label: 'Rehberlik & PDR', icon: HeartHandshake, badge: null },
+    ],
+  },
+  ogretmen: {
+    badge: 'TEACHER',
+    userName: 'Burak Aksoy',
+    userSubtitle: 'Matematik Zümre Bşk.',
+    userInitials: 'BA',
+    searchPlaceholder: 'Öğrenci, sınıf, sınav veya ödev ara...',
+    navItems: [
+      { id: 'ana-sayfa', label: 'Ana Sayfa', icon: Home, badge: null },
+      { id: 'ders-programi', label: 'Ders Programı', icon: CalendarDays, badge: null },
+      { id: 'siniflarim', label: 'Sınıflarım & Öğrenciler', icon: Users, badge: null },
+      { id: 'odev-takip', label: 'Ödev & Görev Takibi', icon: CheckSquare, badge: null },
+      { id: 'oltvia', label: 'OLTVIA', icon: Sparkles, badge: null, isOltvia: true },
+      { id: 'sinav-degerlendirme', label: 'Sınav Değerlendirme', icon: GraduationCap, badge: null },
+      { id: 'kazanim-analizi', label: 'Başarı & Kazanım Analizi', icon: BarChart3, badge: null },
+      { id: 'sinif-raporu', label: 'Detaylı Sınıf Raporu', icon: FileText, badge: null },
+      { id: 'zumre-mufredat', label: 'Zümre & Müfredat', icon: School, badge: null },
+      { id: 'veli-gorusmeleri', label: 'Veli Görüşmeleri', icon: HeartHandshake, badge: null },
+      { id: 'rehberlik-pdr', label: 'Rehberlik & PDR', icon: TrendingUp, badge: null },
+    ],
+  },
+  veli: {
+    badge: 'PARENT',
+    userName: 'Mehmet Kılıç',
+    userSubtitle: 'Veli • Arda Kılıç (12-A)',
+    userInitials: 'MK',
+    searchPlaceholder: 'Gelişim raporu, devamsızlık veya ödev ara...',
+    navItems: [
+      { id: 'ana-sayfa', label: 'Ana Sayfa', icon: Home, badge: null },
+      { id: 'haftalik-program', label: 'Haftalık Ders Programı', icon: CalendarDays, badge: null },
+      { id: 'gunluk-takip', label: 'Günlük İlerleme & Takip', icon: TrendingUp, badge: null },
+      { id: 'odev-durumu', label: 'Ödev & Proje Durumu', icon: CheckSquare, badge: null },
+      { id: 'oltvia', label: 'OLTVIA', icon: Sparkles, badge: null, isOltvia: true },
+      { id: 'sinav-sonuclari', label: 'Sınav & Deneme Sonuçları', icon: GraduationCap, badge: null },
+      { id: 'gelisim-analizi', label: 'Akademik Gelişim Analizi', icon: BarChart3, badge: null },
+      { id: 'detayli-karne', label: 'Detaylı Gelişim Raporu', icon: FileText, badge: null },
+      { id: 'devamsizlik', label: 'Devamsızlık Durumu', icon: CalendarDays, badge: null },
+      { id: 'ogretmen-iletisim', label: 'Öğretmen İletişim', icon: Users, badge: null },
+      { id: 'rehberlik-pdr', label: 'Rehberlik & PDR', icon: HeartHandshake, badge: null },
+    ],
+  },
+  yonetim: {
+    badge: 'ADMIN',
+    userName: 'Kemal Demir',
+    userSubtitle: 'Okul Müdürü • Fen Lisesi',
+    userInitials: 'KD',
+    searchPlaceholder: 'Öğrenci, öğretmen, sınıf veya kurumsal rapor ara...',
+    navItems: [
+      { id: 'ana-sayfa', label: 'Ana Sayfa', icon: Home, badge: null },
+      { id: 'kurumsal-genel-bakis', label: 'Kurumsal Genel Bakış', icon: BarChart3, badge: null },
+      { id: 'siniflar-subeler', label: 'Sınıflar & Şubeler', icon: School, badge: null },
+      { id: 'akademik-performans', label: 'Akademik Performans', icon: TrendingUp, badge: null },
+      { id: 'oltvia', label: 'OLTVIA', icon: Sparkles, badge: null, isOltvia: true },
+      { id: 'deneme-istatistikleri', label: 'Deneme & Sınav İstatistikleri', icon: GraduationCap, badge: null },
+      { id: 'ogretmen-zumre-takip', label: 'Öğretmen & Zümre Takibi', icon: Users, badge: null },
+      { id: 'kurumsal-rapor', label: 'Detaylı Kurumsal Rapor', icon: FileText, badge: null },
+      { id: 'devamsizlik-disiplin', label: 'Devamsızlık & Disiplin', icon: CalendarDays, badge: null },
+      { id: 'pdr-yonetimi', label: 'Rehberlik & PDR Yönetimi', icon: HeartHandshake, badge: null },
+      { id: 'idari-islemler', label: 'İdari İşlemler & Görevler', icon: CheckSquare, badge: null },
+    ],
+  },
+};
+
+interface OltviaStudentSidebarProps {
+  theme: SidebarTheme;
+  onThemeChange?: (theme: SidebarTheme) => void;
+  isExpanded?: boolean;
+  onExpandChange?: (expanded: boolean) => void;
+  role?: PortalRole;
+}
+
+const PURPLE = '#5B3FD9';
+const CORAL = '#FF5A4D';
 
 /** OLTVIA yuvarlak amblem (koyu daire veya cam üzerinde O/C + mor & mercan noktalar) */
 function OltviaEmblem({
@@ -77,7 +157,13 @@ export default function OltviaStudentSidebar({
   theme,
   isExpanded: controlledExpanded,
   onExpandChange,
+  role = 'ogrenci',
 }: OltviaStudentSidebarProps) {
+  const roleKey: 'ogrenci' | 'ogretmen' | 'veli' | 'yonetim' =
+    role === 'idare' ? 'yonetim' : (role || 'ogrenci');
+  const roleConfig = ROLE_CONFIGS[roleKey] || ROLE_CONFIGS.ogrenci;
+  const navItems = roleConfig.navItems;
+
   const [internalExpanded, setInternalExpanded] = useState(false);
   const isExpanded = controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
   const toggleExpanded = () => {
@@ -278,7 +364,7 @@ export default function OltviaStudentSidebar({
                         : '1px solid rgba(26,29,36,0.12)',
                     }}
                   >
-                    STUDENT
+                    {roleConfig.badge}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -311,7 +397,7 @@ export default function OltviaStudentSidebar({
 
             <LayoutGroup id="oltvia-nav">
               <nav className="flex flex-col gap-0.5">
-                {NAV_ITEMS.map((item, index) => {
+                {navItems.map((item, index) => {
                   const Icon = item.icon;
                   const highlighted = (hoveredTab ?? activeTab) === item.id;
                   const isHovered = hoveredTab === item.id;
