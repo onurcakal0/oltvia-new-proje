@@ -128,6 +128,8 @@ interface OltviaStudentSidebarProps {
   isExpanded?: boolean;
   onExpandChange?: (expanded: boolean) => void;
   role?: PortalRole;
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
 }
 
 const PURPLE = '#5B3FD9';
@@ -158,6 +160,8 @@ export default function OltviaStudentSidebar({
   isExpanded: controlledExpanded,
   onExpandChange,
   role = 'ogrenci',
+  activeTab: controlledActiveTab,
+  onTabChange,
 }: OltviaStudentSidebarProps) {
   const roleKey: 'ogrenci' | 'ogretmen' | 'veli' | 'yonetim' =
     role === 'idare' ? 'yonetim' : (role || 'ogrenci');
@@ -173,7 +177,12 @@ export default function OltviaStudentSidebar({
   };
   const isDark = theme === 'dark';
 
-  const [activeTab, setActiveTab] = useState('ana-sayfa');
+  const [internalActiveTab, setInternalActiveTab] = useState('ana-sayfa');
+  const activeTab = controlledActiveTab !== undefined ? controlledActiveTab : internalActiveTab;
+  const selectTab = (id: string) => {
+    if (onTabChange) onTabChange(id);
+    else setInternalActiveTab(id);
+  };
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [viewportH, setViewportH] = useState(900);
   const [isAiMode, setIsAiMode] = useState(false);
@@ -413,7 +422,7 @@ export default function OltviaStudentSidebar({
                       {item.isOltvia ? (
                         <button
                           type="button"
-                          onClick={() => setActiveTab(item.id)}
+                          onClick={() => selectTab(item.id)}
                           className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-all duration-200 hover:scale-[1.01] active:scale-[0.98] group/oltvia"
                           style={{ height: rowH }}
                         >
@@ -577,7 +586,7 @@ export default function OltviaStudentSidebar({
                         /* 2. STANDART MENÜ BUTONU (Liquid Glass) */
                         <button
                           type="button"
-                          onClick={() => setActiveTab(item.id)}
+                          onClick={() => selectTab(item.id)}
                           className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-colors duration-200"
                           style={{ height: rowH, color: highlighted ? t.text : t.sub }}
                         >
@@ -701,7 +710,7 @@ export default function OltviaStudentSidebar({
           >
             <button
               type="button"
-              onClick={() => setActiveTab('ayarlar')}
+              onClick={() => selectTab('ayarlar')}
               className="relative w-full flex items-center rounded-xl pl-2 pr-2.5 focus:outline-none transition-colors duration-200"
               style={{
                 height: rowH,

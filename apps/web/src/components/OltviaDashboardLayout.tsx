@@ -2,18 +2,30 @@
 import React, { useEffect, useState } from 'react';
 import OltviaStudentSidebar, { PortalRole, SidebarTheme } from './OltviaStudentSidebar';
 import OltviaStudentHeader from './OltviaStudentHeader';
+import OltviaStudentDashboardView from './OltviaStudentDashboardView';
 
 interface OltviaDashboardLayoutProps {
   role: PortalRole;
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
   children?: React.ReactNode;
 }
 
 export default function OltviaDashboardLayout({
   role,
+  activeTab: controlledActiveTab,
+  onTabChange,
   children,
 }: OltviaDashboardLayoutProps) {
   const [theme, setTheme] = useState<SidebarTheme>('light');
   const [isExpanded, setIsExpanded] = useState(false);
+  const [internalActiveTab, setInternalActiveTab] = useState('ana-sayfa');
+
+  const activeTab = controlledActiveTab !== undefined ? controlledActiveTab : internalActiveTab;
+  const handleTabChange = (next: string) => {
+    if (onTabChange) onTabChange(next);
+    else setInternalActiveTab(next);
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem('oltvia-theme');
@@ -65,13 +77,21 @@ export default function OltviaDashboardLayout({
         isExpanded={isExpanded}
         onExpandChange={setIsExpanded}
         role={role}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
       />
 
-      {children && (
+      {children ? (
         <main className="relative z-10 w-full h-full pt-20 pl-24 pr-6 pb-6 overflow-y-auto">
           {children}
         </main>
-      )}
+      ) : role === 'ogrenci' ? (
+        <OltviaStudentDashboardView
+          activeTab={activeTab}
+          theme={theme}
+          isExpanded={isExpanded}
+        />
+      ) : null}
     </div>
   );
 }

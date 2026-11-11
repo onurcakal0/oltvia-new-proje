@@ -82,10 +82,10 @@ const ROLES: Record<RoleType, RoleConfig> = {
     gradient: 'from-[#F59E0B] to-[#FBBF24]',
     accentColor: '#F59E0B',
     defaultCode: 'IST-1094',
-    defaultIdentity: 'idare@fenlisesi.k12.tr',
-    identityLabel: 'Yetkili Yönetici E-Postası',
-    identityPlaceholder: 'idare@okul.k12.tr',
-    identityType: 'email',
+    defaultIdentity: 'admin',
+    identityLabel: 'Yönetici E-Postası veya Kullanıcı Adı',
+    identityPlaceholder: 'Örn: admin veya admin@okul.k12.tr',
+    identityType: 'text',
     hasSchoolCode: true,
   },
 };
@@ -691,39 +691,82 @@ function GirisContent() {
     setIsLoading(true);
 
     try {
-      // GEÇİCİ LOCAL BYPASS: Backend bağlantı hatasını aşmak ve arayüzü test etmek için sahte oturum açma
-      const fakeToken = `fake_jwt_token_${activeRole}_${Date.now()}`;
-      const fakeUser = {
-        id: `usr_${Date.now()}`,
-        role: activeRole,
-        full_name: activeRole === 'ogrenci' ? 'Deniz Kaya' : (identity.trim() || 'Test Kullanıcısı'),
-        identity: identity.trim(),
-        school_code: schoolCode.trim().toUpperCase() || 'IST-1094',
-        created_at: new Date().toISOString(),
-      };
+      const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || 
+        (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace('/api/v1', '') : 'http://localhost:8000');
+      
+      let res: Response | null = null;
+      let networkError = false;
 
-      // Token ve sahte kullanıcı profilini localStorage'a yaz
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('oltvia_token', fakeToken);
-        localStorage.setItem('oltvia_user', JSON.stringify(fakeUser));
+      // Backend port 8000 ve 8001 fallback listesi
+      const endpoints = [
+        `${API_BASE}/api/v1/auth/login`,
+        ...(API_BASE.includes(':8000') ? [`${API_BASE.replace(':8000', ':8001')}/api/v1/auth/login`] : []),
+        ...(API_BASE.includes(':8001') ? [`${API_BASE.replace(':8001', ':8000')}/api/v1/auth/login`] : [])
+      ];
+
+      for (const endpoint of endpoints) {
+        try {
+          res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              role: activeRole,
+              school_code: schoolCode.trim(),
+              identifier: identity.trim(),
+              password: password
+            })
+          });
+          if (res) break;
+        } catch {
+          networkError = true;
+        }
       }
 
-      setSuccessMsg(`Hoş geldiniz, ${fakeUser.full_name}! Giriş başarılı. Yönlendiriliyorsunuz...`);
-
-      // Doğrudan ilgili panele yönlendir
-      setTimeout(() => {
-        if (activeRole === 'ogrenci') {
-          router.push('/ogrenci');
-        } else if (activeRole === 'ogretmen') {
-          router.push('/ogretmen');
-        } else if (activeRole === 'veli') {
-          router.push('/veli');
-        } else {
-          router.push('/yonetim');
+      if (res && res.ok) {
+        const data = await res.json();
+        // data: { access_token, token_type, user: { id, full_name, role, email, tenant_name, tenant_code, schema_name } }
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('oltvia_token', data.access_token);
+          localStorage.setItem('edux_token', data.access_token);
+          localStorage.setItem('oltvia_user', JSON.stringify(data.user));
         }
-      }, 600);
+
+        const displayName = data.user?.full_name || identity.trim();
+        const schoolInfo = data.user?.tenant_name ? ` (${data.user.tenant_name})` : '';
+        setSuccessMsg(`Hoş geldiniz, ${displayName}${schoolInfo}! Giriş başarılı. Yönlendiriliyorsunuz...`);
+
+        setTimeout(() => {
+          if (activeRole === 'ogrenci') {
+            router.push('/ogrenci');
+          } else if (activeRole === 'ogretmen') {
+            router.push('/ogretmen');
+          } else if (activeRole === 'veli') {
+            router.push('/veli');
+          } else {
+            router.push('/yonetim');
+          }
+        }, 500);
+        return;
+      }
+
+      if (res && !res.ok) {
+        let errorDetail = 'Giriş yapılamadı.';
+        try {
+          const errData = await res.json();
+          errorDetail = errData.detail || errorDetail;
+        } catch {
+          errorDetail = `Giriş işlemi başarısız oldu (Hata kodu: ${res.status}).`;
+        }
+        setErrorMsg(errorDetail);
+        return;
+      }
+
+      if (networkError || !res) {
+        // Backend sunucusuna ulaşılamadıysa
+        setErrorMsg('Kimlik doğrulama sunucusuna ulaşılamadı. Lütfen FastAPI backend servisinin (port 8000/8001) çalıştığından emin olunuz.');
+      }
     } catch (err: any) {
-      setErrorMsg(explainError(err, 'Sunucuya bağlanırken bir hata oluştu. Lütfen tekrar deneyiniz.'));
+      setErrorMsg(explainError(err, 'Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyiniz.'));
     } finally {
       setIsLoading(false);
     }
@@ -929,7 +972,7 @@ function GirisContent() {
                       required
                       value={identity}
                       onChange={(e) => setIdentity(e.target.value)}
-                      placeholder={config.identityLabel}
+                      placeholder={config.identityPlaceholder || config.identityLabel}
                       className="w-full px-6 py-4 rounded-full border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all"
                     />
                   </div>
