@@ -53,7 +53,7 @@ def normalize_phone(phone: str) -> str:
 async def get_current_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_bearer),
     db: AsyncSession = Depends(get_db)
-) -> User:
+):
     if not credentials:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -68,9 +68,56 @@ async def get_current_user(
             raise HTTPException(status_code=401, detail="Geçersiz yetki jetonu.")
     except Exception:
         raise HTTPException(status_code=401, detail="Geçersiz veya süresi dolmuş oturum jetonu.")
-        
+
+    schema_name = payload.get("schema_name")
+    if schema_name:
+        is_sqlite = bool(settings.DATABASE_URL and "sqlite" in settings.DATABASE_URL)
+        target_users_tbl = f'"{schema_name}__users"' if is_sqlite else f'"{schema_name}".users'
+        target_students_tbl = f'"{schema_name}__students"' if is_sqlite else f'"{schema_name}".students'
+        target_parents_tbl = f'"{schema_name}__parents"' if is_sqlite else f'"{schema_name}".parents'
+
+        q = text(f"""
+            SELECT 
+                u.id, u.email, u.full_name, u.role, u.is_active,
+                s.student_number, s.class_name, s.grade,
+                p.phone
+            FROM {target_users_tbl} u
+            LEFT JOIN {target_students_tbl} s ON s.user_id = u.id
+            LEFT JOIN {target_parents_tbl} p ON p.user_id = u.id
+            WHERE u.id = :uid
+            LIMIT 1
+        """)
+        res = await db.execute(q, {"uid": str(user_id)})
+        row = res.mappings().first()
+        if not row or not row["is_active"]:
+            raise HTTPException(status_code=401, detail="Kullanıcı bulunamadı veya hesabı askıya alınmış.")
+
+        tenant_code = payload.get("school_code")
+        tenant_res = await db.execute(select(Tenant).where(Tenant.schema_name == schema_name))
+        t = tenant_res.scalars().first()
+
+        effective_role = "idare" if str(row["role"]).upper() == "SCHOOL_ADMIN" else row["role"]
+        return UserProfile(
+            id=str(row["id"]),
+            full_name=row["full_name"],
+            role=effective_role,
+            email=row["email"],
+            student_number=row["student_number"] if "student_number" in row else None,
+            class_name=row["class_name"] if "class_name" in row else None,
+            grade=row["grade"] if "grade" in row else None,
+            phone_number=row["phone"] if "phone" in row else None,
+            tenant_name=t.school_name if t else payload.get("tenant_name"),
+            tenant_code=tenant_code,
+            schema_name=schema_name,
+        )
+
+    try:
+        int_id = int(user_id)
+    except Exception:
+        raise HTTPException(status_code=401, detail="Geçersiz kullanıcı kimliği.")
+
     result = await db.execute(
-        select(User).options(selectinload(User.tenant)).where(User.id == int(user_id))
+        select(User).options(selectinload(User.tenant)).where(User.id == int_id)
     )
     user = result.scalars().first()
     if not user or not user.is_active:
@@ -95,18 +142,20 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
         )
 
     tenant = None
-    # Kurum kodu zorunlu olan roller: Öğrenci, Öğretmen, Okul İdaresi
-    if role in ["ogrenci", "ogretmen", "idare"]:
-        if not school_code:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Bu rol için Kurum Kodu zorunludur."
-            )
-        # Kurumu school_code (büyük/küçük harf duyarsız) ile bul
+    clean_code = school_code.strip().lower()
+    norm_code = clean_code.replace("-", "_")
+    norm_code_dash = clean_code.replace("_", "-")
+    code_variants = list(set([clean_code, norm_code, norm_code_dash]))
+    schema_variants = list(set([f"schema_{c}" for c in code_variants]))
+
+    # Kurum kodu belirtilmişse kurumu bul (Öğrenci, Öğretmen, İdare için zorunludur; Veli için opsiyonel)
+    if clean_code:
         tenant_res = await db.execute(
             select(Tenant).where(
-                (func.lower(Tenant.school_code) == school_code.lower()) |
-                (func.lower(Tenant.schema_name) == f"schema_{school_code.lower()}")
+                func.lower(Tenant.school_code).in_(code_variants) |
+                func.lower(Tenant.schema_name).in_(schema_variants) |
+                (func.replace(func.lower(Tenant.school_code), "-", "_") == norm_code) |
+                (func.replace(func.lower(Tenant.schema_name), "-", "_") == f"schema_{norm_code}")
             )
         )
         tenant = tenant_res.scalars().first()
@@ -120,24 +169,48 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"'{tenant.school_name}' kurumunun erişimi geçici olarak askıya alınmıştır. Lütfen kurum idaresiyle görüşün."
             )
+    elif role in ["ogrenci", "ogretmen", "idare"]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Bu rol için Kurum Kodu zorunludur."
+        )
 
     # ------------------------------------------------------------------
-    # A) SCHEMA-PER-TENANT KONTROLÜ (SuperAdmin'de oluşturulan izole şema)
+    # A) SCHEMA-PER-TENANT KONTROLÜ (SuperAdmin'de oluşturulan izole şemalar)
     # ------------------------------------------------------------------
-    if tenant and tenant.schema_name:
+    tenants_to_check = [tenant] if tenant else []
+    if not tenant and role == "veli":
+        all_tenants_res = await db.execute(select(Tenant).where(Tenant.is_active == True))
+        tenants_to_check = all_tenants_res.scalars().all()
+
+    for cur_tenant in tenants_to_check:
+        if not cur_tenant or not cur_tenant.schema_name:
+            continue
         try:
             is_sqlite = bool(settings.DATABASE_URL and "sqlite" in settings.DATABASE_URL)
-            target_users_tbl = f'"{tenant.schema_name}__users"' if is_sqlite else f'"{tenant.schema_name}".users'
+            target_users_tbl = f'"{cur_tenant.schema_name}__users"' if is_sqlite else f'"{cur_tenant.schema_name}".users'
+            target_students_tbl = f'"{cur_tenant.schema_name}__students"' if is_sqlite else f'"{cur_tenant.schema_name}".students'
+            target_parents_tbl = f'"{cur_tenant.schema_name}__parents"' if is_sqlite else f'"{cur_tenant.schema_name}".parents'
 
-            # İzole şemanın users tablosunu sorgula
+            clean_ident = identifier.strip()
+            clean_digits = re.sub(r"[^\d]", "", clean_ident)
+
+            # İzole şemanın users tablosunu ve ilişkili profilleri (öğrenci no, veli telefon) sorgula
             schema_user_query = text(f"""
-                SELECT id, email, full_name, role, hashed_password, is_active
-                FROM {target_users_tbl}
+                SELECT 
+                    u.id, u.email, u.full_name, u.role, u.hashed_password, u.is_active,
+                    s.student_number, s.class_name, s.grade, p.phone
+                FROM {target_users_tbl} u
+                LEFT JOIN {target_students_tbl} s ON s.user_id = u.id
+                LEFT JOIN {target_parents_tbl} p ON p.user_id = u.id
                 WHERE (
-                    LOWER(email) = LOWER(:identifier)
+                    LOWER(u.email) = LOWER(:identifier)
+                    OR s.student_number = :identifier
+                    OR p.phone = :identifier
+                    OR (:clean_digits != '' AND REPLACE(REPLACE(REPLACE(COALESCE(p.phone, ''), ' ', ''), '-', ''), '+', '') LIKE '%' || :clean_digits || '%')
                     OR (
-                        LOWER(role) IN ('school_admin', 'idare', 'admin')
-                        AND (:id_clean IN ('admin', 'idare', LOWER(:school_code), LOWER(email)))
+                        LOWER(u.role) IN ('school_admin', 'idare', 'admin')
+                        AND (:id_clean IN ('admin', 'idare', LOWER(:school_code), LOWER(u.email)))
                     )
                 )
                 LIMIT 1
@@ -145,9 +218,10 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
             schema_user_res = await db.execute(
                 schema_user_query,
                 {
-                    "identifier": identifier.strip(),
-                    "id_clean": identifier.strip().lower(),
-                    "school_code": school_code.lower(),
+                    "identifier": clean_ident,
+                    "clean_digits": clean_digits,
+                    "id_clean": clean_ident.lower(),
+                    "school_code": cur_tenant.school_code.lower(),
                 }
             )
             row = schema_user_res.mappings().first()
@@ -170,9 +244,9 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
                     data={
                         "sub": str(row["id"]),
                         "role": effective_role,
-                        "tenant_id": str(tenant.id),
-                        "school_code": tenant.school_code,
-                        "schema_name": tenant.schema_name,
+                        "tenant_id": str(cur_tenant.id),
+                        "school_code": cur_tenant.school_code,
+                        "schema_name": cur_tenant.schema_name,
                         "email": row["email"],
                     }
                 )
@@ -185,16 +259,19 @@ async def login_user(login_in: LoginRequest, db: AsyncSession = Depends(get_db))
                         full_name=row["full_name"],
                         role=effective_role,
                         email=row["email"],
-                        tenant_name=tenant.school_name,
-                        tenant_code=tenant.school_code,
-                        schema_name=tenant.schema_name,
+                        student_number=row["student_number"] if "student_number" in row else None,
+                        class_name=row["class_name"] if "class_name" in row else None,
+                        grade=row["grade"] if "grade" in row else None,
+                        phone_number=row["phone"] if "phone" in row else None,
+                        tenant_name=cur_tenant.school_name,
+                        tenant_code=cur_tenant.school_code,
+                        schema_name=cur_tenant.schema_name,
                     )
                 )
         except HTTPException:
             raise
         except Exception:
-            # Şema tablosu yoksa veya hata olursa public users aramasına devam et
-            pass
+            continue
 
     # ------------------------------------------------------------------
     # B) STANDART PUBLIC USERS ARAMASI (Geriye dönük uyumluluk / Demo veriler)
@@ -459,16 +536,18 @@ async def reset_password(req: ResetPasswordRequest, db: AsyncSession = Depends(g
 # 5. MEVCUT KULLANICI PROFİLİ (ME)
 # ==========================================================
 @router.get("/me", response_model=UserProfile)
-async def get_me(current_user: User = Depends(get_current_user)):
+async def get_me(current_user = Depends(get_current_user)):
+    if isinstance(current_user, UserProfile):
+        return current_user
     return UserProfile(
-        id=current_user.id,
+        id=str(current_user.id),
         full_name=current_user.full_name,
         role=current_user.role,
         email=current_user.email,
         student_number=current_user.student_number,
         phone_number=current_user.phone_number,
-        tenant_name=current_user.tenant.name if current_user.tenant else None,
-        tenant_code=current_user.tenant.code if current_user.tenant else None
+        tenant_name=current_user.tenant.school_name if current_user.tenant else (current_user.tenant.name if current_user.tenant else None),
+        tenant_code=current_user.tenant.school_code if current_user.tenant else (current_user.tenant.code if current_user.tenant else None)
     )
 
 

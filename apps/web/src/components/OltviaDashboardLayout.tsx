@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import OltviaStudentSidebar, { PortalRole, SidebarTheme } from './OltviaStudentSidebar';
 import OltviaStudentHeader from './OltviaStudentHeader';
 import OltviaStudentDashboardView from './OltviaStudentDashboardView';
+import OltviaSchoolAdminDashboardView from './OltviaSchoolAdminDashboardView';
 
 interface OltviaDashboardLayoutProps {
   role: PortalRole;
@@ -91,6 +92,10 @@ export default function OltviaDashboardLayout({
           theme={theme}
           isExpanded={isExpanded}
         />
+      ) : role === 'yonetim' || role === 'idare' ? (
+        <main className="relative z-10 w-full h-full pt-20 pl-24 pr-6 pb-6 overflow-y-auto">
+          <OltviaSchoolAdminDashboardView />
+        </main>
       ) : null}
     </div>
   );

@@ -13,6 +13,8 @@ class UserProfile(BaseModel):
     role: str
     email: Optional[str] = None
     student_number: Optional[str] = None
+    class_name: Optional[str] = None
+    grade: Optional[str] = None
     phone_number: Optional[str] = None
     tenant_name: Optional[str] = None
     tenant_code: Optional[str] = None

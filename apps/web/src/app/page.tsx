@@ -303,19 +303,33 @@ export default function OltivaLandingPage() {
         }
       });
     }, { 
-      threshold: 0.05, 
-      rootMargin: '0px 0px -40px 0px' 
+      threshold: 0.01, 
+      rootMargin: '60px 0px 60px 0px' 
     });
 
-    document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
-      if (el.getAttribute('data-revealed') === 'true') {
-        el.classList.add('revealed');
-        return;
-      }
-      observer.observe(el);
-    });
+    const revealIfVisible = () => {
+      document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+        if (el.getAttribute('data-revealed') === 'true') {
+          el.classList.add('revealed');
+          return;
+        }
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 80) {
+          el.setAttribute('data-revealed', 'true');
+          el.classList.add('revealed');
+        } else {
+          observer.observe(el);
+        }
+      });
+    };
 
-    return () => observer.disconnect();
+    revealIfVisible();
+    window.addEventListener('scroll', revealIfVisible, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', revealIfVisible);
+    };
   }, []);
 
   return (
@@ -521,11 +535,11 @@ export default function OltivaLandingPage() {
         </nav>
         
         {/* Right: Glowing Pill CTA Button & Eclipse Switcher */}
-        <div className="flex items-center gap-3 pointer-events-auto">
+        <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto shrink-0">
           {/* Glowing Pill Action Button ("Get Started" in Reference) */}
           <Link 
             href="/giris?rol=ogrenci"
-            className={"relative group px-5 sm:px-6 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex items-center gap-2 " + (
+            className={"relative group px-4 sm:px-6 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 flex items-center gap-2 whitespace-nowrap " + (
               theme === 'dark' 
                 ? "bg-[#FF5A4D]/10 hover:bg-[#FF5A4D] border-[#FF5A4D]/70 text-white shadow-[0_0_22px_rgba(255,90,77,0.45)] hover:shadow-[0_0_35px_rgba(255,90,77,0.8)]" 
                 : "bg-[#FF5A4D] hover:bg-[#ff4536] border-[#FF5A4D] text-white shadow-[0_4px_14px_rgba(255,90,77,0.35)]"
@@ -541,7 +555,7 @@ export default function OltivaLandingPage() {
             onClick={toggleTheme}
             aria-label={theme === 'dark' ? "Aydınlık Moda Geç (Güneş)" : "Karanlık Moda Geç (Güneş Tutulması)"}
             title={theme === 'dark' ? "Aydınlık Moda Geç" : "Karanlık Moda Geç (Tutulma)"}
-            className={"relative w-10 h-10 rounded-full border transition-all duration-300 hover:scale-105 flex items-center justify-center overflow-hidden " + (
+            className={"relative w-10 h-10 rounded-full border transition-all duration-300 hover:scale-105 flex items-center justify-center overflow-hidden shrink-0 " + (
               theme === 'dark' 
                 ? "bg-[#140B25]/85 border-white/10 hover:border-[#FF5A4D]/50 text-[#E2E8F0] shadow-[0_0_15px_rgba(255,90,77,0.15)]" 
                 : "bg-white border-[#E3E6EB] hover:border-[#F59E0B]/60 text-[#1A1D24] shadow-sm hover:shadow-md"
@@ -587,8 +601,8 @@ export default function OltivaLandingPage() {
 
       <main className="relative z-10">
         
-        {/* HERO SECTION - Only Beyond Learning Title shown on initial screen */}
-        <section className="min-h-screen max-w-7xl mx-auto px-6 pt-20 pb-12 text-center flex flex-col items-center justify-center relative reveal-on-scroll">
+        {/* HERO SECTION - Always visible on initial screen */}
+        <section className="min-h-screen max-w-7xl mx-auto px-6 pt-28 pb-16 text-center flex flex-col items-center justify-center relative">
           
           {/* Brand Beyond Learning Title & Hover Reveal */}
           <div className="grid w-full max-w-5xl place-items-center group cursor-default">
@@ -609,6 +623,49 @@ export default function OltivaLandingPage() {
               OLTVIA, yapay zeka gücüyle öğrencinin hızına, hislerine ve hedeflerine anında adapte olan yenilikçi bir ekosistemdir.
             </p>
           </div>
+
+          {/* Dual Pill CTA Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 z-20 mt-12">
+            {/* Primary Coral Aura Button */}
+            <Link 
+              href="/giris?rol=ogrenci"
+              className="relative rounded-full px-8 sm:px-9 py-3 sm:py-3.5 bg-gradient-to-r from-[#FF5A43] to-[#FF7A50] text-white font-bold text-sm tracking-wide shadow-[0_0_30px_rgba(255,90,67,0.55)] hover:shadow-[0_0_45px_rgba(255,90,67,0.85)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 group whitespace-nowrap"
+            >
+              <span>Hemen Başla</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            {/* Secondary Violet Aura Button */}
+            <a 
+              href="#girisler"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('girisler')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className={"relative rounded-full px-8 sm:px-9 py-3 sm:py-3.5 font-bold text-sm tracking-wide border transition-all flex items-center gap-2 group whitespace-nowrap " + (
+                theme === 'dark'
+                  ? "bg-white/[0.06] hover:bg-white/[0.12] border-white/15 text-white shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_35px_rgba(139,92,246,0.55)]"
+                  : "bg-white hover:bg-gray-50 border-[#E3E6EB] text-[#1A1D24] shadow-sm hover:shadow-md"
+              )}
+            >
+              <span>Portalları Keşfet</span>
+              <ChevronDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+            </a>
+          </div>
+
+          {/* Subtle scroll down indicator */}
+          <a
+            href="#girisler"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('girisler')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            aria-label="Aşağı kaydır"
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity text-xs tracking-widest uppercase cursor-pointer"
+          >
+            <span className={theme === 'dark' ? "text-[#A59BB8]" : "text-gray-500"}>Keşfet</span>
+            <ChevronDown className="w-4 h-4 animate-bounce text-[#FF5A4D]" />
+          </a>
 
         </section>
 

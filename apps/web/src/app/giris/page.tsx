@@ -411,7 +411,14 @@ function GirisContent() {
       else if (roleParam === 'kurumsal' || roleParam === 'idare') setActiveRole('idare');
       else setActiveRole('ogrenci');
     }
-  }, [roleParam]);
+    const savedCode = 
+      searchParams.get('kod') || 
+      searchParams.get('school_code') || 
+      (typeof window !== 'undefined' ? localStorage.getItem('oltvia_active_school_code') : null);
+    if (savedCode) {
+      setSchoolCode(savedCode.toUpperCase());
+    }
+  }, [roleParam, searchParams]);
 
   const config = ROLES[activeRole];
 
@@ -691,32 +698,40 @@ function GirisContent() {
     setIsLoading(true);
 
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || 
-        (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace('/api/v1', '') : 'http://localhost:8000');
-      
+      const rawEnvBackend = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const rawEnvApi = process.env.NEXT_PUBLIC_API_URL;
+      const host = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+
+      // 8001 portu FastAPI backend'imizin sabit ana portudur
+      const candidateBases = [
+        rawEnvBackend,
+        rawEnvApi ? rawEnvApi.replace(/\/api\/v1(\/auth)?\/?$/, '') : null,
+        `http://${host}:8001`,
+        `http://${host}:8000`,
+      ].filter(Boolean) as string[];
+
+      const uniqueBases = Array.from(new Set(candidateBases));
+      const endpoints = uniqueBases.map((b) => `${b.replace(/\/+$/, '')}/api/v1/auth/login`);
+
       let res: Response | null = null;
       let networkError = false;
 
-      // Backend port 8000 ve 8001 fallback listesi
-      const endpoints = [
-        `${API_BASE}/api/v1/auth/login`,
-        ...(API_BASE.includes(':8000') ? [`${API_BASE.replace(':8000', ':8001')}/api/v1/auth/login`] : []),
-        ...(API_BASE.includes(':8001') ? [`${API_BASE.replace(':8001', ':8000')}/api/v1/auth/login`] : [])
-      ];
-
       for (const endpoint of endpoints) {
         try {
-          res = await fetch(endpoint, {
+          const candidate = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               role: activeRole,
               school_code: schoolCode.trim(),
               identifier: identity.trim(),
-              password: password
-            })
+              password: password,
+            }),
           });
-          if (res) break;
+          res = candidate;
+          if (candidate.status !== 404) {
+            break;
+          }
         } catch {
           networkError = true;
         }

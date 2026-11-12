@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.v1 import auth, superadmin
+from app.api.v1 import auth, superadmin, school_admin
 from app.db.init_db import init_db
 
 @asynccontextmanager
@@ -29,10 +29,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Auth ve SuperAdmin router'larını sisteme bağla
+# Auth, SuperAdmin ve SchoolAdmin router'larını sisteme bağla
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(superadmin.router, prefix="/api/superadmin", tags=["SuperAdmin Schools"])
 app.include_router(superadmin.router, prefix="/api/v1/superadmin", tags=["SuperAdmin Schools V1"])
+app.include_router(school_admin.router, prefix="/api/school-admin", tags=["School Admin"])
+app.include_router(school_admin.router, prefix="/api/v1/school-admin", tags=["School Admin V1"])
 
 @app.get("/")
 async def root():

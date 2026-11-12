@@ -5,8 +5,10 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "OLTVIA API"
     VERSION: str = "1.0.0"
     
-    # Özel veritabanı bağlantı adresi (Varsa öncelikli kullanılır, yoksa yerel SQLite)
-    DATABASE_URL: str | None = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./oltvia.db")
+    # Özel veritabanı bağlantı adresi (Varsa öncelikli kullanılır, yoksa apps/backend/oltvia.db)
+    _BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    _DEFAULT_SQLITE_FILE = os.path.join(_BACKEND_DIR, "oltvia.db")
+    DATABASE_URL: str | None = os.getenv("DATABASE_URL", f"sqlite+aiosqlite:///{_DEFAULT_SQLITE_FILE}")
 
     
     # PostgreSQL Ayarları (Docker / Canlı sunucu ortamı için)

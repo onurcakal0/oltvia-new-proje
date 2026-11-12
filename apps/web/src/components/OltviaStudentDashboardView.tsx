@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   AlertCircle,
@@ -308,6 +308,19 @@ function Ring({ ui, pct, color, size = 56, label }: { ui: Ui; pct: number; color
    ANA GÖRÜNÜM
    ═══════════════════════════════════════════════════════════════════════════ */
 
+export interface StudentUser {
+  id?: string;
+  full_name?: string;
+  student_number?: string;
+  class_name?: string;
+  grade?: string;
+  email?: string;
+  phone_number?: string;
+  tenant_name?: string;
+  tenant_code?: string;
+  schema_name?: string;
+}
+
 interface OltviaStudentDashboardViewProps {
   activeTab: string;
   theme: SidebarTheme;
@@ -316,6 +329,41 @@ interface OltviaStudentDashboardViewProps {
 
 export default function OltviaStudentDashboardView({ activeTab, theme, isExpanded }: OltviaStudentDashboardViewProps) {
   const isDark = theme === 'dark';
+
+  // Giriş yapan aktif öğrenci profili (Backend & LocalStorage)
+  const [studentUser, setStudentUser] = useState<StudentUser | null>(null);
+
+  useEffect(() => {
+    // 1. Önbellekten anında yükle (gecikmesiz render)
+    try {
+      const raw = localStorage.getItem('oltvia_user');
+      if (raw) {
+        setStudentUser(JSON.parse(raw));
+      }
+    } catch {
+      // ignore
+    }
+
+    // 2. Backend /api/v1/auth/me üzerinden güncel veriyi doğrula
+    const token = localStorage.getItem('oltvia_token') || localStorage.getItem('edux_token');
+    if (token) {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+      fetch(`${backendUrl}/api/v1/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.full_name) {
+          setStudentUser(data);
+          localStorage.setItem('oltvia_user', JSON.stringify(data));
+        }
+      })
+      .catch(() => {
+        // Ağ hatası durumunda önbellekteki veri kullanılır
+      });
+    }
+  }, []);
+
   const ui: Ui = {
     isDark,
     glass: {
@@ -337,18 +385,18 @@ export default function OltviaStudentDashboardView({ activeTab, theme, isExpande
   };
 
   const views: Record<string, React.ReactNode> = {
-    'ana-sayfa': <AnaSayfa ui={ui} />,
+    'ana-sayfa': <AnaSayfa ui={ui} user={studentUser} />,
     'ders-programi': <DersProgrami ui={ui} />,
     'gunluk-ilerleme': <GunlukIlerleme ui={ui} />,
     'gorevler-odevler': <GorevlerOdevler ui={ui} />,
-    oltvia: <OltvaiAsistan ui={ui} />,
+    oltvia: <OltvaiAsistan ui={ui} user={studentUser} />,
     'sinav-sonuclari': <SinavSonuclari ui={ui} />,
     'yks-not-analizi': <YksNotAnalizi ui={ui} />,
     'detayli-rapor': <DetayliRapor ui={ui} />,
     okulum: <Okulum ui={ui} />,
     ogretmenler: <Ogretmenler ui={ui} />,
     'rehberlik-pdr': <Rehberlik ui={ui} />,
-    ayarlar: <Ayarlar ui={ui} />,
+    ayarlar: <Ayarlar ui={ui} user={studentUser} />,
   };
 
   return (
@@ -380,7 +428,7 @@ export default function OltviaStudentDashboardView({ activeTab, theme, isExpande
 /* ═══════════════════════════════════════════════════════════════════════════
    1. ANA SAYFA
    ═══════════════════════════════════════════════════════════════════════════ */
-function AnaSayfa({ ui }: { ui: Ui }) {
+function AnaSayfa({ ui, user }: { ui: Ui; user: StudentUser | null }) {
   const [tasks, setTasks] = useState([
     { id: 1, text: 'Matematik: Türev ve İntegral – 40 soru', done: true },
     { id: 2, text: 'Fizik: Manyetizma konu tekrarı', done: false },
@@ -400,13 +448,25 @@ function AnaSayfa({ ui }: { ui: Ui }) {
   };
   const doneCount = tasks.filter((t) => t.done).length;
 
+  // Kullanıcı adını dinamik olarak biçimlendir (örn: "onur cakal" -> "Onur")
+  const rawFullName = user?.full_name?.trim() || 'Arda';
+  const formattedWords = rawFullName
+    .split(/\s+/)
+    .map(w => w.charAt(0).toLocaleUpperCase('tr-TR') + w.slice(1).toLocaleLowerCase('tr-TR'));
+  const firstName = formattedWords[0] || 'Öğrenci';
+
+  // Sınıf ve okul bilgisi
+  const className = user?.class_name || '12-A';
+  const schoolName = user?.tenant_name || '';
+  const onlineSubtitle = `● Çevrimiçi • ${className} ${schoolName ? '• ' + schoolName : 'Sayısal'}`;
+
   return (
     <>
       <PageHeader
         ui={ui}
-        title="Hoş geldin, Arda 👋"
+        title={`Hoş geldin, ${firstName} 👋`}
         sub="Bugün hedefinin %82'sine ulaştın. Sınavına 2 gün kaldı, tempoyu koru."
-        right={<Pill ui={ui} tone="green">● Çevrimiçi • 12-A Sayısal</Pill>}
+        right={<Pill ui={ui} tone="green">{onlineSubtitle}</Pill>}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
@@ -862,9 +922,13 @@ function GorevlerOdevler({ ui }: { ui: Ui }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    5. OLTVAI (Yapay zeka asistanı)
    ═══════════════════════════════════════════════════════════════════════════ */
-function OltvaiAsistan({ ui }: { ui: Ui }) {
+function OltvaiAsistan({ ui, user }: { ui: Ui; user: StudentUser | null }) {
+  const rawFullName = user?.full_name?.trim() || 'Arda';
+  const firstName = rawFullName.split(/\s+/)[0] || 'Öğrenci';
+  const capitalizedFirst = firstName.charAt(0).toLocaleUpperCase('tr-TR') + firstName.slice(1).toLocaleLowerCase('tr-TR');
+
   const [msgs, setMsgs] = useState<{ from: 'ai' | 'me'; text: string }[]>([
-    { from: 'ai', text: 'Merhaba Arda! Ben OLTVAI. Bugün hangi konuda takıldın? Sana adım adım, sorarak ilerleyen bir anlatımla yardımcı olabilirim.' },
+    { from: 'ai', text: `Merhaba ${capitalizedFirst}! Ben OLTVAI. Bugün hangi konuda takıldın? Sana adım adım, sorarak ilerleyen bir anlatımla yardımcı olabilirim.` },
   ]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -1381,7 +1445,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: () => void }) {
   );
 }
 
-function Ayarlar({ ui }: { ui: Ui }) {
+function Ayarlar({ ui, user }: { ui: Ui; user: StudentUser | null }) {
   const [s, setS] = useState({ bildirim: true, hatirlatici: true, haftalik: false, ai: true, gizli: false });
   const toggle = (k: keyof typeof s) => setS({ ...s, [k]: !s[k] });
   const rows: { k: keyof typeof s; t: string; d: string }[] = [
@@ -1391,21 +1455,37 @@ function Ayarlar({ ui }: { ui: Ui }) {
     { k: 'ai', t: 'OLTVAI Kişiselleştirme', d: 'Önerileri çalışma verilerime göre uyarla' },
     { k: 'gizli', t: 'Profili Gizle', d: 'Sıralama listelerinde adım görünmesin' },
   ];
+
+  const rawFullName = user?.full_name?.trim() || 'Arda Kılıç';
+  const formattedFullName = rawFullName
+    .split(/\s+/)
+    .map(w => w.charAt(0).toLocaleUpperCase('tr-TR') + w.slice(1).toLocaleLowerCase('tr-TR'))
+    .join(' ');
+  const parts = formattedFullName.split(/\s+/);
+  const initials = parts.length >= 2
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : formattedFullName.slice(0, 2).toUpperCase();
+
+  const className = user?.class_name || '12-A';
+  const studentNum = user?.student_number || '2026-1094';
+  const email = user?.email || 'ogrenci@fenlisesi.k12.tr';
+  const schoolCode = user?.tenant_code?.toUpperCase() || 'IST-1094';
+
   return (
     <>
       <PageHeader ui={ui} title="Ayarlar" sub="Hesap, bildirim ve gizlilik tercihlerin" />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <Card ui={ui} className="p-5 lg:col-span-4">
           <div className="flex flex-col items-center text-center">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white mb-3" style={{ background: 'linear-gradient(135deg,#5B3FD9,#8B5CF6)' }}>AK</div>
-            <div className="text-lg font-bold" style={{ color: ui.tp }}>Arda Kılıç</div>
-            <div className="text-xs mb-4" style={{ color: ui.ts }}>12-A Sayısal • Öğrenci No: 2026-1094</div>
+            <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white mb-3" style={{ background: 'linear-gradient(135deg,#5B3FD9,#8B5CF6)' }}>{initials}</div>
+            <div className="text-lg font-bold" style={{ color: ui.tp }}>{formattedFullName}</div>
+            <div className="text-xs mb-4" style={{ color: ui.ts }}>{className} Sayısal • Öğrenci No: {studentNum}</div>
             <Pill ui={ui} tone="green">Hesap doğrulandı</Pill>
           </div>
           <div className="mt-5 pt-4 border-t flex flex-col gap-2.5 text-xs" style={{ borderColor: ui.line, color: ui.ts }}>
-            <div className="flex justify-between"><span>E-posta</span><span className="font-semibold" style={{ color: ui.tp }}>arda@fenlisesi.k12.tr</span></div>
+            <div className="flex justify-between"><span>E-posta</span><span className="font-semibold" style={{ color: ui.tp }}>{email}</span></div>
             <div className="flex justify-between"><span>Dil</span><span className="font-semibold" style={{ color: ui.tp }}>Türkçe</span></div>
-            <div className="flex justify-between"><span>Okul Kodu</span><span className="font-semibold" style={{ color: ui.tp }}>IST-1094</span></div>
+            <div className="flex justify-between"><span>Okul Kodu</span><span className="font-semibold" style={{ color: ui.tp }}>{schoolCode}</span></div>
           </div>
         </Card>
 

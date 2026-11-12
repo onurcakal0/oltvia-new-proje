@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { 
   Building2, 
   Plus, 
@@ -35,6 +36,8 @@ interface School {
 }
 
 export default function SuperAdminPage() {
+  const router = useRouter();
+
   // SuperAdmin Kurucu Kimlik Doğrulama Durumları
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [authChecking, setAuthChecking] = useState<boolean>(true);
@@ -54,7 +57,7 @@ export default function SuperAdminPage() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [toastMsg, setToastMsg] = useState<{ title: string; desc: string } | null>(null);
+  const [toastMsg, setToastMsg] = useState<{ title: string; desc: string; schoolCode?: string } | null>(null);
 
   // Okul Silme ve Durum Güncelleme
   const [schoolToDelete, setSchoolToDelete] = useState<School | null>(null);
@@ -397,6 +400,7 @@ export default function SuperAdminPage() {
       setToastMsg({
         title: "Okul ve PostgreSQL Şeması Başarıyla Kuruldu!",
         desc: `"${result.school_name}" için '${result.schema_name}' izole şeması, tabloları ve okul yöneticisi hazırlandı.`,
+        schoolCode: result.school_code,
       });
 
       // Formu temizle ve listeye dön
@@ -638,7 +642,7 @@ export default function SuperAdminPage() {
 
         {/* TOAST / BİLDİRİM KARTI */}
         {toastMsg && (
-          <div className="p-4 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-200 flex items-start justify-between gap-3 shadow-lg animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="p-4 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-emerald-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg animate-in fade-in slide-in-from-top-2 duration-300">
             <div className="flex items-start gap-3">
               <CheckCircle2 size={20} className="text-emerald-400 shrink-0 mt-0.5" />
               <div>
@@ -646,12 +650,26 @@ export default function SuperAdminPage() {
                 <p className="text-xs text-emerald-200/80 mt-0.5">{toastMsg.desc}</p>
               </div>
             </div>
-            <button
-              onClick={() => setToastMsg(null)}
-              className="text-xs font-bold text-emerald-400 hover:text-emerald-200"
-            >
-              Kapat
-            </button>
+            <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+              {toastMsg.schoolCode && (
+                <button
+                  onClick={() => {
+                    localStorage.setItem("oltvia_active_school_code", toastMsg.schoolCode!);
+                    router.push(`/idare?school_code=${toastMsg.schoolCode}`);
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-950/40 transition-all cursor-pointer"
+                >
+                  <span>Okul Paneline Git</span>
+                  <ArrowRight size={13} />
+                </button>
+              )}
+              <button
+                onClick={() => setToastMsg(null)}
+                className="text-xs font-bold text-emerald-400 hover:text-emerald-200 px-2 py-1"
+              >
+                Kapat
+              </button>
+            </div>
           </div>
         )}
 
@@ -773,6 +791,17 @@ export default function SuperAdminPage() {
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => {
+                                  localStorage.setItem("oltvia_active_school_code", school.school_code);
+                                  router.push(`/idare?school_code=${school.school_code}`);
+                                }}
+                                title="Okul Yönetici Paneline Git (Öğrenci, Öğretmen, Veli Yönet)"
+                                className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 hover:border-purple-500 transition-all cursor-pointer flex items-center gap-1 shadow-sm"
+                              >
+                                <span>Okulu Yönet</span>
+                                <ArrowRight size={12} />
+                              </button>
                               <button
                                 onClick={() => handleToggleStatus(school)}
                                 title={school.is_active ? "Erişimi Askıya Al (Pasif Yap)" : "Erişimi Yeniden Aç (Aktif Yap)"}
